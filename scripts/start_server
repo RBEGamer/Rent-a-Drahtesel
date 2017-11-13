@@ -1,2 +1,3 @@
 #!/bin/bash
-node ./src/server.js
+node ./src/backend/server.js &
+node ./src/frontend/server.js &

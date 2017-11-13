@@ -1,2 +1,3 @@
 #!/bin/bash
-npm install ./src
+npm install ./src/backend/
+npm install ./src/frontend/
