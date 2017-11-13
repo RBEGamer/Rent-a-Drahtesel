@@ -1,5 +1,6 @@
 # INSTALLATION
-
+Hier sind die wichtigsten Schritte um eine NodeJS zu installieren.
+Natrülich muss dafür das Repo geklont sein
 
 
 * 1. install nodejs `https://nodejs.org/en/`
@@ -14,6 +15,8 @@
 Nodemon ist ein kleines tool welches den server automatisch neustartet wenn ihr etwas an einer Datei verändert.
 Ausserdem werden zusätzliche debu Informationen in der Konsole ausgegeben (Callstack,...)
 So könnt ihr direkt sehen was sich verändert hat. Im Normalbetrieb werden werden scripte per `node server.js` gestartet. 
+
+
 
 
 ## DATABSE
@@ -32,7 +35,7 @@ Die Datenbank wurde bereits angepasst (s. `config/database.js`) wer aber eine lo
 
 
 
-#### OLD STUFF
+####### OLD STUFF
 
 install packages: `npm install`
 edit the database configuration: `config/database.js`
