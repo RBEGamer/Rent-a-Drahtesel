@@ -8,11 +8,11 @@ hooks:
     - location: src/aws_scripts/install_dependencies
       timeout: 300
       runas: root
-    - location: src/scripts/start_server
+    - location: src/aws_scripts/start_server
       timeout: 300
       runas: root
   ApplicationStop:
-    - location: src/scripts/stop_server
+    - location: src/aws_scripts/stop_server
       timeout: 300
       runas: root
 
