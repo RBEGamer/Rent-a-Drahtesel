@@ -1,0 +1,5 @@
+#!/bin/bash
+isExistApp = `node`
+if [[ -n  $isExistApp ]]; then
+    service node stop
+fi
