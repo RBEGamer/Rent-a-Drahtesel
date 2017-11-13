@@ -4,11 +4,11 @@ Natrülich muss dafür das Repo geklont sein
 
 
 * 1. install nodejs `https://nodejs.org/en/`
-* `npm install -g nodemon`
-* goto the backend directory `cd swe_praktikum_ws1718/src/backend/`
-* run `npm install` to install the dependencies
- * to run the script run: `nodemon server.js`
-* goto `http://127.0.0.1:8080`
+* 2. `npm install -g nodemon`
+* 3. goto the backend directory `cd swe_praktikum_ws1718/src/backend/`
+* 4. run `npm install` to install the dependencies
+* 5. to run the script run: `nodemon server.js`
+* 6. goto `http://127.0.0.1:8080`
 
 
 ## NODEMON
