@@ -21,14 +21,14 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.id);
+        done(null, user.pk_id_user);
     });
 
 
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        connection.query("SELECT * FROM `tbl_benutzer` WHERE `id` = ? ",[id], function(err, rows){
+        connection.query("SELECT * FROM `tbl_benutzer` WHERE `pk_id_user` = ? ",[id], function(err, rows){
             done(err, rows[0]);
         });
     });
@@ -90,6 +90,7 @@ module.exports = function(passport) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, username, password, done) { // callback with email and password from our form
+            console.log(username);
             connection.query("SELECT * FROM `tbl_benutzer` WHERE `email`= ?",[username], function(err, rows){
                 if (err)
                     return done(err);
@@ -98,7 +99,7 @@ module.exports = function(passport) {
                 }
 
                 // if the user is found but the password is wrong
-                if (!bcrypt.compareSync(password, rows[0].password))
+                if (!bcrypt.compareSync(password, rows[0].passwort))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
                 // all is well, return successful user
