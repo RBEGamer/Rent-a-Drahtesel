@@ -11,6 +11,11 @@
 <body>
     <div class="container">
         <div class="jumbotron text-center">
+
+           <% if (message.length > 0) { %>
+                <div class="alert alert-danger"><%= message %></div>
+            <% } %>
+
             <h1>Node Authentication</h1>
             <div>
                 <%if(!loggedIn) { %>

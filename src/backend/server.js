@@ -8,13 +8,14 @@ var morgan = require('morgan');
 var app      = express();
 var port     = process.env.PORT || 8080;
 
+var VerificationMail = require('./config/verificationMail');
+var verificationMail = new VerificationMail();
 var passport = require('passport');
 var flash    = require('connect-flash');
 
 // connect to our database
 
-require('./config/passport')(passport); // pass passport for configuration
-
+require('./config/passport')(passport, verificationMail); // pass passport for configuration
 
 
 // set up our express application
@@ -38,7 +39,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 
-require('./app/routes.js')(app, passport); // load our routes and pass in our app and fully configured passport
+require('./app/routes.js')(app, passport, verificationMail); // load our routes and pass in our app and fully configured passport
 
 app.listen(port);
 console.log('The magic happens on port ' + port);
