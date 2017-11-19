@@ -47,6 +47,8 @@ module.exports = function(app, passport, verificationMail) {
 			}); 
 	});
 
+	
+
 	// process the signup form
 	/*app.post('/signup', passport.authenticate('local-signup', {
 		successRedirect : '/login', // redirect to the secure profile section
@@ -58,7 +60,7 @@ module.exports = function(app, passport, verificationMail) {
 		passport.authenticate('local-signup', function(err, user, info){
 			if(err) {return next(err); }
 			if(!user) {return res.redirect('/signup');}
-
+			console.log("test");
 			req.logIn(user, function(err) {
 				if(err) {return next(err); }
 				req.logout();
