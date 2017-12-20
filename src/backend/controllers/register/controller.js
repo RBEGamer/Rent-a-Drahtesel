@@ -6,12 +6,21 @@ module.exports = function(app, passport, verificationMail) {
 			title: 'singlebike',
 			helper: require('../../views/helpers/helper'),
 			layoutPath: '../../views/',
-			tab: {
-				menus: ['a', 'b', 'c'],
-				partials: ['content_a.ejs', 'content_b.ejs', 'content_c.ejs']
-				//data...
-			},
-			loggedIn: true
+			formdata: {
+				'commercial': {
+					'input' :  
+						['EMail*', 'Firma*', 'Straße*', 'Staat*', 'Stadt*', 'PLZ*', 'Passwort*', 'Land*', 'Passwortwiederholung*', 'Website', 'Facebook', 'Instagram', 'Twitter'],
+					'upload' :
+						['Bild', 'Banner']
+				},
+				'private' : {
+					'input':
+						['EMail*', 'Vorname*', 'Nachname*', 'Land*', 'Stadt*', 'PLZ*', 'Hausnummer*', 'Straße*', 'Passwort*', 'Telefon', 'Passwortwiederholung*'],
+					'upload':
+						['Profilbild']
+				}
+
+			}
 		});
 	});
 
