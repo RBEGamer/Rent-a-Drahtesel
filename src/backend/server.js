@@ -1,17 +1,18 @@
 
 // get all the tools we need
 var express  = require('express');
+var engine = require('./node_modules/ejs-locals');
 var session  = require('express-session');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var app      = express();
 var port     = process.env.PORT || 8080;
-
 var VerificationMail = require('./config/verificationMail');
 var verificationMail = new VerificationMail();
 var passport = require('passport');
 var flash    = require('connect-flash');
+var path = require('path');
 
 // connect to our database
 
@@ -26,7 +27,9 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
+app.engine('ejs', engine);
 app.set('view engine', 'ejs'); // set up ejs for templating
+app.set('views', __dirname + '/views');
 
 // required for passport
 app.use(session({
@@ -38,8 +41,9 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
+app.use(express.static(path.join(__dirname, 'public')));
 
-require('./app/routes.js')(app, passport, verificationMail); // load our routes and pass in our app and fully configured passport
-
+//require('./app/routes.js')(app, passport, verificationMail); // load our routes and pass in our app and fully configured passport
+require('./controllers/')(app, passport, verificationMail);
 app.listen(port);
 console.log('The magic happens on port ' + port);
