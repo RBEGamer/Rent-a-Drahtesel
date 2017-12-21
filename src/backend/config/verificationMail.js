@@ -1,6 +1,6 @@
 
 var nodemailer = require("nodemailer");
-var emailConfig = require('./email');
+var cred  = require('./credentials.js');
 var crypto = require('crypto');
 var mysql = require('mysql');
 var dbconfig = require('./database');
@@ -26,13 +26,13 @@ module.exports = function() {
                 connection.query(updateQuery, [id]);
 
             }else {
-                req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');   
+                req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');
             }
 
-            return next();            
+            return next();
         });
     }
-    
+
 
     this.getHash = function(len) {
         return crypto.randomBytes(Math.ceil(len/2))
@@ -43,11 +43,11 @@ module.exports = function() {
     this.sendMail = function(user) {
         var id = user.pk_id_user;
         var hash = this.getHash(4);
-    
+
         var updateQuery = "UPDATE tbl_benutzer SET verification_hash = ? WHERE pk_id_user = ?";
-        
-         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465"); 
-        
+
+         var transp = nodemailer.createTransport(cred.smtp_server.protocol + "://" +cred.smtp_server.auth.user+":"+encodeURIComponent(cred.smtp_server.auth.pass) + "@" + cred.smtp_server.host +":" + cred.smtp_server.port);
+
         connection.query(updateQuery, [hash, id], function(err, rows) {
             console.log(err);
             transp.sendMail({
@@ -63,6 +63,6 @@ module.exports = function() {
                 console.log(response);
             });
         });
-    
+
     }
 }
