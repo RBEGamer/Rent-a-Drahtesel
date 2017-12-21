@@ -1,10 +1,8 @@
 var base64Img = require('base64-img');
 const uuidv1 = require('uuid/v1');
-
+const sharp = require('sharp');
 
 var supported_type = ['png', 'jpg', 'JPG', 'jpeg', 'gif']
-
-
 
 //gif, jpg, png
 
@@ -34,5 +32,6 @@ return filepath;
 }
 
 function img_covert_to_base(_path){
+  //TODO REZISE
 return base64Img.base64Sync(_path);
 }

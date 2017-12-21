@@ -67,17 +67,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var task = cron.schedule('59 59 23 * * *', function(){
     console.log('run deletion cronjon');
-  db.pool.getConnection(function(err,connection){
+  db.getConnection(function(err,connection){
     if (err) {
       console.log("-- DELETION CRONJOB FAILED -- SQL POOL")
       return;
     }
-  connection.query("DELETE FROM `tbl_benutzer` WHERE `verified`='0' AND `creation_date`=DATE_SUB(NOW(), INTERVAL 1 DAY)",function(err,rows){
+  connection.query("DELETE FROM `Benutzer` WHERE `verified`='0' AND `creation_date`=DATE_SUB(NOW(), INTERVAL 1 DAY)",function(err,rows){
     if(err) {
         console.log("-- DELETION CRONJOB FAILED --")
     }
-    connection.query("INSERT INTO `tbl_log` (`id`, `time`, `level`, `message`, `payload`) VALUES (NULL, CURRENT_TIMESTAMP, 'INFO', '-- LOG DELETED --', '');",function(err,rows){
-        //connection.release();
     });
       connection.release();
       console.log('-- CRON OK --');
