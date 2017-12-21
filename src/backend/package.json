@@ -5,6 +5,7 @@
     "start": "node ./server"
   },
   "dependencies": {
+    "base64-img": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.1",
     "bootstrap": "^4.0.0-alpha.6",
@@ -20,6 +21,7 @@
     "express-ejs-layouts": "^2.3.1",
     "express-session": "^1.11.3",
     "fs": "0.0.1-security",
+    "img2data": "^1.0.3",
     "morgan": "^1.6.0",
     "mysql": "^2.15.0",
     "node-cron": "^1.2.1",
