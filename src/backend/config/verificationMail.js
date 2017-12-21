@@ -15,7 +15,7 @@ module.exports = function() {
         console.log(req.params);
         var selectionQuery = "SELECT * FROM `Benutzer` WHERE `pk_ID`='?'";
 
-        mysqlpool.pool.getConnection(function(err,connection){
+        mysqlpool.getConnection(function(err,connection){
             if (err) {
               console.log("passport.deserializeUser db failed")
               return;
@@ -52,7 +52,7 @@ module.exports = function() {
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = '?' WHERE `pk_ID` = '?'";
 
          var transp = nodemailer.createTransport(cred.credentials.smtp_server.protocol + "://" +cred.credentials.smtp_server.auth.user+":"+encodeURIComponent(cred.credentials.smtp_server.auth.pass) + "@" + cred.credentials.smtp_server.host +":" + cred.credentials.smtp_server.port);
-         mysqlpool.pool.getConnection(function(err,connection){
+         mysqlpool.getConnection(function(err,connection){
              if (err) {
                console.log("passport.deserializeUser db failed")
                return;
