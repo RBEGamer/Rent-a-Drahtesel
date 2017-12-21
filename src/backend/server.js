@@ -13,7 +13,8 @@ var verificationMail = new VerificationMail();
 var passport = require('passport');
 var flash    = require('connect-flash');
 var path = require('path');
-
+var cron = require('node-cron');
+var db = require('./config/database');
 // connect to our database
 
 require('./config/passport')(passport, verificationMail); // pass passport for configuration
@@ -43,7 +44,40 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+
+
+var task = cron.schedule('* 59 23 * * *', function(){
+    console.log('run deletion cronjon');
+  db.pool.getConnection(function(err,connection){
+    if (err) {
+      console.log("-- DELETION CRONJOB FAILED -- SQL POOL")
+      return;
+    }
+  connection.query("DELETE FROM `tbl_benutzer` WHERE `verified`='0' AND `creation_date`=DATE_SUB(NOW(), INTERVAL 1 DAY)",function(err,rows){
+    if(err) {
+        console.log("-- DELETION CRONJOB FAILED --")
+    }
+    connection.query("INSERT INTO `tbl_log` (`id`, `time`, `level`, `message`, `payload`) VALUES (NULL, CURRENT_TIMESTAMP, 'INFO', '-- LOG DELETED --', '');",function(err,rows){
+        //connection.release();
+    });
+      connection.release();
+      console.log('-- CRON OK --');
+      });
+  });
+});
+
+
+
+
+
+
+
+
 //require('./app/routes.js')(app, passport, verificationMail); // load our routes and pass in our app and fully configured passport
 require('./controllers/')(app, passport, verificationMail);
 app.listen(port);
 console.log('The magic happens on port ' + port);
+
+

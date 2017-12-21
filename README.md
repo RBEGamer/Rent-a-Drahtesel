@@ -5,8 +5,8 @@ This is the repo of the SWE project `Rent a Drahtesel`.
 * WS2017/2018
 * Development Time ~3 Months
 * bla
-* blub
-
+* blubewrwerwer
+* hallo
 ## THE CHALLANGE
 TODO FILL
 
@@ -17,7 +17,7 @@ TODO FILL
 
 ## FEATURES
 
-* Rent a Bike 
+* Rent a Bike
 * [Web]App for all Devices
 
  - Fahrradverleih (AirBnb like)
@@ -29,9 +29,9 @@ TODO FILL
  - account löschen können
  - geschäftskunden dürfen keine fahrräder mieten
  - gewerblich alles sichtbar
- - privat vorname, nachname abgekürzt, fahrraddaten komplett, foto, 
+ - privat vorname, nachname abgekürzt, fahrraddaten komplett, foto,
  - 2 funktionen: geschäftskunden (fahrradgeschäft, unzählige fahrräder, unternehmensseite, banner, beschreibung)
-                 -firmenname, adresse, telefonnummer (opt), email, webseite (opt), profilbild (opt), titelbild 
+                 -firmenname, adresse, telefonnummer (opt), email, webseite (opt), profilbild (opt), titelbild
                   (opt), link (facebook, twitter, instagram (opt))
                - privatkunde (max 4 fahrräder, profil)
                   - vorname, nachname, anschrift, tel (opt), email, profilbild (opt)
