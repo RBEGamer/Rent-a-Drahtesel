@@ -18,7 +18,6 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 				bikes = rows;
-				console.log(rows[0].Rating)
 				res.render(__dirname + '/startseite.ejs',
 						{
 							bezeichnung : 'trekkingbike',
@@ -33,7 +32,7 @@ module.exports = function(app, passport, verificationMail) {
 			connection.release();
 		});
 
-		
+
 	});
 	app.get('/startseite/style.css', function(req, res, next) {
 		res.sendfile(__dirname + '/_style.css');
