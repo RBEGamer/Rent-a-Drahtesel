@@ -6,7 +6,7 @@ var mysql = require('mysql');
 var dbconfig = require('./database');
 var connection = mysql.createConnection(dbconfig.connection);
 
-connection.query('USE ' + dbconfig.database);
+connection.query('USE ' + cred.database.database);
 
 
 module.exports = function() {
