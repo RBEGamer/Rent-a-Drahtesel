@@ -1,5 +1,3 @@
-
-// get all the tools we need
 var express  = require('express');
 var engine = require('./node_modules/ejs-locals');
 var session  = require('express-session');
@@ -48,7 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-var task = cron.schedule('* 59 23 * * *', function(){
+var task = cron.schedule('59 59 23 * * *', function(){
     console.log('run deletion cronjon');
   db.pool.getConnection(function(err,connection){
     if (err) {
@@ -70,12 +68,6 @@ var task = cron.schedule('* 59 23 * * *', function(){
 
 
 
-
-
-
-
-
-//require('./app/routes.js')(app, passport, verificationMail); // load our routes and pass in our app and fully configured passport
 require('./controllers/')(app, passport, verificationMail);
 app.listen(port);
 console.log('The magic happens on port ' + port);

@@ -1,0 +1,54 @@
+{
+  "name": "NPM-NAME",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ORG-OR-USER/REPO-NAME"
+  },
+  "keywords": [
+    "kaps",
+    "proxy"
+  ],
+  "author": "",
+  "contributors": [],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ORG-OR-USER/REPO-NAME/issues"
+  },
+  "homepage": "https://github.com/ORG-OR-USER/REPO-NAME",
+  "devDependencies": {
+    "chai": "~1.8.1",
+    "coveralls": "~2.6.1",
+    "jscoverage": "~0.3.8",
+    "mkdirp": "~0.3.5",
+    "mocha-lcov-reporter": "0.0.1",
+    "mocha-multi": "^0.3.0",
+    "mocha-slow-reporter": "0.0.0",
+    "wrench": "~1.5.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cookie-signature": "^1.0.6",
+    "cron": "^1.3.0",
+    "ejs": "^2.5.7",
+    "ejs-locals": "^1.0.2",
+    "express": "^4.16.2",
+    "express-session": "^1.15.6",
+    "mocha": "^4.0.1",
+    "morgan": "^1.9.0",
+    "mqtt": "^2.14.0",
+    "mysql": "^2.15.0",
+    "node-cron": "^1.2.1",
+    "node-datetime": "^2.0.3",
+    "nodemon": "^1.14.1",
+    "passport": "^0.4.0",
+    "sanitizer": "^0.1.3"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}
