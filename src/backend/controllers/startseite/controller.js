@@ -2,7 +2,6 @@ var mysqlpool = require('../../config/database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
-var connection = mysql.createConnection(dbconfig.connection);
 var sanitizer = require('sanitizer');
 
 module.exports = function(app, passport, verificationMail) {
