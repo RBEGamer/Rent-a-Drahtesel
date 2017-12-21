@@ -4,22 +4,18 @@ This is the repo of the SWE project `Rent a Drahtesel`.
 
 * WS2017/2018
 * Development Time ~3 Months
-* bla
-* blubewrwerwer
-* hallo
+
 ## THE CHALLANGE
 TODO FILL
 
 
-## THE TEAM
-TODO FILL
+
 
 
 ## FEATURES
 
 * Rent a Bike
 * [Web]App for all Devices
-
  - Fahrradverleih (AirBnb like)
  - registrieren mit Email + PW
  - fahrräder ohne einloggen sehen können
