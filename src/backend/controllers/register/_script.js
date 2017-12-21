@@ -58,6 +58,10 @@ $(document).ready(function () {
  			$(this).hide();
  		} else {
  			$(this).show();
+            for(var k in data[pos]) 
+            {
+                console.log(k);
+            }
  			$(this).attr("type", data[pos].type);
  			$(this).attr("name", data[pos].name);
  		}
