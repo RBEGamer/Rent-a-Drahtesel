@@ -15,13 +15,13 @@ var database = {
     inserat_table: 'tbl_inserat',
     tbl_plz: 'tbl_plz',
     tbl_typ: 'tbl_type',
-    tbl_log: 'tbl_log' 
+    tbl_log: 'tbl_log'
 
 }
 
 
 var pool =    mysql.createPool({
-    connectionLimit : 512, 
+    connectionLimit : 512,
     host     : database.connection.host,
     user     : database.connection.user,
     password : database.connection.password,
