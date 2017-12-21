@@ -9,7 +9,6 @@
             </div>
         </div>
 
-
         <form>
             <div class="row no-gutters">
                 <div class="col-12 col-md">  
@@ -48,53 +47,19 @@
 
         <div class="row no-gutters">
 
-            <div class="col-12 col-md-6">
-                <div class="d-flex flex-row">
-                    <img class="bild margin" src="/images/bike.jpg" alt="">
-                    <div class="white margin padding">
-                        <h6>Fahrradname</h6>
-                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        <span>9,81€&emsp;</span>
-                        <a href="#">ansehen</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="d-flex flex-row">
-                    <img class="bild margin" src="/images/bike.jpg" alt="">
-                    <div class="white margin padding">
-                        <h6>Fahrradname</h6>
-                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        <span>9,81€&emsp;</span>
-                        <a href="#">ansehen</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="d-flex flex-row">
-                    <img class="bild margin" src="/images/bike.jpg" alt="">
-                    <div class="white margin padding">
-                        <h6>Fahrradname</h6>
-                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        <span>9,81€&emsp;</span>
-                        <a href="#">ansehen</a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 col-md-6">
-                <div class="d-flex flex-row">
-                    <img class="bild margin" src="/images/bike.jpg" alt="">
-                    <div class="white margin padding">
-                        <h6>Fahrradname</h6>
-                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        <span>9,81€&emsp;</span>
-                        <a href="#">ansehen</a>
-                    </div>
-                </div>
-            </div>
+			<% rows.forEach(function(row) { %>
+        		<div class="col-12 col-md-6">
+             	   <div class="d-flex flex-row">
+                  	  <img class="bild margin" src="<%= row.Bild %>" alt="">
+              	      <div class="white margin padding">
+                      	  <h6><%= row.Name %></h6>
+                       	 <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                       	 	<span><%= row.Preis %>€&emsp;</span>
+                     	   	<a href="#">ansehen</a>
+                    	</div>
+                	</div>
+           	 	</div>
+    		<% }); %>
 
         </div>
 
