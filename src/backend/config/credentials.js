@@ -11,8 +11,8 @@ var credentials = {
           'port': 465,
           'secureConnection': true,
           'connection': 'Gmail',
-          'protocol':'smtps'
-          'auth': {
+          'protocol':'smtps',
+          auth: {
               'user': 'rent.a.drahtesel%40gmail.com',
               'pass': 'softwarea8'
           },
