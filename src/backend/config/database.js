@@ -5,18 +5,10 @@ var mysql     =    require('mysql');
 var database = {
 	 connection: {
         host: 'marcelochsendorf.com',
-        user: 'swe_project',
-        password: 'swe_project'
+        user: 'rent_a_bike',
+        password: 'bike_a_rent'
     },
-	database: 'swe_project',
-    users_table: 'tbl_benutzer',
-    orders_table: 'tbl_bestellung',
-    ratings_table: 'tbl_ratings',
-    inserat_table: 'tbl_inserat',
-    tbl_plz: 'tbl_plz',
-    tbl_typ: 'tbl_type',
-    tbl_log: 'tbl_log'
-
+	database: 'rent_a_bike',
 }
 
 

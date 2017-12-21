@@ -30,9 +30,16 @@ module.exports = function(passport, verificationMail) {
 
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-
-        connection.query("SELECT * FROM `tbl_benutzer` WHERE `pk_id_user` = ? ",[id], function(err, rows){
+        //mysqlpool
+        mysqlpool.pool.getConnection(function(err,connection){
+            if (err) {
+              console.log("passport.deserializeUser db failed")
+              return;
+            }
+        connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID`='"+id+"'", function(err, rows){
             done(err, rows[0]);
+        });
+        connection.release();
         });
     });
 
@@ -53,7 +60,13 @@ module.exports = function(passport, verificationMail) {
         function(req, email, passwort, done) {
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            connection.query("SELECT * FROM `tbl_benutzer` WHERE `email`=?",[email], function(err, rows) {
+            mysqlpool.pool.getConnection(function(err,connection){
+                if (err) {
+                  console.log("passport.deserializeUser db failed")
+                  return;
+                }
+
+            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+email+"'", function(err, rows) {
                 if (err)
                     return done(err);
                 if (rows.length) {
@@ -78,7 +91,9 @@ module.exports = function(passport, verificationMail) {
                     });
                 }
             });
+            connection.release();
         })
+    })
     );
 
     // =========================================================================
@@ -96,6 +111,11 @@ module.exports = function(passport, verificationMail) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, passwort, done) { // callback with email and password from our form
+            mysqlpool.pool.getConnection(function(err,connection){
+                if (err) {
+                  console.log("passport.deserializeUser db failed")
+                  return;
+                }
             connection.query("SELECT * FROM `tbl_benutzer` WHERE `email`= ?",[email], function(err, rows){
                 if (err)
                     return done(err);
@@ -112,6 +132,8 @@ module.exports = function(passport, verificationMail) {
                 // all is well, return successful user
                 return done(null, rows[0]);
             });
+            connection.release()
+        });
         })
     );
 };
