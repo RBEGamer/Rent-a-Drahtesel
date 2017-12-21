@@ -76,7 +76,7 @@ var task = cron.schedule('59 59 23 * * *', function(){
     if(err) {
         console.log("-- DELETION CRONJOB FAILED --")
     }
-    });
+
       connection.release();
       console.log('-- CRON OK --');
       });
