@@ -7,6 +7,7 @@ module.exports = function(app, passport, verificationMail) {
 			title: 'singlebike',
 			helper: require('../../views/helpers/helper'),
 			layoutPath: '../../views/',
+			isLoggedIn: req.isAuthenticated(),
 			tab: {
 				menus: ['a', 'b', 'c'],
 				partials: ['content_a.ejs', 'content_b.ejs', 'content_c.ejs']
@@ -15,7 +16,6 @@ module.exports = function(app, passport, verificationMail) {
 			loggedIn: true
 		});
 	});
-
 	app.get('/startseite/style.css', function(req, res, next) {
 		res.sendfile(__dirname +'/_style.css');
 	});

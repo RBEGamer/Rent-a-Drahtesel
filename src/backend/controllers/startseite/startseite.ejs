@@ -1,10 +1,100 @@
-<% stylesheet('/startseite/style.css') -%>
 <% layout(layoutPath + 'layout') -%>
-<div class="test"><h3>Ich bin die startseite</h3></div>
-<div>
-	<%- include ../../views/partials/tab_container %>
-</div>
 
-<div class="starRating" starMax="7" mode="clickable" size="50" fillColor="#F3E2A9" emptyColor="#BDBDBD" hoverColor="#F79F81"></div>
-<div class="starRating" starMax="5" mode="clickable" size="30"></div>
-<div class="starRating" starMax="6" value="4" mode="show"></div>
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="white margin padding">
+                    <h1 class="display-4">Herzlich willkommen bei</h1>
+                    <h1 class="display-3">Rent a Drahtesel</h1>
+                </div>
+            </div>
+        </div>
+
+
+        <form>
+            <div class="row no-gutters">
+                <div class="col-12 col-md">  
+                    <div class="margin height">
+                        <select class="form-control height">
+                            <option>Typ</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <div class="margin height">
+                        <select class="form-control height">
+                            <option>Größe</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <div class="margin height">
+                        <select class="form-control height">
+                            <option>Preis</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <div class="margin height">
+                        <input type="text" class="form-control height" placeholder="PLZ">
+                    </div>
+                </div>
+                <div class="col-12 col-md">
+                    <div class="margin height">
+                        <button type="submit" class="btn btn-secondary btn-block height">Suchen</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="row no-gutters">
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-row">
+                    <img class="bild margin" src="/images/bike.jpg" alt="">
+                    <div class="white margin padding">
+                        <h6>Fahrradname</h6>
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        <span>9,81€&emsp;</span>
+                        <a href="#">ansehen</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-row">
+                    <img class="bild margin" src="/images/bike.jpg" alt="">
+                    <div class="white margin padding">
+                        <h6>Fahrradname</h6>
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        <span>9,81€&emsp;</span>
+                        <a href="#">ansehen</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-row">
+                    <img class="bild margin" src="/images/bike.jpg" alt="">
+                    <div class="white margin padding">
+                        <h6>Fahrradname</h6>
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        <span>9,81€&emsp;</span>
+                        <a href="#">ansehen</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6">
+                <div class="d-flex flex-row">
+                    <img class="bild margin" src="/images/bike.jpg" alt="">
+                    <div class="white margin padding">
+                        <h6>Fahrradname</h6>
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        <span>9,81€&emsp;</span>
+                        <a href="#">ansehen</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+

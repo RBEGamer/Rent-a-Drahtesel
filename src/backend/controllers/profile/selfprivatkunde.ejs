@@ -1,0 +1,197 @@
+<% script('/profile/script.js') -%>
+<% layout(layoutPath + 'layout') -%>
+
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="d-flex flex-column flex-md-row">
+                    <img class="bild margin" src="/images/leer.png" alt="">
+                    <div class="white margin padding">
+                        <h1 class="display-4">Vorname Nachname</h1>
+                        <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
+                        <span>E-mail: nachname@yahoo.de</span><br />
+                        <span>Telefon: 0221 / 45454</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="margin height">
+                    <button type="button" class="btn btn-secondary btn-block height">Profil bearbeiten</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Standort: Straße 15, 50266 Aachen</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="margin">
+                    <img src="/images/karte.jpg" alt="" class="karte" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Bestellungen</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-6">
+                <div class="margin height">
+                    <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height" onclick="fahrräder()">Meine Fahrräder</button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="margin height">
+                    <button type="button" id="meineBestellungenBtn" class="btn btn-secondary btn-block height" onclick="bestellungen()">Meine Bestellungen</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="meineFahrräder">
+
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="white margin">
+                        <div class="padding linie-unten">
+                            <span>
+                                <strong>Bikename1&emsp;</strong>
+                                <div class="starRating" starMax="5" value="7" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                                &emsp;
+                                <a href="#">Löschen</a>
+                            </span>
+                        </div>
+                        <div class="padding">
+                            <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
+                            <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="white margin">
+                        <div class="padding linie-unten">
+                            <span>
+                                <strong>Bikename2&emsp;</strong>
+                                <div class="starRating" starMax="5" value="8" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                                &emsp;
+                                <a href="#">Löschen</a>
+                            </span>
+                        </div>
+                        <div class="padding">
+                            <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
+                            <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="meineBestellungen">
+
+            <div class="row no-gutters">
+
+                <div class="col-12">
+                    <div class="white margin">
+                        <div class="padding">
+                            <span>
+                                <span>09.11.17 -> Sie haben ein Fahrrad geliehen: max@mail.com</span>
+                                <span>15.11.17 - 16.11.17</span>
+                                <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="white margin">
+                        <div class="padding">
+                            <span>
+                                <span>09.11.17 -> Sie haben ein Fahrrad geliehen: max@mail.com</span>
+                                <span>15.11.17 - 17.11.17</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="margin height">
+                    <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Bewertungen</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="white margin">
+                    <div class="padding linie-unten">
+                        <span>
+                            <img src="/images/leer.png" alt="" height="25">
+                            <strong>&nbsp;Bewertung 1&emsp;</strong>
+                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        </span>
+                    </div>
+                    <div class="padding">
+                        <span>Alles super!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="white margin">
+                    <div class="padding linie-unten">
+                        <span>
+                            <img src="/images/leer.png" alt="" height="25">
+                            <strong>&nbsp;Bewertung 2&emsp;</strong>
+                            <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        </span>
+                    </div>
+                    <div class="padding">
+                        <span>Auch alles super!</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+

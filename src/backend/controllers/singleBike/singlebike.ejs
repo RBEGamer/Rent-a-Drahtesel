@@ -1,5 +1,183 @@
-<% var debug = true; var number = 1; %>
-<% layout(layoutPath) -%>
-<h3>Ich bin ein Fahrrad, und zwar ein <%- bezeichnung %>.</h3>
-<% if(debug) { %> <h6>debug</h6> <% } %>
-<h4> <%= helper.sayHi("Biker") %>
+      <% layout(layoutPath + 'layout') -%>
+
+       <div class="row no-gutters">
+            <div class="col-12 col-sm-6">
+                <div class="margin">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img class="d-block w-100" src="/images/bike.jpg" alt="First slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="/images/bike.jpg" alt="Second slide">
+                            </div>
+                            <div class="carousel-item">
+                                <img class="d-block w-100" src="/images/bike.jpg" alt="Third slide">
+                            </div>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                <div class="white margin padding">
+                    <h1 class="display-4">Fahrradname</h1><br />
+                    <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="50"></div>
+                </div>
+                <div class="d-flex flex-row">
+                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />
+                    <div class="white margin padding">
+                        <a href="#">Benutzername</a><br />
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding">
+                    <div class="hoch">
+                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding">
+                    <div class="hoch">
+                        <span>Mountainbike 20 Zoll</span><br />
+                        &emsp;
+                        <input type="checkbox" disabled checked class="form-check-input position-static">
+                        <span>Gepäckträger</span><br />
+                        &emsp;
+                        <input type="checkbox" disabled class="form-check-input position-static">
+                        <span>Kindersitz</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding">
+                    <div class="hoch">
+                        <div id="googleMap1" style="width:100%;height:200px;"></div>
+                        <br>
+                        <script>
+                            function myMap() {
+                                var mapOptions1 = {
+                                    center: new google.maps.LatLng(51.508742, -0.120850),
+                                    zoom: 9,
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                };
+                                var map1 = new google.maps.Map(document.getElementById("googleMap1"), mapOptions1);
+                            }
+                        </script>
+
+                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-ew1LG5TK1A8so6_Thu4vdcnXrGl_uTw&callback=myMap"></script>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Standort: Straße 15, 50266 Aachen</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="margin">
+                    <img src="/images/karte.jpg" alt="" class="karte" />
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Preis</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+            <div class="col-12 col-md-6">
+                <div class="margin height text">
+                    <span class="durchstrichen">21.30€</span>
+                    &emsp;&emsp;
+                    <span class="rot">18.90€</span>
+                    &emsp;&emsp;
+                    <span>(3.00€ / Tag)</span>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="margin height">
+                    <button type="submit" class="btn btn-secondary btn-block height">Mieten</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Bewertungen</span>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="white margin">
+                    <div class="padding linie-unten">
+                        <span>
+                            <img src="/images/leer.png" alt="" height="25">
+                            <strong>&nbsp;Bewertung 1&emsp;</strong>
+                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        </span>
+                    </div>
+                    <div class="padding">
+                        <span>Alles super!</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="white margin">
+                    <div class="padding linie-unten">
+                        <span>
+                            <img src="/images/leer.png" alt="" height="25">
+                            <strong>&nbsp;Bewertung 2&emsp;</strong>
+                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                        </span>
+                    </div>
+                    <div class="padding">
+                        <span>Auch alles super!</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>

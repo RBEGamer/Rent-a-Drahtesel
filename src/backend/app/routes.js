@@ -1,6 +1,7 @@
 module.exports = function(app, passport, verificationMail) {
 
 	app.get('/', function(req, res) {
+
 		res.render('index.ejs', {
 			loggedIn: req.isAuthenticated(),
 			message: req.flash('signupMessage')
@@ -59,7 +60,6 @@ module.exports = function(app, passport, verificationMail) {
 		passport.authenticate('local-signup', function(err, user, info){
 			if(err) {return next(err); }
 			if(!user) {return res.redirect('/signup');}
-			console.log("test");
 			req.logIn(user, function(err) {
 				if(err) {return next(err); }
 				req.logout();

@@ -4,7 +4,7 @@ module.exports = function(app, passport, verificationMail) {
 			bezeichnung: 'trekkingbike', 
 			title: 'singlebike',
 			helper: require('../../views/helpers/helper'),
-			layoutPath: '../../views/layout',
+			layoutPath: '../../views/',
 			loggedIn: true
 		});
 	});

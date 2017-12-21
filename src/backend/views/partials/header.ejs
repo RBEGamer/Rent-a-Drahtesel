@@ -1,18 +1,35 @@
-<div class="row">
-    <div class="col-md-6">
-        <img src="/images/placeholder-square.jpg" width="50" height="50" alt="logo">
-    </div> 
-    <div class="col-md-6"></div>
-        <ul class="navbar-container">
-            <li class="navbar-element">
-                <a class="navbar-element-text" href="/">Startseite</a>
-            </li>
-            <li class="navbar-element">
-                <a class="navbar-element-text" href="/login">Anmelden</a>
-            </li>
-            <li class="navbar-element">
-                <a class="navbar-element-text" href="/register">Registrieren</a>
-            </li>
-        </ul>
-    </div>
-</div>
+		<nav class="navbar fixed-top navbar-expand-sm navbar-dark bg-info">
+            <div class="container-fluid" id="bar">
+                <a class="navbar-brand" href="#">
+                    <img src="/bicycle.svg" width="30" class="d-inline-block align-top" alt="" />
+                    <span class="d-none">RENTADRAHTESEL</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-sm-end" id="navbarText">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+
+                            <a class="nav-link active" href="/">Startseite</a>
+                        </li>
+                        <li class="nav-item">
+                            <% if(!isLoggedIn) { %>
+                                <a class="nav-link active" href="/login">Anmelden</a>
+                            <% } else { %>
+                            <a class="nav-link active" href="/profile/">Profil</a>
+                            <% } %>
+                        </li>
+                        <li class="nav-item">
+                            <% if(!isLoggedIn) { %>
+                                <a class="nav-link active" href="/register">Registrieren</a>
+                            <% } else { %>
+                                <a class="nav-link active" href="/login/logout">
+                                Abmelden</a>
+                            <% } %>
+                            
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
