@@ -46,11 +46,14 @@
         </form>
 
         <div class="row no-gutters">
-			<% console.log("hier" + bikes) %>
 			<% bikes.forEach(function(row) { %>
         		<div class="col-12 col-md-6">
              	   <div class="d-flex flex-row">
-                  	  <img class="bild margin" src="<%= row.Bild %>" alt="">
+             	   	  <% if(row.Bild != null){ %>
+                  	  	<img class="bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
+                  	  <% }else{ %>
+                  	  	<img class="bild margin" src="" alt="">
+                  	  <% } %>
               	      <div class="white margin padding">
                       	  <h6><%= row.Name %></h6>
                        	 <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
