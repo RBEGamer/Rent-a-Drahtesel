@@ -3,7 +3,7 @@ var nodemailer = require("nodemailer");
 var cred  = require('./credentials.js');
 var crypto = require('crypto');
 var mysqlpool = require('./database');
-
+var sanitizer = require('sanitizer');
 
 
 
@@ -15,20 +15,19 @@ module.exports = function() {
         console.log(req.params);
         var selectionQuery = "SELECT * FROM `Benutzer` WHERE `pk_ID`='?'";
 
-        mysqlpool.pool.getConnection(function(err,connection){
+        mysqlpool.getConnection(function(err,connection){
             if (err) {
               console.log("passport.deserializeUser db failed")
               return;
             }
 
-        connection.query(selectionQuery, [id], function(err, rows) {
+        connection.query(selectionQuery, [sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             var foundVerificationHash = rows[0].verification_hash;
             if(hash == foundVerificationHash) {
                 req.flash('loginMessage', 'Your Account has been activated. You can login from now on.');
                 var updateQuery = "UPDATE `Benutzer` SET `verified`='1' WHERE `pk_ID`='?'";
-                connection.query(updateQuery, [id]);
-
+                connection.query(updateQuery, [sanitizer.sanitize(id)]);
             }else {
                 req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');
             }
@@ -52,13 +51,13 @@ module.exports = function() {
 
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = '?' WHERE `pk_ID` = '?'";
 
-         var transp = nodemailer.createTransport(cred.smtp_server.protocol + "://" +cred.smtp_server.auth.user+":"+encodeURIComponent(cred.smtp_server.auth.pass) + "@" + cred.smtp_server.host +":" + cred.smtp_server.port);
-         mysqlpool.pool.getConnection(function(err,connection){
+         var transp = nodemailer.createTransport(cred.credentials.smtp_server.protocol + "://" +cred.credentials.smtp_server.auth.user+":"+encodeURIComponent(cred.credentials.smtp_server.auth.pass) + "@" + cred.credentials.smtp_server.host +":" + cred.credentials.smtp_server.port);
+         mysqlpool.getConnection(function(err,connection){
              if (err) {
                console.log("passport.deserializeUser db failed")
                return;
              }
-        connection.query(updateQuery, [hash, id], function(err, rows) {
+        connection.query(updateQuery, [sanitizer.sanitize(hash), sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             transp.sendMail({
                 to: user.email,
@@ -74,7 +73,7 @@ module.exports = function() {
         });
 
           connection.release()
-});
+          });
         //
 
     }

@@ -8,6 +8,7 @@ var mysqlpool     =    require('./database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./database');
+var sanitizer = require('sanitizer');
 
 //var VerificationMail = require('./verificationMail');
 //var verificationMail = new VerificationMail();
@@ -31,12 +32,12 @@ module.exports = function(passport, verificationMail) {
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
         //mysqlpool
-        mysqlpool.pool.getConnection(function(err,connection){
+        mysqlpool.getConnection(function(err,connection){
             if (err) {
               console.log("passport.deserializeUser db failed")
               return;
             }
-        connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID`='"+id+"'", function(err, rows){
+        connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID`='"+sanitizer.sanitize(id)+"'", function(err, rows){
             done(err, rows[0]);
         });
         connection.release();
@@ -57,16 +58,17 @@ module.exports = function(passport, verificationMail) {
             passwordField : 'passwort',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, email, passwort, done) {
+        function(req,email, passwort, done) {
+
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
-            mysqlpool.pool.getConnection(function(err,connection){
+            mysqlpool.getConnection(function(err,connection){
                 if (err) {
                   console.log("passport.deserializeUser db failed")
                   return;
                 }
 
-            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+email+"'", function(err, rows) {
+            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+sanitizer.sanitize(email)+"'", function(err, rows) {
                 if (err)
                     return done(err);
                 if (rows.length) {
@@ -81,7 +83,7 @@ module.exports = function(passport, verificationMail) {
 
                     var insertQuery = "INSERT INTO tbl_benutzer ( `email`, `passwort` ) values (?,?)";
 
-                    connection.query(insertQuery, [newUserMysql.email, newUserMysql.passwort], function(err, rows) {
+                    connection.query(insertQuery, [sanitizer.sanitize(newUserMysql.email), sanitizer.sanitize(newUserMysql.passwort)], function(err, rows) {
                         console.log("[mysql error]",err);
                         newUserMysql.pk_id_user = rows.insertId;
 
@@ -111,12 +113,12 @@ module.exports = function(passport, verificationMail) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, passwort, done) { // callback with email and password from our form
-            mysqlpool.pool.getConnection(function(err,connection){
+            mysqlpool.getConnection(function(err,connection){
                 if (err) {
                   console.log("passport.deserializeUser db failed")
                   return;
                 }
-            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+email+"'", function(err, rows){
+            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+sanitizer.sanitize(email)+"'", function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {

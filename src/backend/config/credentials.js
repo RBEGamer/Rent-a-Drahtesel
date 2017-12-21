@@ -19,4 +19,16 @@ var credentials = {
           'from': 'rent.a.drahtesel%40gmail.com'
         }
 }
-module.exports = credentials
+
+
+
+var config = {
+  "image_upload_tmp_path": "./tmp/uploaded_images",
+  "image_conversion_path": "./tmp/converted_images"
+}
+
+
+module.exports = {
+  "credentials":credentials,
+  "config":config
+}

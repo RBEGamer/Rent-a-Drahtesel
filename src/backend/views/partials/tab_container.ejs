@@ -1,8 +1,8 @@
 <% var firstMenu = true; var firstContent = true %>
-<div id="exTab3" class="container"> 
+<div id="exTab3" class="container">
     <ul  class="nav nav-pills">
         <% tab.menus.forEach(function(menu) { %>
-        
+
             <% if(firstMenu) { %>
                 <li class="active">
             <% } else { %>
@@ -25,6 +25,5 @@
                 </div>
         <% firstContent = false; %>
         <% } %>
-    </div>          
+    </div>
 </div>
-
