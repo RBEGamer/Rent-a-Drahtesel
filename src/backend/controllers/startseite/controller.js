@@ -42,23 +42,42 @@ module.exports = function(app, passport, verificationMail) {
 				return;
 			}
 			var query = "SELECT `Name`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`";
-			if(req.body.type != null){
-				query += " AND type = " + req.body.type;
+			console.log(req.body);
+			if(req.body.type != null || req.body.preis != null || req.body.size != null){
+				query += " WHERE ";
 			}
-			if(req.body.price != null){
-				query += " AND price <= " + req.body.price;
+			var first = true;
+			if(req.body.type != null){
+				if(!first){
+					query += " AND";
+				}
+				first = false;
+				query += " biketype = '" + req.body.type + "'";
+			}
+			if(req.body.preis != null){
+				if(!first){
+					query += " AND";
+				}
+
+				first = false;
+				query += " price <= " + req.body.preis;
 			}
 			if(req.body.size != null){
-				query += " AND size = " + req.body.size;
+				if(!first){
+					query += " AND";
+				}
+				first = false;
+				query += " size = " + req.body.size;
 			}
-			query += " GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25"
+			query += " GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25";
+			console.log(query);
 			connection.query(query, function(err, rows) {
 				if (err) {
 					console.log("get bike db failed")
 					return;
 				}
 				bikes = rows;
-				console.log("rating!!! " + rows[0].Rating)
+				//console.log(bikes);
 				res.render(__dirname + '/startseite.ejs',
 						{
 							bezeichnung : 'trekkingbike',
@@ -72,7 +91,7 @@ module.exports = function(app, passport, verificationMail) {
 			});
 			connection.release();
 		});
-		res.send();
+		//res.send();
 	});
 	
 	app.get('/startseite/style.css', function(req, res, next) {
