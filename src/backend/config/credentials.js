@@ -23,10 +23,10 @@ var credentials = {
 
 
 var config = {
-  "image_upload_tmp_path": "./tmp/uploaded_images"
+  "image_upload_tmp_path": "./tmp/uploaded_images",
+  "image_conversion_path": "./tmp/converted_images"
 }
-//module.exports = credentials
-//module.exports = config
+
 
 module.exports = {
   "credentials":credentials,

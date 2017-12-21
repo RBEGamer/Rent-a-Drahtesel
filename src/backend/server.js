@@ -21,11 +21,15 @@ require('./config/passport')(passport, verificationMail); // pass passport for c
 
 
 mkdirp(config.config.image_upload_tmp_path, function(err) {
+if(err){
 console.log("path already exists");
-    // path exists unless there was an error
-
+}
 });
-
+mkdirp(config.config.image_conversion_path, function(err) {
+	if(err){
+console.log("path already exists");
+}
+});
 
 
 
