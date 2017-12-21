@@ -8,10 +8,10 @@ var mysqlpool     =    require('./database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('./database');
-var connection = mysql.createConnection(dbconfig.connection);
+
 //var VerificationMail = require('./verificationMail');
 //var verificationMail = new VerificationMail();
-connection.query('USE ' + dbconfig.database);
+
 // expose this function to our app using module.exports
 module.exports = function(passport, verificationMail) {
 
@@ -84,7 +84,7 @@ module.exports = function(passport, verificationMail) {
                     connection.query(insertQuery, [newUserMysql.email, newUserMysql.passwort], function(err, rows) {
                         console.log("[mysql error]",err);
                         newUserMysql.pk_id_user = rows.insertId;
-                    
+
                         req.flash('loginMessage', 'We sent an email to ' + newUserMysql.email + '. Follow the instructions to activate your Account!');
                         verificationMail.sendMail(newUserMysql);
                         return done(null, newUserMysql);
@@ -127,7 +127,7 @@ module.exports = function(passport, verificationMail) {
                 if (!bcrypt.compareSync(passwort, rows[0].pw))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
-                if(rows[0].verified == 0) 
+                if(rows[0].verified == 0)
                     return done(null, false, req.flash('loginMessage', "Your account hasn't been activated yet. Resend Activatin Email?"));
                 // all is well, return successful user
                 return done(null, rows[0]);

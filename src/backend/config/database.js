@@ -11,4 +11,4 @@ var pool = mysql.createPool({
     debug    :  false
 });
 
-module.exports = pool
+module.exports = pool;

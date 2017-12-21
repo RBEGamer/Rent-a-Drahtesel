@@ -2,11 +2,9 @@
 var nodemailer = require("nodemailer");
 var cred  = require('./credentials.js');
 var crypto = require('crypto');
-var mysql = require('mysql');
-var dbconfig = require('./database');
-var connection = mysql.createConnection(dbconfig.connection);
+var mysqlpool = require('./database');
 
-connection.query('USE ' + cred.database.database);
+
 
 
 module.exports = function() {
@@ -16,6 +14,12 @@ module.exports = function() {
         var hash = req.params.hash;
         console.log(req.params);
         var selectionQuery = "SELECT * FROM `Benutzer` WHERE `pk_ID`='?'";
+
+        mysqlpool.pool.getConnection(function(err,connection){
+            if (err) {
+              console.log("passport.deserializeUser db failed")
+              return;
+            }
 
         connection.query(selectionQuery, [id], function(err, rows) {
             console.log(err);
@@ -30,6 +34,8 @@ module.exports = function() {
             }
 
             return next();
+        });
+        connection.release()
         });
     }
 
@@ -47,7 +53,11 @@ module.exports = function() {
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = '?' WHERE `pk_ID` = '?'";
 
          var transp = nodemailer.createTransport(cred.smtp_server.protocol + "://" +cred.smtp_server.auth.user+":"+encodeURIComponent(cred.smtp_server.auth.pass) + "@" + cred.smtp_server.host +":" + cred.smtp_server.port);
-
+         mysqlpool.pool.getConnection(function(err,connection){
+             if (err) {
+               console.log("passport.deserializeUser db failed")
+               return;
+             }
         connection.query(updateQuery, [hash, id], function(err, rows) {
             console.log(err);
             transp.sendMail({
@@ -62,6 +72,10 @@ module.exports = function() {
                 console.log(response);
             });
         });
+
+          connection.release()
+});
+        //
 
     }
 }

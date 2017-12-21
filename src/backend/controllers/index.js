@@ -3,13 +3,9 @@ var validFileTypes  = ['js'];
 var root = __dirname;
 
 
-
-
 module.exports = function(app, passport, verificationMail) {
 	requireFiles(root, app, passport, verificationMail);
 }
-
-
 var requireFiles = function (directory, app, passport, verificationMail) {
   fs.readdirSync(directory).forEach(function (fileName) {
 
