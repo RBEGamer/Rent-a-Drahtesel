@@ -73,7 +73,7 @@ module.exports = function() {
         });
 
           connection.release()
-});
+          });
         //
 
     }
