@@ -59,6 +59,7 @@ module.exports = function(passport, verificationMail) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req,email, passwort, done) {
+
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
             mysqlpool.pool.getConnection(function(err,connection){

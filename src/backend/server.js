@@ -13,9 +13,24 @@ var flash    = require('connect-flash');
 var path = require('path');
 var cron = require('node-cron');
 var db = require('./config/database');
+var mkdirp = require('mkdirp');
+var config  = require('./config/credentials.js');
 // connect to our database
-
 require('./config/passport')(passport, verificationMail); // pass passport for configuration
+
+
+
+mkdirp(config.config.image_upload_tmp_path, function(err) {
+console.log("path already exists");
+    // path exists unless there was an error
+
+});
+
+
+
+
+
+
 
 
 // set up our express application
@@ -71,5 +86,3 @@ var task = cron.schedule('59 59 23 * * *', function(){
 require('./controllers/')(app, passport, verificationMail);
 app.listen(port);
 console.log('The magic happens on port ' + port);
-
-
