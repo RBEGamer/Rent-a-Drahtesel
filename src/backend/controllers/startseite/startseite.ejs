@@ -9,45 +9,63 @@
             </div>
         </div>
 
-        <form>
+        <form action="/" method="post">
             <div class="row no-gutters">
-                <div class="col-12 col-md">
+                <div class="col-12 col-md">  
                     <div class="margin height">
-                        <select class="form-control height">
-                            <option>Typ</option>
+                    	<label for="preis">Typ</label>
+                        <select id="type" class="form-control height">
+                            <option value="Mountainbike">Mountainbike</option>
+                            <option value="Elektrofahrrad">Elektrofahrrad</option>
+                            <option value="Damenrad">Damenrad</option>
+                            <option value="Herrenrad">Herrenrad</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                        <select class="form-control height">
-                            <option>Größe</option>
+                    	<label for="preis">Größe</label>
+                        <select id="size" class="form-control height">
+                            <option value="12">12</option>
+                            <option value="14">14</option>
+                            <option value="16">16</option>
+                            <option value="18">18</option>
+                            <option value="20">20</option>
+                            <option value="24">24</option>
+                            <option value="28">28</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                        <select class="form-control height">
-                            <option>Preis</option>
+                    	<label for="preis">Preis</label>
+                        <select id="preis" name="Preis" class="form-control height">
+                            <option value="3">< 3€&emsp;</option>
+                            <option value="5">< 5€&emsp;</option>
+                            <option value="7.5">< 7.5€&emsp;</option>
+                            <option value="10">< 10€&emsp;</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
+                    	<label for="preis">PLZ</label>
                         <input type="text" class="form-control height" placeholder="PLZ">
                     </div>
                 </div>
                 <div class="col-12 col-md">
+                    <br/>
                     <div class="margin height">
                         <button type="submit" class="btn btn-secondary btn-block height">Suchen</button>
                     </div>
+                    <br/>
                 </div>
             </div>
         </form>
 
         <div class="row no-gutters">
 			<% bikes.forEach(function(row) { %>
-        		<div class="col-12 col-md-6">
+        		<div class="col-12 col-md-12">
              	   <div class="d-flex flex-row">
              	   	  <% if(row.Bild != null){ %>
                   	  	<img class="bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
@@ -65,3 +83,4 @@
     		<% }); %>
 
         </div>
+
