@@ -29,7 +29,5 @@ module.exports = {
     	{text: 'Passwort*', type: 'text', name: 'passwort',validation: ['notOptional']},
     	{text: 'Passwortwiederholung*', type: 'text', name: 'passwortwdh', validation: ['isSame', 'notOptional']},   
     	{text: 'Profilbild', type: 'file', name: 'imgurl', validation: ['suffix']},
-    	]
-    	
-    	
+    	]  	
 };

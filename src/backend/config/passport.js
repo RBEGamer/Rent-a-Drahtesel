@@ -116,7 +116,7 @@ module.exports = function(passport, verificationMail) {
                   console.log("passport.deserializeUser db failed")
                   return;
                 }
-            connection.query("SELECT * FROM `tbl_benutzer` WHERE `email`= ?",[email], function(err, rows){
+            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+email+"'", function(err, rows){
                 if (err)
                     return done(err);
                 if (!rows.length) {
@@ -124,7 +124,7 @@ module.exports = function(passport, verificationMail) {
                 }
 
                 // if the user is found but the password is wrong
-                if (!bcrypt.compareSync(passwort, rows[0].passwort))
+                if (!bcrypt.compareSync(passwort, rows[0].pw))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
 
                 if(rows[0].verified == 0) 
