@@ -3,7 +3,7 @@ var nodemailer = require("nodemailer");
 var cred  = require('./credentials.js');
 var crypto = require('crypto');
 var mysqlpool = require('./database');
-
+var sanitizer = require('sanitizer');
 
 
 
@@ -21,14 +21,13 @@ module.exports = function() {
               return;
             }
 
-        connection.query(selectionQuery, [id], function(err, rows) {
+        connection.query(selectionQuery, [sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             var foundVerificationHash = rows[0].verification_hash;
             if(hash == foundVerificationHash) {
                 req.flash('loginMessage', 'Your Account has been activated. You can login from now on.');
                 var updateQuery = "UPDATE `Benutzer` SET `verified`='1' WHERE `pk_ID`='?'";
-                connection.query(updateQuery, [id]);
-
+                connection.query(updateQuery, [sanitizer.sanitize(id)]);
             }else {
                 req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');
             }
@@ -58,7 +57,7 @@ module.exports = function() {
                console.log("passport.deserializeUser db failed")
                return;
              }
-        connection.query(updateQuery, [hash, id], function(err, rows) {
+        connection.query(updateQuery, [sanitizer.sanitize(hash), sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             transp.sendMail({
                 to: user.email,
