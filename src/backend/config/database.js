@@ -1,7 +1,6 @@
 // config/database.js
 var mysql     =    require('mysql');
 
-
 var database = {
 	 connection: {
         host: 'marcelochsendorf.com',
@@ -12,7 +11,7 @@ var database = {
 }
 
 
-var pool =    mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit : 512,
     host     : database.connection.host,
     user     : database.connection.user,
@@ -20,7 +19,6 @@ var pool =    mysql.createPool({
     database : database.database,
     debug    :  false
 });
-
 
 module.exports = pool
 module.exports =  database;
