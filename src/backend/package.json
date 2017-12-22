@@ -5,6 +5,7 @@
     "start": "node ./server"
   },
   "dependencies": {
+    "base64-img": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.13.1",
     "bootstrap": "^4.0.0-alpha.6",
@@ -18,13 +19,20 @@
     "ejs-mate": "^2.3.0",
     "express": "^4.13.0",
     "express-ejs-layouts": "^2.3.1",
+    "express-fileupload": "^0.3.0",
     "express-session": "^1.11.3",
     "fs": "0.0.1-security",
+    "img2data": "^1.0.3",
+    "mkdirp": "^0.5.1",
     "morgan": "^1.6.0",
     "mysql": "^2.15.0",
     "node-cron": "^1.2.1",
+    "node-geocoder": "^3.21.1",
     "nodemailer": "^4.4.0",
     "passport": "^0.2.2",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "sanitizer": "^0.1.3",
+    "sharp": "^0.18.4",
+    "uuid": "^3.1.0"
   }
 }

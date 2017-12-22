@@ -1,26 +1,14 @@
 // config/database.js
 var mysql     =    require('mysql');
+var cred = require('./credentials.js');
 
-
-var database = {
-	 connection: {
-        host: 'marcelochsendorf.com',
-        user: 'rent_a_bike',
-        password: 'bike_a_rent'
-    },
-	database: 'rent_a_bike',
-}
-
-
-var pool =    mysql.createPool({
+var pool = mysql.createPool({
     connectionLimit : 512,
-    host     : database.connection.host,
-    user     : database.connection.user,
-    password : database.connection.password,
-    database : database.database,
+    host     : cred.credentials.database.host,
+    user     : cred.credentials.database.user,
+    password : cred.credentials.database.password,
+    database : cred.credentials.database.database,
     debug    :  false
 });
 
-
-module.exports = pool
-module.exports =  database;
+module.exports = pool;

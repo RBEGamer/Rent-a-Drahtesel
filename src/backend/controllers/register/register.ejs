@@ -2,7 +2,11 @@
 <% script('/register/script.js') -%> 
 <% layout(layoutPath + 'layout') -%>
 
-
+        <datalist id="countries">
+        <% for (var i = 0; i < countries.length; i++) { %>
+            <option value=<%= countries[i] %>>
+        <% } %>
+        </datalist>
 
         <div class="row no-gutters">
             <div class="col-12">
@@ -12,7 +16,7 @@
             </div>
         </div>
 
-        <form id="registerForm">
+        <form id="registerForm" method="post" action="/register">
             <div class="row no-gutters">
                 <div class="col-12 col-md-12 col-lg-2"></div>
                 <div class="col-6 col-md-3 col-lg-2">

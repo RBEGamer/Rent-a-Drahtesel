@@ -31,12 +31,12 @@ $(document).ready(function () {
  */
  function getMode() {
  	return private ? "private" : "commercial";
- }
+    }
 
- $('#chkProfile').change(function() {
- 	 private = !private;
- 	 generateForm();
- });
+    $('#chkProfile').change(function() {
+ 	  private = !private;
+ 	  generateForm();
+    });
 
  
  function generateForm() {
@@ -58,12 +58,28 @@ $(document).ready(function () {
  			$(this).hide();
  		} else {
  			$(this).show();
- 			$(this).attr("type", data[pos].type);
- 			$(this).attr("name", data[pos].name);
- 		}
- 	});
- }
+            var attrs = data[pos].input;
+            for(var a in attrs) 
+            {
 
+                if(a == 'class') {
+                    console.log(a);
+                    $(this).addClass(attrs[a]);
+                } else {
+                    $(this).attr(a, attrs[a]);  
+                }
+            }
+ 			
+ 		}
+ 	  });
+
+        $('.autofill').each(function() {
+                console.log($(this).attr("list"));
+         });
+    }
+
+
+ 
  
  $.ajax({
 	 type: "GET",

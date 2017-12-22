@@ -1,12 +1,10 @@
 
 var nodemailer = require("nodemailer");
-var emailConfig = require('./email');
+var cred  = require('./credentials.js');
 var crypto = require('crypto');
-var mysql = require('mysql');
-var dbconfig = require('./database');
-var connection = mysql.createConnection(dbconfig.connection);
+var mysqlpool = require('./database');
+var sanitizer = require('sanitizer');
 
-connection.query('USE ' + dbconfig.database);
 
 
 module.exports = function() {
@@ -15,24 +13,31 @@ module.exports = function() {
         var id = parseInt(req.params.id);
         var hash = req.params.hash;
         console.log(req.params);
-        var selectionQuery = "SELECT * FROM `tbl_benutzer` WHERE pk_id_user= ?";
+        var selectionQuery = "SELECT * FROM `Benutzer` WHERE `pk_ID`='?'";
 
-        connection.query(selectionQuery, [id], function(err, rows) {
+        mysqlpool.getConnection(function(err,connection){
+            if (err) {
+              console.log("passport.deserializeUser db failed")
+              return;
+            }
+
+        connection.query(selectionQuery, [sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             var foundVerificationHash = rows[0].verification_hash;
             if(hash == foundVerificationHash) {
                 req.flash('loginMessage', 'Your Account has been activated. You can login from now on.');
-                var updateQuery = "UPDATE tbl_benutzer SET verified = 1 WHERE pk_id_user = ?";
-                connection.query(updateQuery, [id]);
-
+                var updateQuery = "UPDATE `Benutzer` SET `verified`='1' WHERE `pk_ID`='?'";
+                connection.query(updateQuery, [sanitizer.sanitize(id)]);
             }else {
-                req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');   
+                req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');
             }
 
-            return next();            
+            return next();
+        });
+        connection.release()
         });
     }
-    
+
 
     this.getHash = function(len) {
         return crypto.randomBytes(Math.ceil(len/2))
@@ -43,12 +48,16 @@ module.exports = function() {
     this.sendMail = function(user) {
         var id = user.pk_id_user;
         var hash = this.getHash(4);
-    
-        var updateQuery = "UPDATE tbl_benutzer SET verification_hash = ? WHERE pk_id_user = ?";
-        
-         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465"); 
-        
-        connection.query(updateQuery, [hash, id], function(err, rows) {
+
+        var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = '?' WHERE `pk_ID` = '?'";
+
+         var transp = nodemailer.createTransport(cred.credentials.smtp_server.protocol + "://" +cred.credentials.smtp_server.auth.user+":"+encodeURIComponent(cred.credentials.smtp_server.auth.pass) + "@" + cred.credentials.smtp_server.host +":" + cred.credentials.smtp_server.port);
+         mysqlpool.getConnection(function(err,connection){
+             if (err) {
+               console.log("passport.deserializeUser db failed")
+               return;
+             }
+        connection.query(updateQuery, [sanitizer.sanitize(hash), sanitizer.sanitize(id)], function(err, rows) {
             console.log(err);
             transp.sendMail({
                 to: user.email,
@@ -59,10 +68,13 @@ module.exports = function() {
                 if(err) {
                     console.log(err);
                 }
-
                 console.log(response);
             });
         });
-    
+
+          connection.release()
+          });
+        //
+
     }
 }
