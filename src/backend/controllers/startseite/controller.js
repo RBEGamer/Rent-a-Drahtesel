@@ -84,6 +84,7 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 				bikes = rows;
+				//TODO API KEY
 				//console.log(bikes);
 				res.render(__dirname + '/startseite.ejs',
 						{
