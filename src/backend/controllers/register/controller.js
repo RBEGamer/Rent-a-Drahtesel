@@ -17,7 +17,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.post('/register', function(req, res, next) {
 		passport.authenticate('local-signup', function(err, user, info){
 			if(err) {console.log("error"); return next(err); }
-			if(!user) {console.log("error2"); return res.redirect('/signup');}
+			if(!user) {console.log("error2"); return res.redirect('/register');}
 			req.logIn(user, function(err) {
 				if(err) {return next(err); }
 				req.logout();

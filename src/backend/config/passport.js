@@ -24,7 +24,7 @@ module.exports = function(passport, verificationMail) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-        done(null, user.pk_id_user);
+        done(null, user.pk_ID);
     });
 
 
@@ -34,7 +34,7 @@ module.exports = function(passport, verificationMail) {
         //mysqlpool
         mysqlpool.getConnection(function(err,connection){
             if (err) {
-              console.log("passport.deserializeUser db failed")
+              console.log("passport.deserializeUser db failed");
               return;
             }
         connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID`='"+sanitizer.sanitize(id)+"'", function(err, rows){
@@ -55,10 +55,10 @@ module.exports = function(passport, verificationMail) {
         new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
             usernameField : 'email',
-            passwordField : 'passwort',
+            passwordField : 'pw',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req,email, passwort, done) {
+        function(req,email, pw, done) {
 
             // find a user whose email is the same as the forms email
             // we are checking to see if the user trying to login already exists
@@ -69,23 +69,25 @@ module.exports = function(passport, verificationMail) {
                 }
 
             connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+sanitizer.sanitize(email)+"'", function(err, rows) {
-                if (err)
+                if (err) {
+                    console.log("sign up error");
                     return done(err);
+                }
                 if (rows.length) {
+                    console.log("sign up error: email exists")
                     return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
                 } else {
                     // if there is no user with that username
                     // create the user
                     var newUserMysql = {
                         email: email,
-                        passwort: bcrypt.hashSync(passwort, null, null)  // use the generateHash function in our user model
+                        pw: bcrypt.hashSync(pw, null, null)  // use the generateHash function in our user model
                     };
 
-                    var insertQuery = "INSERT INTO tbl_benutzer ( `email`, `passwort` ) values (?,?)";
+                    var insertQuery = "INSERT INTO `Benutzer` ( `email`, `pw` ) values (?,?)";
 
-                    connection.query(insertQuery, [sanitizer.sanitize(newUserMysql.email), sanitizer.sanitize(newUserMysql.passwort)], function(err, rows) {
-                        console.log("[mysql error]",err);
-                        newUserMysql.pk_id_user = rows.insertId;
+                    connection.query(insertQuery, [sanitizer.sanitize(newUserMysql.email), sanitizer.sanitize(newUserMysql.pw)], function(err, rows) {
+                        newUserMysql.pk_ID = rows.insertId;
 
                         req.flash('loginMessage', 'We sent an email to ' + newUserMysql.email + '. Follow the instructions to activate your Account!');
                         verificationMail.sendMail(newUserMysql);
@@ -109,18 +111,20 @@ module.exports = function(passport, verificationMail) {
         new LocalStrategy({
             // by default, local strategy uses username and password, we will override with email
             usernameField : 'email',
-            passwordField : 'passwort',
+            passwordField : 'pw',
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
-        function(req, email, passwort, done) { // callback with email and password from our form
+        function(req, email, pw, done) { // callback with email and password from our form
             mysqlpool.getConnection(function(err,connection){
                 if (err) {
                   console.log("passport.deserializeUser db failed")
                   return;
                 }
             connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+sanitizer.sanitize(email)+"'", function(err, rows){
-                if (err)
+                if (err) {
+                    console.log("passport: error")
                     return done(err);
+                }
                 if (!rows.length) {
                     return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
                 }

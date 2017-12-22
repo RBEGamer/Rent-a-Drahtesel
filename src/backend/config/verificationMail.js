@@ -46,19 +46,21 @@ module.exports = function() {
     }
 
     this.sendMail = function(user) {
-        var id = user.pk_id_user;
+        var id = user.pk_ID;
         var hash = this.getHash(4);
+        console.log("--------------");
+        console.log(id);
+        console.log("--------------");
+        var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = ? WHERE `pk_ID` = ?";
+        console.log(updateQuery);
 
-        var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = '?' WHERE `pk_ID` = '?'";
-
-         var transp = nodemailer.createTransport(cred.credentials.smtp_server.protocol + "://" +cred.credentials.smtp_server.auth.user+":"+encodeURIComponent(cred.credentials.smtp_server.auth.pass) + "@" + cred.credentials.smtp_server.host +":" + cred.credentials.smtp_server.port);
+         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465"); 
          mysqlpool.getConnection(function(err,connection){
              if (err) {
                console.log("passport.deserializeUser db failed")
                return;
              }
         connection.query(updateQuery, [sanitizer.sanitize(hash), sanitizer.sanitize(id)], function(err, rows) {
-            console.log(err);
             transp.sendMail({
                 to: user.email,
                 subject: "Test",
