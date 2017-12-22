@@ -11,11 +11,10 @@
 
         <form action="/" method="post">
             <div class="row no-gutters">
-                <div class="col-12 col-md">  
+                <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label>Typ</label>
-                        <select name="type" class="form-control height">
-                            <option>Typ</option>
+                    	<label for="preis">Typ</label>
+                        <select id="type" class="form-control height">
                             <option value="Mountainbike">Mountainbike</option>
                             <option value="Elektrofahrrad">Elektrofahrrad</option>
                             <option value="Damenrad">Damenrad</option>
@@ -25,9 +24,8 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label>Größe</label>
-                        <select name="size" class="form-control height">
-                            <option>Größe</option>
+                    	<label for="preis">Größe</label>
+                        <select id="size" class="form-control height">
                             <option value="12">12</option>
                             <option value="14">14</option>
                             <option value="16">16</option>
@@ -40,9 +38,8 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label>Preis</label>
-                        <select name="preis" class="form-control height">
-                            <option>Preis</option>
+                    	<label for="preis">Preis</label>
+                        <select id="preis" name="Preis" class="form-control height">
                             <option value="3">< 3€&emsp;</option>
                             <option value="5">< 5€&emsp;</option>
                             <option value="7.5">< 7.5€&emsp;</option>
@@ -52,8 +49,8 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label>PLZ</label>
-                        <input name="plz" type="text" class="form-control height" placeholder="PLZ">
+                    	<label for="preis">PLZ</label>
+                        <input type="text" class="form-control height" placeholder="PLZ">
                     </div>
                 </div>
                 <div class="col-12 col-md">
@@ -66,9 +63,10 @@
             </div>
         </form>
 
-        <div class="row no-gutters">
+
 			<% bikes.forEach(function(row) { %>
-        		<div class="col-12 col-md-12">
+          <div class="row no-gutters">
+        		<div class="col-6 col-md-6">
              	   <div class="d-flex flex-row">
              	   	  <% if(row.Bild != null){ %>
                   	  	<img class="bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
@@ -81,9 +79,13 @@
                        	 	<span><%= row.Preis %>€&emsp;</span>
                      	   	<a href="#">ansehen</a>
                     	</div>
+
                 	</div>
+
            	 	</div>
+
+              <div class="col-6 col-md-6">
+                            <img height="200px" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.lat %>+<%= row.lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.lat %>+<%= row.lon %>" alt="Your Bike">
+                                       	 	</div>
+                                            </div>
     		<% }); %>
-
-        </div>
-

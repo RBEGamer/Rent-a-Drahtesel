@@ -33,7 +33,7 @@ module.exports = function(app, passport, verificationMail) {
 			connection.release();
 		});
 	});
-	
+
 	app.post('/', function(req, res) {
 		var bikes =[];
 		mysqlpool.getConnection(function(err, connection) {
@@ -41,7 +41,7 @@ module.exports = function(app, passport, verificationMail) {
 				console.log("get bike db failed")
 				return;
 			}
-			var query = "SELECT `Name`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`";
+			var query = "SELECT `Name`,`Lat`,`Lon`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`";
 			console.log(req.body);
 			if((req.body.type != null && req.body.type != "Typ") || (req.body.preis != null && req.body.preis != "Preis") || (req.body.size != null && req.body.size != "Größe") || (req.body.plz != null && req.body.plz != "")){
 				query += " WHERE ";
@@ -52,7 +52,7 @@ module.exports = function(app, passport, verificationMail) {
 					query += " AND";
 				}
 				first = false;
-				query += " biketype = '" + req.body.type + "'";
+				query += " biketype = '" + sanitizer.sanitize(req.body.type) + "'";
 			}
 			if(req.body.preis != null && req.body.preis != "Preis"){
 				if(!first){
@@ -60,21 +60,21 @@ module.exports = function(app, passport, verificationMail) {
 				}
 
 				first = false;
-				query += " price <= " + req.body.preis;
+				query += " price <= " + sanitizer.sanitize(req.body.preis);
 			}
 			if(req.body.size != null && req.body.size != "Größe"){
 				if(!first){
 					query += " AND";
 				}
 				first = false;
-				query += " size = '" + req.body.size + "'";
+				query += " size = '" + sanitizer.sanitize(req.body.size) + "'";
 			}
 			if(req.body.plz != null && req.body.plz != ""){
 				if(!first){
 					query += " AND";
 				}
 				first = false;
-				query += " zip = '" + req.body.plz + "'";
+				query += " zip = '" + sanitizer.sanitize(req.body.plz) + "'";
 			}
 			query += " GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25";
 			console.log(query);
@@ -93,14 +93,14 @@ module.exports = function(app, passport, verificationMail) {
 							layoutPath : '../../views/',
 							isLoggedIn : req.isAuthenticated(),
 							bikes: bikes,
-							loggedIn : true
+							loggedIn : true,
 						});
 			});
 			connection.release();
 		});
 		//res.send();
 	});
-	
+
 	app.get('/startseite/style.css', function(req, res, next) {
 		res.sendfile(__dirname + '/_style.css');
 	});
