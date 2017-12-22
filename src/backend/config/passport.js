@@ -115,26 +115,33 @@ module.exports = function(passport, verificationMail) {
             passReqToCallback : true // allows us to pass back the entire request to the callback
         },
         function(req, email, pw, done) { // callback with email and password from our form
+            console.log(email);
+            console.log(pw);
             mysqlpool.getConnection(function(err,connection){
                 if (err) {
                   console.log("passport.deserializeUser db failed")
                   return;
                 }
-            connection.query("SELECT * FROM `Benutzer` WHERE `email`='"+sanitizer.sanitize(email)+"'", function(err, rows){
+            connection.query("SELECT * FROM Benutzer WHERE email='"+email +"'", function(err, rows){
                 if (err) {
                     console.log("passport: error")
                     return done(err);
                 }
                 if (!rows.length) {
+                    console.log("passport: user not found");
                     return done(null, false, req.flash('loginMessage', 'No user found.')); // req.flash is the way to set flashdata using connect-flash
                 }
 
                 // if the user is found but the password is wrong
-                if (!bcrypt.compareSync(passwort, rows[0].pw))
+                if (!bcrypt.compareSync(pw, rows[0].pw)) {
+                    console.log("passport: wrong password");
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.')); // create the loginMessage and save it to session as flashdata
+                }
 
-                if(rows[0].verified == 0)
+                if(rows[0].verified == 0) {
+                    console.log("your account hasnt been activated");
                     return done(null, false, req.flash('loginMessage', "Your account hasn't been activated yet. Resend Activatin Email?"));
+                }
                 // all is well, return successful user
                 return done(null, rows[0]);
             });

@@ -15,7 +15,8 @@ module.exports = function(app, passport, verificationMail) {
 
 	app.get('/profile/pe', function(req, res) {
 		res.render(__dirname +'/selfprivatkunde.ejs', {
-			layoutPath: '../../views/'
+			layoutPath: '../../views/',
+			isLoggedIn: req.isAuthenticated()
 		});
 	});
 

@@ -15,7 +15,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.post('/login', 
 		passport.authenticate('local-login', {
             successRedirect : '/profile/pe', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
+            failureRedirect : '/', // redirect back to the signup page if there is an error
             failureFlash : true // allow flash messages
 		}),
         function(req, res) {
@@ -25,11 +25,23 @@ module.exports = function(app, passport, verificationMail) {
             } else {
               req.session.cookie.expires = false;
             }
-        	redirectes.redirect('/');
+        	redirectes.redirect('/profile/pe');
     	});
+
 
 	app.get('/login/logout', function(req, res) {
 		req.logout();
 		res.redirect('/');
+	});
+
+
+	app.get('/login/verification/:id/:hash', verificationMail.verificate,
+		function(req, res) {
+			console.log(req.flash('loginMessage'));
+			res.render(__dirname + '/login.ejs', {
+				message: req.flash('loginMessage'),
+				isLoggedIn: req.isAuthenticated(),
+				layoutPath: '../../views/'
+			}); 
 	});
 }

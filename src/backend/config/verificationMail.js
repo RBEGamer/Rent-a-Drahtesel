@@ -14,7 +14,7 @@ module.exports = function() {
         var id = parseInt(req.params.id);
         var hash = req.params.hash;
         console.log(req.params);
-        var selectionQuery = "SELECT * FROM `Benutzer` WHERE `pk_ID`='?'";
+        var selectionQuery = "SELECT * FROM Benutzer WHERE pk_ID=?";
 
         mysqlpool.getConnection(function(err,connection){
             if (err) {
@@ -27,7 +27,7 @@ module.exports = function() {
             var foundVerificationHash = rows[0].verification_hash;
             if(hash == foundVerificationHash) {
                 req.flash('loginMessage', 'Your Account has been activated. You can login from now on.');
-                var updateQuery = "UPDATE `Benutzer` SET `verified`='1' WHERE `pk_ID`='?'";
+                var updateQuery = "UPDATE Benutzer SET verified=1 WHERE pk_ID=?";
                 connection.query(updateQuery, [sanitizer.sanitize(id)]);
             }else {
                 req.flash('loginMessage', 'Invalid activation Key. Resend activation mail?');
