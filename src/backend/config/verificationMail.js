@@ -64,7 +64,7 @@ module.exports = function() {
         connection.query(updateQuery, [sanitizer.sanitize(hash), sanitizer.sanitize(id)], function(err, rows) {
             transp.sendMail({
                 to: user.email,
-                subject: "Test",
+                subject: "Rent-A-Bike Account Registration",
                 html: "Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"signup/verification/" + id + "/" + hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team."
             },
             function(err, response) {
