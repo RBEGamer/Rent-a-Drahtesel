@@ -5,7 +5,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var morgan = require('morgan');
 var app      = express();
-var port     = process.env.PORT || 8080;
+var config  = require('./config/credentials.js');
+var port     = process.env.PORT || config.config.port;
 var VerificationMail = require('./config/verificationMail');
 var verificationMail = new VerificationMail();
 var passport = require('passport');
@@ -14,7 +15,9 @@ var path = require('path');
 var cron = require('node-cron');
 var db = require('./config/database');
 var mkdirp = require('mkdirp');
-var config  = require('./config/credentials.js');
+
+var bsip = require('./config/base_ip.js')
+console.log(bsip);
 // connect to our database
 require('./config/passport')(passport, verificationMail); // pass passport for configuration
 
@@ -63,8 +66,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
-
-
 var task = cron.schedule('59 59 23 * * *', function(){
     console.log('run deletion cronjon');
   db.getConnection(function(err,connection){
@@ -76,7 +77,6 @@ var task = cron.schedule('59 59 23 * * *', function(){
     if(err) {
         console.log("-- DELETION CRONJOB FAILED --")
     }
-
       connection.release();
       console.log('-- CRON OK --');
       });

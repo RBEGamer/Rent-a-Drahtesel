@@ -18,7 +18,6 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 				bikes = rows;
-				//console.log("rating!!! " + rows[0].totid)
 				res.render(__dirname + '/startseite.ejs',
 						{
 							bezeichnung : 'trekkingbike',
@@ -85,7 +84,6 @@ module.exports = function(app, passport, verificationMail) {
 				}
 				bikes = rows;
 				//TODO API KEY
-				//console.log(bikes);
 				res.render(__dirname + '/startseite.ejs',
 						{
 							bezeichnung : 'trekkingbike',
@@ -99,7 +97,6 @@ module.exports = function(app, passport, verificationMail) {
 			});
 			connection.release();
 		});
-		//res.send();
 	});
 
 	app.get('/startseite/style.css', function(req, res, next) {

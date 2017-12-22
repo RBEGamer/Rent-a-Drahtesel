@@ -7,16 +7,16 @@ var credentials = {
           'database': 'rent_a_bike',
         },
         'smtp_server':{
-          'host': 'smtp.gmail.com',
+          'host': 'smtp.strato.de',
           'port': 465,
           'secureConnection': true,
           'connection': 'Gmail',
           'protocol':'smtps',
           'auth': {
-              'user': 'rent.a.drahtesel%40gmail.com',
-              'pass': 'softwarea8'
+              'user': 'no-reply%40rent-a-drahtesel.de',
+              'pass': 'bike_a_rent123'
           },
-          'from': 'rent.a.drahtesel%40gmail.com'
+          'from': 'no-reply%40rent-a-drahtesel.de'
         }
 }
 
@@ -24,7 +24,8 @@ var credentials = {
 
 var config = {
   "image_upload_tmp_path": "./tmp/uploaded_images",
-  "image_conversion_path": "./tmp/converted_images"
+  "image_conversion_path": "./tmp/converted_images",
+  "port":8080
 }
 
 
