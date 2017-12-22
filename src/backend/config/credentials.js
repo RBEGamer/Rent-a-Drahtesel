@@ -2,8 +2,8 @@ var credentials = {
         'google_map_api': 'AIzaSyD2ikyNk4Adr5oQeIbP2oWRGEKoOHornes',
         'database': {
           'host': 'marcelochsendorf.com',
-          'user': 'rent_a_bike',
-          'password': 'bike_a_rent',
+          'user': 'rentrent',
+          'password': 'gujZtZuWQKB1X3m1',
           'database': 'rent_a_bike',
         },
         'smtp_server':{

@@ -12,7 +12,6 @@
             <div class="row no-gutters">
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label for="preis">Typ</label>
                         <select id="type" class="form-control height">
                             <option value="Mountainbike">Mountainbike</option>
                             <option value="Elektrofahrrad">Elektrofahrrad</option>
@@ -23,7 +22,6 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label for="preis">Größe</label>
                         <select id="size" class="form-control height">
                             <option value="12">12</option>
                             <option value="14">14</option>
@@ -37,7 +35,6 @@
                 </div>
                 <div class="col-12 col-md">
                     <div class="margin height">
-                    	<label for="preis">Preis</label>
                         <select id="preis" name="Preis" class="form-control height">
                             <option value="3">< 3€&emsp;</option>
                             <option value="5">< 5€&emsp;</option>
@@ -84,7 +81,7 @@
            	 	</div>
 
               <div class="col-6 col-md-6">
-                            <img height="200px" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.lat %>+<%= row.lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.lat %>+<%= row.lon %>" alt="Your Bike">
+                            <img height="200px" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
                                        	 	</div>
                                             </div>
     		<% }); %>
