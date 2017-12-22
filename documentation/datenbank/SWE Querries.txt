@@ -1,0 +1,214 @@
+--Index.html
+--Filter dropdowns
+SELECT `Biketype` FROM Fahrrad;
+
+SELECT `Size` FROM Fahrrad;
+
+SELECT `Price` FROM Fahrrad;
+
+SELECT `ZIP` FROM Fahrrad;
+
+--Filter anwenden
+--falsch
+SELECT `Name`, `Price`, `Rating` FROM Fahrrad
+JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID`
+WHERE `Fahrrad`.`Biketype` = 'Biketypevalue'
+AND `Fahrrad`.`Size` = 'Sizevalue'
+AND `Fahrrad`.`Price` = 'Pricevalue'
+AND `Fahrrad`.`ZIP` = 'ZIPvalue'
+ORDER BY `Rating` DESC
+LIMIT 25;
+
+
+--Gefilterte Fahräder +1 Foto(D00-Startseite nicht angemeldet/D01)
+SELECT `Name`, `Price`, AVG(`Rating`), `Picture` FROM Fahrrad
+JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID`
+JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`
+WHERE (SELECT `Fahrrad`.`pk_ID` FROM Fahrrad
+JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID`
+WHERE `Fahrrad`.`Biketype` = 'Biketypevalue'
+AND `Fahrrad`.`Size` = 'Sizevalue'
+AND `Fahrrad`.`Price` <= 'Pricevalue'
+AND `Fahrrad`.`ZIP` = 'ZIPvalue'
+ORDER BY `Rating` DESC
+LIMIT 1) = `Bild`.`ID_Fahrrad`
+AND `Fahrrad`.`Biketype` = 'Biketypevalue'
+AND `Fahrrad`.`Size` = 'Sizevalue'
+AND `Fahrrad`.`Price` <= 'Pricevalue'
+AND `Fahrrad`.`ZIP` = 'ZIPvalue'
+ORDER BY `Rating` DESC
+LIMIT 25;
+
+
+--Alle Räder anzeigen
+SELECT `Name`, `Price`, AVG(`Rating`), `Picture` FROM Fahrrad
+LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID`
+LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`
+GROUP BY `Fahrrad`.`pk_ID`
+ORDER BY `Rating` DESC
+LIMIT 25;
+
+--Bild(er) bekommen(nicht benötigt zzt)
+SELECT `Fahrrad`.`pk_ID`,`Picture` FROM Bild
+JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bild`.`ID_Fahrrad`
+WHERE 
+(SELECT `Fahrrad`.`pk_ID` FROM Fahrrad
+JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID`
+WHERE `Fahrrad`.`Biketype` = 'Biketypevalue'
+AND `Fahrrad`.`Size` = 'Sizevalue'
+AND `Fahrrad`.`Price` = 'Pricevalue'
+AND `Fahrrad`.`ZIP` = 'ZIPvalue'
+ORDER BY `Rating` DESC
+LIMIT 1) = `Bild`.`ID_Fahrrad`;
+
+--Registrieren(D02/D03)
+INSERT INTO `rent_a_bike`.`Benutzer` (`email`, `pw`, `verified`, `verification_hash`, `housenumber`,
+												 `country`, `city`, `zip`, `phone`, `street`, `picture`, `creation_date`)
+ VALUES ('emailvalue', 'passwortvalue', '0', NULL, 'housenumbervalue', 'countryvalue',
+  'cityvalue', 'zipvalue', 'phonevalue', 'streetvalue', NULL, CURRENT_TIMESTAMP);
+  
+  
+  if(geschaeftskunde) {
+	INSERT INTO `Geschaeftsbenutzer` (`pk_ID`, `Banner`, `WebUrl`,`TwitterUrl`,`FacebookUrl`) VALUES
+	((SELECT LAST_INSERT_ID()), 'Bannervalue', 'WebUrlValue','TwitterUrlValue','FacebookUrl ');
+	}
+	else {
+	 INSERT INTO `Privatbenutzer` (`pk_ID`, `Name`, `Vorname`) VALUES
+	((SELECT LAST_INSERT_ID()), 'Namevalue', 'Vornamevalue');
+	}
+	
+	
+
+--Anmelden(D04-Anmledung)
+SELECT `email`, `pw` FROM `Benutzer`
+WHERE `email` = `emailvalue`;
+
+--pw zurücksetzen(D05-pw zurücksetzen)
+SELECT `email` FROM `Benutzer`
+WHERE `email` = 'emailvalue'
+
+--jetzt wird pw serverside generiert(D05)
+UPDATE `Benutzer` 
+SET `pw`= 'generatedpw',
+WHERE `email` = 'emailvalue';
+
+--Fahrrad anzeigen angemeldet(D06/D07)
+-- fahrrad: Alle Bilder vom fahrrad, avg(rating),biketype, size, childseat,porter,beschreibung,lon,lat,price,threeday,sevenday,city,street,zip,housenumber
+-- benutzer: vermietername, avg(vermieterrating), vermieterbild,
+--bestellung: startdate, enddate
+
+--bestellung tätigen
+--mieter,fahrrad,startdate,enddate
+
+--bewertungen
+--bewertername, bewertung,comment
+
+
+
+
+--Profilansicht(D08 Geschäftskunde, andere sProfil)
+--benutzer:picture,email,phone,country,city,street,housenumber,zip,facebook,twitter,web,lon,lat
+--geschaeftsbenutzer_banner,firmennamen,picture`
+--ratingbenutzer:avg(bewertung)
+--bewertungbikes:mietername,bewertung,bewertungstext,fahrradname
+
+--Profilansicht(D09-privatkunde, anderes profil, angemeldet)
+--benutzer: email,phone,city,street,housenumber,zip,picture,lon,lat
+--privatkunde: vorname,nachname,
+--bewertungbenutzer: avg(bewertung)
+--
+--bewertungen
+--bewertername, avg(bewertung),comment
+
+
+--Profilansicht(D10 Privatkunde, anderes Profil, nicht angemeldet)
+--benutzer:picture
+--privatkunde:vorname, nachname
+--bewertungbenutzer:avg(bewertung)
+--
+--bewertungen
+--bewertername, avg(bewertung),comment
+
+--D11 Profilansicht (Geschäftskunde, eigenes Profil)
+--benutzer:picture,email,phone,country,city,street,housenumber,zip,facebook,twitter,web,lon,lat
+--geschaeftsbenutzer_banner,firmennamen,picture`
+--ratingbenutzer:avg(bewertung)
+--Fahrrad: name
+--BewertungFahrrad: avg(Bewertung)
+--Bestellung: all: startdate, enddate, mieterID
+--Fahrrad löschen: nur wenn Fahrrad in keinen Bestellungen enthalten, eventuell privatbenutzer anpassen
+
+
+--D12 Profilansicht(Privatkunde eigenes profil)
+--benutzer: email,phone,city,street,housenumber,zip,picture,lon,lat
+--privatkunde: vorname,nachname,
+--bewertungbenutzer: avg(bewertung)
+--
+--bewertungbikes:mietername,bewertung,bewertungstext,fahrradname
+--(Meine Fahrräder)Bestellung: all: startdate, enddate, mieterID
+--Fahrrad löschen: nur wenn Fahrrad in keinen Bestellungen enthalten, eventuell privatbenutzer anpassen
+--(Meine Bestellungen):bestellung: rentdate,email vermieter,startdate,enddate
+--bewertungfahrrad:bewertung
+
+--Meine Fahrräder(noch bearbeiten)
+SELECT `Bestellung`.`Startdate`, `Bestellung`.`Enddate`, `Bestellung`.`pk_ID_Benutzer`,`Benutzer`.`pk_ID`  FROM `Bestellung`
+JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad`
+JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer`
+WHERE `Benutzer`.`pk_ID` = 4;
+
+--Meine Bestellungen
+SELECT `Bestellung`.`Rentdate`,`Bestellung`.`Startdate`,`Bestellung`.`Enddate`,`Benutzer`.`email`,`Bestellung`.`pk_ID_Benutzer` FROM `Bestellung`
+JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad`
+JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer`
+AND `Bestellung`.`pk_ID_Benutzer` = 'sessionuser[userid]';
+
+--D13/D14(siehe registrieren aber mit update) Profil bearbeiten Geschäftskunde/Privatkunde
+--Update statische felder
+--Geschaeftsbenutzer
+UPDATE `Benutzer` 
+SET `email` = 'emailvalue', `pw` = 'pwvalue', `housenumber` = 'housenumbervalue',
+												 `country` = 'countryvalue', `city` = 'cityvalue', `zip` = 'zipvalue', `phone` = 'phonevalue'
+												 , `street` = 'streetvalue', `picture` = 'picturevalue')
+WHERE `email` = 'sessionuser[email]';
+UPDATE `Geschaeftsbenutzer`
+SET `Firmenname` = 'namevalue', `Banner` = 'bannervalue', `WebUrl`='webvalue',`TwitterUrl`='twittervalue',`FacebookUrl`='fbvalue',
+WHERE `email` = 'sessionuser[email]';
+
+--Privatbenutzer
+UPDATE `Benutzer` 
+SET `email` = 'emailvalue', `pw` = 'pwvalue', `housenumber` = 'housenumbervalue',
+												 `country` = 'countryvalue', `city` = 'cityvalue', `zip` = 'zipvalue', `phone` = 'phonevalue'
+												 , `street` = 'streetvalue', `picture` = 'picturevalue')
+WHERE `email` = 'sessionuser[email]';
+UPDATE `Privatbenutzer`
+SET `Name` = 'namevalue', `Vorname` = 'vornamevalue'
+WHERE `email` = 'sessionuser[email]';
+
+
+--D15 Fahrrad einstellen
+--statische insert(erstelle querry zum getten der aktuell eingeloggten benutzer id)
+INSERT INTO `rent_a_bike`.`Fahrrad` (`pk_ID`, `Biketype`, `Size`, `Price`, `Description`, `Porter`,
+ `Childseat`, `Threeday`, `Sevenday`, `Country`, `City`, `Street`, `ZIP`, `Housenumber`, `Lat`, `Lon`, `pk_ID_Benutzer`, `Name`)
+ VALUES (NULL, 'biketypevalue', 'sizevalue', 'pricevalue', 'descvalue', 'porterbool', 'childseatbool', 'threedaybool', 'sevendayvalue',
+ 'countryvalue', 'cityvalue', 'streetvalue', 'zipvalue', 'housevalue', 'latvalue', 'lonvalue', 'id_benutzervalue', 'namevalue');
+
+--helper
+
+--getID
+SELECT `pk_ID` FROM `Benutzer`
+WHERE `email` = 'sessionuser[email]';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
