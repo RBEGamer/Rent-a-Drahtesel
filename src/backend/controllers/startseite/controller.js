@@ -41,7 +41,7 @@ module.exports = function(app, passport, verificationMail) {
 				console.log("get bike db failed")
 				return;
 			}
-			var query = "SELECT `Name`,`Lat`,`Lon`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`";
+			var query = "SELECT `Name`,`Lat`,`Lon`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID`";
 			console.log(req.body);
 			if((req.body.type != null && req.body.type != "Typ") || (req.body.preis != null && req.body.preis != "Preis") || (req.body.size != null && req.body.size != "Größe") || (req.body.plz != null && req.body.plz != "")){
 				query += " WHERE ";
