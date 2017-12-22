@@ -7,6 +7,7 @@ var sanitizer = require('sanitizer');
 module.exports = function(app, passport, verificationMail) {
 	app.get('/', function(req, res) {
 		var bikes =[];
+		console.log("session: " + JSON.stringify(req.session));
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get bike db failed")
@@ -91,8 +92,7 @@ module.exports = function(app, passport, verificationMail) {
 							helper : require('../../views/helpers/helper'),
 							layoutPath : '../../views/',
 							isLoggedIn : req.isAuthenticated(),
-							bikes: bikes,
-							loggedIn : true,
+							bikes: bikes
 						});
 			});
 			connection.release();

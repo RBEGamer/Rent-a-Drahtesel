@@ -140,7 +140,7 @@ module.exports = function(passport, verificationMail) {
 
                 if(rows[0].verified == 0) {
                     console.log("your account hasnt been activated");
-                    return done(null, false, req.flash('loginMessage', "Your account hasn't been activated yet. Resend Activatin Email?"));
+                    return done(null, false, req.flash('loginMessage', "Your account hasn't been activated yet. Resend Activation Email?"));
                 }
                 // all is well, return successful user
                 return done(null, rows[0]);
