@@ -5,15 +5,12 @@
                 <div class="margin">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
+                            <% console.log(pictures); %>
+                            <% pictures.forEach(function(pic) { %>
                             <div class="carousel-item active">
-                                <img class="d-block w-100" src="/images/bike.jpg" alt="First slide">
+                                <img class="d-block w-100" src="<%= pic.picture.toString('utf8') %>" alt="Second slide">
                             </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="/images/bike.jpg" alt="Second slide">
-                            </div>
-                            <div class="carousel-item">
-                                <img class="d-block w-100" src="/images/bike.jpg" alt="Third slide">
-                            </div>
+                            <% }); %>
                         </div>
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -28,7 +25,7 @@
             </div>
             <div class="col-12 col-sm-6">
                 <div class="white margin padding">
-                    <h1 class="display-4">Fahrradname</h1><br />
+                    <h1 class="display-4"><%= bike.name %></h1><br />
                     <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="50"></div>
                 </div>
                 <div class="d-flex flex-row">
@@ -45,23 +42,27 @@
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
                     <div class="hoch">
-                        <span>jöadshfsahfgjksahlfslgiarg</span>
-                        <span>jöadshfsahfgjksahlfslgiarg</span>
-                        <span>jöadshfsahfgjksahlfslgiarg</span>
-                        <span>jöadshfsahfgjksahlfslgiarg</span>
-                        <span>jöadshfsahfgjksahlfslgiarg</span>
+                        <%= bike.description %>
                     </div>
                 </div>
             </div>
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
                     <div class="hoch">
-                        <span>Mountainbike 20 Zoll</span><br />
+                        <span><%= bike.biketype %> <%= bike.size %> Zoll</span><br />
                         &emsp;
-                        <input type="checkbox" disabled checked class="form-check-input position-static">
+                        <% if(bike.porter  == 1){ %>
+                        	<input type="checkbox" disabled checked class="form-check-input position-static">
+                        <% }else{ %>
+                        	<input type="checkbox" disabled class="form-check-input position-static">
+                        <% } %>
                         <span>Gepäckträger</span><br />
                         &emsp;
-                        <input type="checkbox" disabled class="form-check-input position-static">
+                        <% if(bike.childseat == 1){ %>
+                        	<input type="checkbox" disabled checked class="form-check-input position-static">
+                        <% }else{ %>
+                        	<input type="checkbox" disabled class="form-check-input position-static">
+                        <% } %>
                         <span>Kindersitz</span>
                     </div>
                 </div>
@@ -74,7 +75,7 @@
                         <script>
                             function myMap() {
                                 var mapOptions1 = {
-                                    center: new google.maps.LatLng(51.508742, -0.120850),
+                                    center: new google.maps.LatLng(<%= bike.lat %>, <%= bike.lon %>),
                                     zoom: 9,
                                     mapTypeId: google.maps.MapTypeId.ROADMAP
                                 };
@@ -93,7 +94,7 @@
 
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
-                    <span>Standort: Straße 15, 50266 Aachen</span>
+                    <span>Standort: <%= bike.street %> <%= bike.housenumber %>, <%= bike.zip %> <%= bike.city %></span>
                 </div>
             </div>
 
