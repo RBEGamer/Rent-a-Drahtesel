@@ -1,27 +1,21 @@
 module.exports = function(app, passport, verificationMail) {
-	app.get('/profile/pa', function(req, res) {
+	app.get('/profile', function(req, res) {
 
-		res.render(__dirname +'/privatkunde.ejs', { 
+		var route = "privatkunde";
+		//wenn privat dann privatkunde sonst geschaeftskunde
+		
+		res.render(__dirname +'/' + route + '.ejs', { 
 			helper: require('../../views/helpers/helper'),
 			layoutPath: '../../views/'
 		});
 	});
 
-	app.get('/profile/ga', function(req, res) {
-		res.render(__dirname+'/geschaeftskunde.ejs', {
-			layoutPath: '../../views/'
-		});
-	});
-
-	app.get('/profile/pe', function(req, res) {
-		res.render(__dirname +'/selfprivatkunde.ejs', {
-			layoutPath: '../../views/',
-			isLoggedIn: req.isAuthenticated()
-		});
-	});
-
-	app.get('/profile/ge', function(req, res) {
-		res.render(__dirname+'/selfgeschaeftskunde.ejs', {
+	app.get('/profile/self', function(req, res) {
+		
+		var route = "selfprivatkunde";
+		//wenn privat dann selfprivatkunde sonst selfgeschaeftskunde
+		
+		res.render(__dirname +'/' + route + '.ejs', {
 			layoutPath: '../../views/'
 		});
 	});
