@@ -4,6 +4,7 @@ var cred  = require('./credentials.js');
 var crypto = require('crypto');
 var mysqlpool = require('./database');
 var sanitizer = require('sanitizer');
+var bsip = require('./base_ip.js')
 
 
 
@@ -54,7 +55,7 @@ module.exports = function() {
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = ? WHERE `pk_ID` = ?";
         console.log(updateQuery);
 
-         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465"); 
+         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465");
          mysqlpool.getConnection(function(err,connection){
              if (err) {
                console.log("passport.deserializeUser db failed")
@@ -64,7 +65,7 @@ module.exports = function() {
             transp.sendMail({
                 to: user.email,
                 subject: "Test",
-                html: "<a href='http://localhost:8080/signup/verification/" + id + "/" + hash + "'>Activate</a>"
+                html: "Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"signup/verification/" + id + "/" + hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team."
             },
             function(err, response) {
                 if(err) {
