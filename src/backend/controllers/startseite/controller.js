@@ -12,13 +12,13 @@ module.exports = function(app, passport, verificationMail) {
 				console.log("get bike db failed")
 				return;
 			}
-			connection.query("SELECT `Name`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
+			connection.query("SELECT `Name`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
 				if (err) {
 					console.log("get bike db failed")
 					return;
 				}
 				bikes = rows;
-				console.log("rating!!! " + rows[0].Rating)
+				//console.log("rating!!! " + rows[0].totid)
 				res.render(__dirname + '/startseite.ejs',
 						{
 							bezeichnung : 'trekkingbike',
@@ -77,7 +77,7 @@ module.exports = function(app, passport, verificationMail) {
 				query += " zip = '" + sanitizer.sanitize(req.body.plz) + "'";
 			}
 			query += " GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25";
-			console.log(query);
+			//console.log(query);
 			connection.query(query, function(err, rows) {
 				if (err) {
 					console.log("get bike db failed")
