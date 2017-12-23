@@ -7,8 +7,8 @@ module.exports = {
     	{text: 'PLZ*', input: {type: 'text', name: 'plz'}, validation: ['isNumeric', 'notOptional']},
     	{text: 'Straße*', input: {type: 'text', name: 'strasse'}, validation: ['isStreet', 'notOptional']},
     	{text: 'Hausnummer*', input: {type: 'text', name: 'hausnummer'}, validation: ['isNumeric','notOptional']},
-    	{text: 'Passwort*', input: {type: 'text', name: 'pw'},validation: ['notOptional']},
-    	{text: 'Passwortwiederholung*', input: {type: 'text', name: 'passwortwdh'}, validation: ['isSame', 'notOptional']},
+    	{text: 'Passwort*', input: {type: 'password', name: 'pw'},validation: ['notOptional']},
+    	{text: 'Passwortwiederholung*', input: {type: 'password', name: 'passwortwdh'}, validation: ['isSame', 'notOptional']},
     	{text: 'Twitter', input: {type: 'text', name: 'twitter'}}, 
     	{text: 'Instagram', input: {type: 'text', name: 'instagram'}},
     	{text: 'Facebook', input: {type: 'text', name: 'facebook'}},
@@ -26,8 +26,8 @@ module.exports = {
     	{text: 'Straße*', input: {type: 'text', name: 'strasse'}, validation: ['isStreet', 'notOptional']},
     	{text: 'Hausnummer*', input: {type: 'text', name: 'hausnummer'}, validation: ['isNumeric','notOptional']},
     	{text: 'Telefon', input: {type: 'text', name: 'phone'}},
-    	{text: 'Passwort*', input: {type: 'text', name: 'pw'},validation: ['notOptional']},
-    	{text: 'Passwortwiederholung*', input: {type: 'text', name: 'passwortwdh'}, validation: ['isSame', 'notOptional']},   
+    	{text: 'Passwort*', input: {type: 'password', name: 'pw'},validation: ['notOptional']},
+    	{text: 'Passwortwiederholung*', input: {type: 'password', name: 'passwortwdh'}, validation: ['isSame', 'notOptional']},   
     	{text: 'Profilbild', input: {type: 'file', name: 'imgurl'}, validation: ['suffix']},
     	]  	
 };
