@@ -54,12 +54,13 @@ module.exports = function(app, passport, verificationMail) {
 		console.log(req.session);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
-				console.log("get connection db failed")
+				console.log("get connection db failed 0")
 				return;
 			}
-			connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + user, function(err, rows) {
+			console.log("USER" + user); //#TODO CHECK USER
+			connection.query("Select COUNT(*) as anz FROM Privatbenutzer WHERE pk_ID = " + user, function(err, rows) {
 				if (err) {
-					console.log("get userrole db failed")
+					console.log("get userrole db failed 1")
 					return;
 				}
 				if(rows[0].anz == 0){
@@ -68,7 +69,7 @@ module.exports = function(app, passport, verificationMail) {
 				}
 				connection.query(query, function(err, rows) {
 					if (err) {
-						console.log("get user db failed")
+						console.log("get user db failed 2")
 						return;
 					}
 					console.log(rows);
