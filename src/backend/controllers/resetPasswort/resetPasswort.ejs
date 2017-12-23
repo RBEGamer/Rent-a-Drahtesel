@@ -1,6 +1,6 @@
 <% layout(layoutPath + 'layout') -%>
 <div id="main">
-
+    <% if(isLoggedIn == undefined || !isLoggedIn) { %>
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="white margin padding middle">
@@ -8,7 +8,7 @@
                 </div>
             </div>
         </div>
-
+        
         <form>
             <div class="row no-gutters">
                 <div class="col-12 col-md-3 col-lg-4"></div>
@@ -36,5 +36,18 @@
                 <div class="col-12 col-md-3 col-lg-4"></div>
             </div>
         </form>
+        <% } else { %>
 
+            <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="white margin padding middle">
+                        <h1 class="display-4">Passwort zurücksetzen</h1>
+                        <span class="">Du bist bereits eingeloggt. Bitte aendere dein Passwort in deiner <a href="/profile">Profilansicht</a>.<br>
+                            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+             <% } %>
     </div>

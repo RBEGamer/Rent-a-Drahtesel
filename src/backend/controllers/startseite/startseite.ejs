@@ -1,11 +1,18 @@
 <% layout(layoutPath + 'layout') -%>
-
+<div class="container">
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="white margin padding">
-                    <h1 class="display-4">Herzlich willkommen bei</h1>
+                    <h2 class="display-5">Herzlich willkommen bei</h2>
                     <h1 class="display-3">Rent a Drahtesel</h1>
-                </div>
+                    <br>
+                    <span>
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
+
+Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,    </span>
+<br />
+<br />                
+</div>
             </div>
         </div>
         <form action="/" method="post">
@@ -49,19 +56,31 @@
                         <input type="text" name="plz" class="form-control height" placeholder="PLZ">
                     </div>
                 </div>
-                <div class="col-12 col-md">
-                    <br/>
+                </div>
+                <div class="row">
+                <div class="col-1 col-md">
                     <div class="margin height">
                         <button type="submit" class="btn btn-secondary btn-block height">Suchen</button>
                     </div>
-                    <br/>
                 </div>
+                <div class="col-11 col-md"><span> </span></div>
             </div>
         </form>
 
 
+<br>
+
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">ANGEBOTE</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
+
+        <br>
+
+
 			<% bikes.forEach(function(row) { %>
-          <div class="row no-gutters">
+          <div class="row no-gutters" >
         		<div class="col-6 col-md-6">
              	   <div class="d-flex flex-row">
              	   	  <% if(row.Bild != null){ %>
@@ -82,6 +101,14 @@
 
               <div class="col-6 col-md-6">
                             <img height="200px" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
-                                       	 	</div>
-                                            </div>
-    		<% }); %>
+            </div>
+            </div>
+
+            <div class="row no-gutters">
+                    <div class="col-2 col-md"></div>
+                    <div class="col-10 col-md"><hr style="color: black; height: 1px; background-color:black;" /></div>
+                    <div class="col-2 col-md"></div>
+            </div>
+            <% }); %>
+        </div>
+
