@@ -1,4 +1,3 @@
-<% script('/profile/script.js') -%>
 <% layout(layoutPath + 'layout') -%>
 
 
@@ -8,10 +7,12 @@
                 <div class="d-flex flex-column flex-md-row">
                     <img class="bild margin" src="/images/leer.png" alt="">
                     <div class="white margin padding">
-                        <h1 class="display-4">Vorname Nachname</h1>
-                        <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
-                        <span>E-mail: nachname@yahoo.de</span><br />
-                        <span>Telefon: 0221 / 45454</span>
+                        <h1 class="display-4"><%= userdata.Vorname %> <%= userdata.Name %></h1>
+                        <div class="starRating" starMax="5" value="<%= userdata.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
+                        <span>E-mail: <%= userdata.email %></span><br />
+                        <% if(userdata.phone != null){ %>
+                        <span>Telefon: <%= userdata.phone %></span>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -31,7 +32,7 @@
 
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
-                    <span>Standort: Straße 15, 50266 Aachen</span>
+                    <span>Standort: <%= userdata.street %>  <%= userdata.housenumber %> , <%= userdata.zip %>  <%= userdata.city %> </span>
                 </div>
             </div>
 
