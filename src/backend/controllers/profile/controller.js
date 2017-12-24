@@ -80,6 +80,7 @@ module.exports = function(app, passport, verificationMail) {
 					}
 					console.log(rows);
 					userdata = rows[0];
+					//TOD IMAGE DATA
 					res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
