@@ -80,4 +80,32 @@ module.exports = function() {
         //
 
     }
+
+
+
+
+    this.sendMailMSG = function(msg, to) {
+         var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465");
+         mysqlpool.getConnection(function(err,connection){
+             if (err) {
+               console.log("passport.deserializeUser db failed")
+               return;
+             }
+            transp.sendMail({
+                to: to,
+                subject: "Rent-A-Bike Support",
+                html: msg
+            },
+            function(err, response) {
+                if(err) {
+                    console.log(err);
+                }
+                console.log(response);
+            });
+
+          connection.release()
+          });
+        //
+
+    }
 }

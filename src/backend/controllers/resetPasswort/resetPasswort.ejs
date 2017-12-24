@@ -1,6 +1,12 @@
 <% layout(layoutPath + 'layout') -%>
 <div id="main">
+        <% if (message.length > 0) { %>
+            <div class="alert alert-danger"><%= message %></div>
+        <% } %>
+        
     <% if(isLoggedIn == undefined || !isLoggedIn) { %>
+        
+    
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="white margin padding middle">
@@ -9,7 +15,7 @@
             </div>
         </div>
         
-        <form>
+        <form action="/reset" method="post">
             <div class="row no-gutters">
                 <div class="col-12 col-md-3 col-lg-4"></div>
                 <div class="col-6 col-md-3 col-lg-2">
@@ -19,7 +25,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" class="form-control height">
+                        <input type="text" name="mail" class="form-control height" required>
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-4"></div>

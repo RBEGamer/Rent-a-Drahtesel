@@ -21,7 +21,7 @@ module.exports = function(app, passport, verificationMail) {
 			req.logIn(user, function(err) {
 				if(err) {return next(err); }
 				req.logout();
-				console.log(req.body);
+				//console.log(req.body);
 				return res.redirect('/login');
 			});
 		})(req, res, next);
