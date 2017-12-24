@@ -22,7 +22,6 @@ module.exports = function(app, passport, verificationMail) {
 
 
 	app.post('/reset', function(req, res) {
-		//console.log(req.body);
 		if(req.body.mail == null){
 			console.log("MAIL == NULL")
 		res.render(__dirname +'/resetPasswort.ejs', { 
