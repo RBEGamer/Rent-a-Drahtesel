@@ -25,9 +25,9 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 				if(rows[0].anz == 0){
-					route = "geschaetskunde";
-					query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Geschäftsbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Firma";
-				}
+					route = "geschaeftskunde";
+					query = "SELECT `Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
+	}
 				connection.query(query, function(err, rows) {
 					if (err) {
 						console.log("get user db failed")
@@ -68,8 +68,9 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 				if(rows[0].anz == 0){
-					route = "selfgeschaetskunde";
-					query = "SELECT `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
+					route = "selfgeschaeftskunde";
+					console.log("self gesch")
+					query = "SELECT `Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
 				}
 				connection.query(query, function(err, rows) {
 					if (err) {

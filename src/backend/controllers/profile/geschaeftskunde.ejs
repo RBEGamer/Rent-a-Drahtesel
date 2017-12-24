@@ -18,8 +18,8 @@
                 <div class="d-flex flex-column flex-md-row">
                     <img class="bild margin" src="/images/leer.png" alt="">
                     <div class="white margin padding">
-                        <h1 class="display-4">Firmenname</h1>
-                        <div class="starRating" size="40" starMax="5" value="7" mode="show" fillColor="yellow" emptyColor="grey"></div>
+                        <h1 class="display-4"><%= userdata.Firmenname %></h1>
+                        <div class="starRating" size="40" starMax="5" value="<%= userdata.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
                         <span>E-mail: <%= userdata.email %></span><br />
                         <% if(userdata.phone != null){ %>
                         <span>Telefon: <%= userdata.phone %></span>
@@ -31,7 +31,7 @@
         </div>
 
         
-
+        
         <div class="row no-gutters">
 
             <div class="col-12">
