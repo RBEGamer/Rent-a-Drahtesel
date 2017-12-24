@@ -84,9 +84,9 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
         		<div class="col-6 col-md-6">
              	   <div class="d-flex flex-row">
              	   	  <% if(row.Bild != null){ %>
-                  	  	<img class="bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
+                  	  	<img class="img-responsive bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
                   	  <% }else{ %>
-                  	  	<img class="bild margin" src="" alt="">
+                  	  	<img class="img-responsive bild margin" src="" alt="">
                   	  <% } %>
               	      <div class="white margin padding">
                       	  <h6><%= row.Name %></h6>
@@ -100,7 +100,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
            	 	</div>
 
               <div class="col-6 col-md-6">
-                            <img height="200px" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
+                            <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
             </div>
             </div>
 
