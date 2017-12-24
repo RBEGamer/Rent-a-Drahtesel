@@ -9,26 +9,29 @@ module.exports = function(app, passport, verificationMail) {
 		var privat = true;
 		var user = req.params.id;
 		var route = "privatkunde";
-		var query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + user + " GROUP BY Vorname"
+		var query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname"
 		console.log("Params: " + JSON.stringify(req.params))
 		console.log("User: " + user);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get connection db failed")
+				res.redirect('/');//TODO ADD FLASH MESSAGE
 				return;
 			}
-			connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + user, function(err, rows) {
+			connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + sanitizer.sanitize(user), function(err, rows) {
 				if (err) {
 					console.log("get userrole db failed")
+					res.redirect('/');//TODO ADD FLASH MESSAGE
 					return;
 				}
 				if(rows[0].anz == 0){
 					route = "geschaetskunde";
-					query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Geschäftsbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + user + " GROUP BY Firma";
+					query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Geschäftsbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Firma";
 				}
 				connection.query(query, function(err, rows) {
 					if (err) {
 						console.log("get user db failed")
+						res.redirect('/');//TODO ADD FLASH MESSAGE
 						return;
 					}
 					console.log(rows);
@@ -50,26 +53,28 @@ module.exports = function(app, passport, verificationMail) {
 	app.get('/profile', function(req, res) {
 		var user = req.session.passport.user;
 		var route = "selfprivatkunde";
-		var query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + user + " GROUP BY Vorname";
+		var query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname";
 		console.log(req.session);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get connection db failed 0")
 				return;
 			}
-			console.log("USER" + user); //#TODO CHECK USER
-			connection.query("Select COUNT(*) as anz FROM Privatbenutzer WHERE pk_ID = " + user, function(err, rows) {
+			console.log("USER " + user); //#TODO CHECK USER
+			connection.query("Select COUNT(*) as anz FROM `Privatbenutzer` WHERE `pk_ID` = ?",[sanitizer.sanitize(user)], function(err, rows) {
 				if (err) {
 					console.log("get userrole db failed 1")
+					res.redirect('/');//TODO ADD FLASH MESSAGE
 					return;
 				}
 				if(rows[0].anz == 0){
 					route = "selfgeschaetskunde";
-					query = "SELECT Vorname, Name, phone, email, city, street, lat, lon, housenumber, zip, avg(rating) AS Rating FROM Benutzer AS b JOIN Geschäftsbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + user + " GROUP BY Firma";
+					query = "SELECT `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
 				}
 				connection.query(query, function(err, rows) {
 					if (err) {
-						console.log("get user db failed 2")
+						console.log("get user db failed 2");
+						res.redirect('/');//TODO ADD FLASH MESSAGE
 						return;
 					}
 					console.log(rows);
