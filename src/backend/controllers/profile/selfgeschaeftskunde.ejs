@@ -16,10 +16,12 @@
                 <div class="d-flex flex-column flex-md-row">
                     <img class="bild margin" src="/images/leer.png" alt="">
                     <div class="white margin padding">
-                        <h1 class="display-4">Firmenname</h1>
+                        <h1 class="display-4"><%= userdata.Firmenname %></h1>
                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
-                        <span>E-mail: firmenname@yahoo.de</span><br />
-                        <span>Telefon: 0221 / 45454</span>
+                       <span>E-mail: <%= userdata.email %></span><br />
+                       <% if(userdata.phone != null){ %>
+                       <span>Telefon: <%= userdata.phone %></span>
+                       <% } %>
                     </div>
                 </div>
             </div>
@@ -35,15 +37,7 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                    <span>Standort: Straße 15, 50266 Aachen</span>
-                </div>
-            </div>
-
-        </div>
+        
 
         <div class="row no-gutters">
 
@@ -54,6 +48,15 @@
             </div>
 
         </div>
+
+        <div class="row no-gutters">
+                <div class="col-12">
+                    <div class="überschrift margin p-1 middle">
+                            <span>Standort: <%= userdata.street %>  <%= userdata.housenumber %> , <%= userdata.zip %>  <%= userdata.city %> </span>
+                    </div>
+                </div>
+            </div>
+
 
         <div class="row no-gutters">
 
@@ -69,13 +72,21 @@
 
             <div class="col-12">
                 <div class="white margin padding middle">
-                    <a href="https://facebook.com/"><img src="/images/facebook.svg" alt="" height="40" /></a>
+                    <% if(userdata.FacebookUrl != undefined){ %>
+                    <a href="<%= userdata.FacebookUrl %>"><img src="/images/facebook.svg" alt="" height="40" /></a>
+                    <% } %>
                     &emsp;
-                    <a href="https://twitter.com/"><img src="/images/twitter.svg" alt="" height="40" /></a>
+                    <% if(userdata.TwitterUrl != undefined){ %>
+                    <a href="<%= userdata.TwitterUrl %>"><img src="/images/twitter.svg" alt="" height="40" /></a>
+                    <% } %>
                     &emsp;
-                    <a href="https://instagram.com/"><img src="/images/instagram.svg" alt="" height="40" /></a>
+                    <% if(userdata.InstagramUrl != undefined){ %>
+                    <a href="<%= userdata.InstagramUrl %>"><img src="/images/instagram.svg" alt="" height="40" /></a>
+                    <% } %>
                     &emsp;
-                    <a href="https://website.com/"><img src="/images/website.svg" alt="" height="40" /></a>
+                    <% if(userdata.WebUrl != undefined){ %>
+                    <a href="<%= userdata.WebUrl %>"><img src="/images/website.svg" alt="" height="40" /></a>
+                    <% } %>
                 </div>
             </div>
 
