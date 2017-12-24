@@ -1,4 +1,13 @@
+version = require('../config/version')
+
 module.exports = function(app, passport, verificationMail) {
+
+
+	app.get('/version', function(req, res) {
+		res.send("<h1>VERSION:" + version.backend_version + "</h1>");
+	});
+
+
 
 	app.get('/', function(req, res) {
 
