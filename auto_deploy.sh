@@ -13,4 +13,4 @@ cd ./swe_praktikum_ws1718/src/backend/
 
 #Now start the app
 sudo npm install
-sudo node ./server.js
+sudo node ./server.js &
