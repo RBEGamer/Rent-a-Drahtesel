@@ -1,4 +1,4 @@
-cd ~/
+# cd ~/
 #DEL Repo
 #sudo rm -R ./swe_praktikum_ws1718
 #Clone the repo
