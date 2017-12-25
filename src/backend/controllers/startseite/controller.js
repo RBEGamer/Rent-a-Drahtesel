@@ -15,7 +15,7 @@ module.exports = function(app, passport, verificationMail) {
 			}
 			connection.query("SELECT `Name`,`Lat`,`Lon`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
 				if (err) {
-					console.log("get bike db failed")
+					console.log("sget bike db failed")
 					return;
 				}
 				bikes = rows;
