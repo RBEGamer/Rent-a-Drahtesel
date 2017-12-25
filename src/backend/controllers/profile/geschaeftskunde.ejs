@@ -63,23 +63,23 @@
         <div class="row no-gutters">
 
             <div class="col-12">
-                <div class="white margin padding middle">
-                    <% if(userdata.FacebookUrl != undefined){ %>
-                    <a href="<%= userdata.FacebookUrl %>"><img src="/images/facebook.svg" alt="" height="40" /></a>
-                    <% } %>
-                    &emsp;
-                    <% if(userdata.TwitterUrl != undefined){ %>
-                    <a href="<%= userdata.TwitterUrl %>"><img src="/images/twitter.svg" alt="" height="40" /></a>
-                    <% } %>
-                    &emsp;
-                    <% if(userdata.InstagramUrl != undefined){ %>
-                    <a href="<%= userdata.InstagramUrl %>"><img src="/images/instagram.svg" alt="" height="40" /></a>
-                    <% } %>
-                    &emsp;
-                    <% if(userdata.WebUrl != undefined){ %>
-                    <a href="<%= userdata.WebUrl %>"><img src="/images/website.svg" alt="" height="40" /></a>
-                    <% } %>
-                </div>
+                    <div class="white margin padding middle">
+                            <% if(userdata.FacebookUrl != undefined || userdata.FacebookUrl == ""){ %>
+                            <a href="<%= userdata.FacebookUrl %>"><img src="/images/facebook.svg" alt="" height="40" /></a>
+                            <% } %>
+                            &emsp;
+                            <% if(userdata.TwitterUrl != undefined|| userdata.TwitterUrl == ""){ %>
+                            <a href="<%= userdata.TwitterUrl %>"><img src="/images/twitter.svg" alt="" height="40" /></a>
+                            <% } %>
+                            &emsp;
+                            <% if(userdata.InstagramUrl != undefined || userdata.InstagramUrl == ""){ %>
+                            <a href="<%= userdata.InstagramUrl %>"><img src="/images/instagram.svg" alt="" height="40" /></a>
+                            <% } %>
+                            &emsp;
+                            <% if(userdata.WebUrl != undefined || userdata.WebUrl == ""){ %>
+                            <a href="<%= userdata.WebUrl %>"><img src="/images/website.svg" alt="" height="40" /></a>
+                            <% } %>
+                        </div>
             </div>
 
         </div>

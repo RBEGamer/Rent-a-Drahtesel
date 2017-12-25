@@ -4,7 +4,11 @@
 
             <div class="col-12">
                 <div class="margin">
-                    <img class="karte" src="/images/bild.png" alt="">
+                        <% if(userdata.Banner != null){ %>
+                            <img class="img-responsive bild margin karte" src="<%= userdata.Banner.toString('utf8') %>" alt="">
+                        <% }else{ %>
+                            <img class="img-responsive bild margin karte" src="/images/bild.png" alt="">
+                        <% } %>
                 </div>
             </div>
 
@@ -14,7 +18,11 @@
 
             <div class="col-12">
                 <div class="d-flex flex-column flex-md-row">
-                    <img class="bild margin" src="/images/leer.png" alt="">
+                        <% if(userdata.picture != null){ %>
+                            <img class="img-responsive bild margin" src="<%= userdata.picture.toString('utf8') %>" alt="">
+                        <% }else{ %>
+                            <img class="img-responsive bild margin" src="/images/leer.png" alt="">
+                        <% } %>
                     <div class="white margin padding">
                         <h1 class="display-4"><%= userdata.Firmenname %></h1>
                        <div class="starRating" starMax="5" value="<%= userdata.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
@@ -72,19 +80,19 @@
 
             <div class="col-12">
                 <div class="white margin padding middle">
-                    <% if(userdata.FacebookUrl != undefined){ %>
+                    <% if(userdata.FacebookUrl != undefined || userdata.FacebookUrl == ""){ %>
                     <a href="<%= userdata.FacebookUrl %>"><img src="/images/facebook.svg" alt="" height="40" /></a>
                     <% } %>
                     &emsp;
-                    <% if(userdata.TwitterUrl != undefined){ %>
+                    <% if(userdata.TwitterUrl != undefined|| userdata.TwitterUrl == ""){ %>
                     <a href="<%= userdata.TwitterUrl %>"><img src="/images/twitter.svg" alt="" height="40" /></a>
                     <% } %>
                     &emsp;
-                    <% if(userdata.InstagramUrl != undefined){ %>
+                    <% if(userdata.InstagramUrl != undefined || userdata.InstagramUrl == ""){ %>
                     <a href="<%= userdata.InstagramUrl %>"><img src="/images/instagram.svg" alt="" height="40" /></a>
                     <% } %>
                     &emsp;
-                    <% if(userdata.WebUrl != undefined){ %>
+                    <% if(userdata.WebUrl != undefined || userdata.WebUrl == ""){ %>
                     <a href="<%= userdata.WebUrl %>"><img src="/images/website.svg" alt="" height="40" /></a>
                     <% } %>
                 </div>
