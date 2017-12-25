@@ -1,6 +1,6 @@
 cd ~/
 #DEL Repo
-sudo rm -R ./swe_praktikum_ws1718
+#sudo rm -R ./swe_praktikum_ws1718
 #Clone the repo
 sudo git clone https://ad717d8509aa0b78422ec2ef9c21b4cbf5a0f330@github.com/RBEGamer/swe_praktikum_ws1718.git
 #Stop all processes
