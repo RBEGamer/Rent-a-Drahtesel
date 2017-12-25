@@ -45,6 +45,12 @@ module.exports = function(app, passport, verificationMail) {
 
 	app.post('/', function(req, res) {
 		var bikes =[];
+
+		md = new MobileDetect(req.headers['user-agent']);
+		var pop = true;
+		if(md.mobile() == null){pop = false;}
+
+
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get bike db failed")
@@ -101,7 +107,8 @@ module.exports = function(app, passport, verificationMail) {
 							helper : require('../../views/helpers/helper'),
 							layoutPath : '../../views/',
 							isLoggedIn : req.isAuthenticated(),
-							bikes: bikes
+							bikes: bikes,
+							mobile_popup: pop,
 						});
 			});
 			connection.release();
