@@ -3,9 +3,17 @@ var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
+var MobileDetect = require('mobile-detect');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/', function(req, res) {
+
+		md = new MobileDetect(req.headers['user-agent']);
+		var pop = true;
+		if(md.mobile() == null){pop = false;}
+		console.log( md.mobile() == null); 
+
+
 		var bikes =[];
 		console.log("session: " + JSON.stringify(req.session));
 		mysqlpool.getConnection(function(err, connection) {
@@ -27,6 +35,7 @@ module.exports = function(app, passport, verificationMail) {
 							layoutPath : '../../views/',
 							isLoggedIn : req.isAuthenticated(),
 							bikes: bikes,
+							mobile_popup: pop,
 							loggedIn : true
 						});
 			});

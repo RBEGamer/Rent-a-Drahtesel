@@ -25,6 +25,7 @@
     "img2data": "^1.0.3",
     "ip": "^1.1.5",
     "mkdirp": "^0.5.1",
+    "mobile-detect": "^1.4.1",
     "morgan": "^1.6.0",
     "mysql": "^2.15.0",
     "node-cron": "^1.2.1",
