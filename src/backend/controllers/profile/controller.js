@@ -3,6 +3,7 @@ var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
+var cred = require('../../config/credentials.js');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/profile/:id', function(req, res) {
@@ -42,7 +43,7 @@ module.exports = function(app, passport, verificationMail) {
 								layoutPath : '../../views/',
 								isLoggedIn : req.isAuthenticated(),
 								userdata: userdata,
-								loggedIn : true
+								maps_key: cred.credentials.google_map_api
 							});
 				});
 			});
@@ -89,7 +90,7 @@ module.exports = function(app, passport, verificationMail) {
 								layoutPath : '../../views/',
 								isLoggedIn : req.isAuthenticated(),
 								userdata: userdata,
-								loggedIn : true
+								maps_key: cred.credentials.google_map_api
 							});
 				});
 			});

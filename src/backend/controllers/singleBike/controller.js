@@ -3,6 +3,8 @@ var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
+var cred = require('../../config/credentials.js');
+
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/:id', function(req, res) {
@@ -21,6 +23,7 @@ module.exports = function(app, passport, verificationMail) {
 				}
 
 				bikes = rows;
+				var txt = rows[0].description.substring(0,300);
 				connection.query("select picture from Bild where id_fahrrad = " + req.params.id, function(err, rows) {
 					if (err) {
 						console.log("get singlebike pictures db failed")
@@ -35,7 +38,9 @@ module.exports = function(app, passport, verificationMail) {
 					layoutPath: '../../views/',
 					bike: bikes[0],
 					pictures: pictures,
-					isLoggedIn: true
+					isLoggedIn: req.isAuthenticated(),
+					maps_key: cred.credentials.google_map_api,
+					bike_desc: txt
 				});
 				});
 				

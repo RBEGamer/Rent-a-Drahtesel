@@ -1,14 +1,28 @@
       <% layout(layoutPath + 'layout') -%>
 
+      <div class="row no-gutters">
+        <div class="col-12">
+            <div class="überschrift margin p-1 middle">
+                <span><%= bike.name %></span>
+            </div>
+        </div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col-12">
+            <div class="middle">
+                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="70"></div>
+            </div>
+        </div>
+    </div>
+
        <div class="row no-gutters">
             <div class="col-12 col-sm-6">
                 <div class="margin">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <% console.log(pictures); %>
                             <% pictures.forEach(function(pic) { %>
                             <div class="carousel-item active">
-                                <img class="d-block w-100 img-responsive" src="<%= pic.picture.toString('utf8') %>" alt="Second slide">
+                                <img height="300px" width="100%" class="img-responsive" src="<%= pic.picture.toString('utf8') %>" alt="Second slide">
                             </div>
                             <% }); %>
                         </div>
@@ -23,14 +37,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-12 col-sm-6">
-                <div class="white margin padding">
-                    <h1 class="display-4"><%= bike.name %></h1><br />
-                    <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="50"></div>
-                </div>
-                <div class="d-flex flex-row">
-                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />
-                    <div class="white margin padding">
+                <div class="white margin padding middle">
+                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />                
+                    <div class="white margin padding middle">
                         <a href="#">Benutzername</a><br />
                         <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                     </div>
@@ -42,14 +53,17 @@
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
                     <div class="hoch">
-                        <%= bike.description %>
+                        <%= bike_desc %>
                     </div>
                 </div>
             </div>
+        
             <div class="col-12 col-sm-4">
-                <div class="white margin padding">
+                <div class="white margin padding middle">
                     <div class="hoch">
-                        <span><%= bike.biketype %> <%= bike.size %> Zoll</span><br />
+                        <span><b><%= bike.biketype %></b></span><br />
+                        <span><%= bike.size %> "</span>
+              <br/>
                         &emsp;
                         <% if(bike.porter  == 1){ %>
                         	<input type="checkbox" disabled checked class="form-check-input position-static">
@@ -69,56 +83,39 @@
             </div>
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
-                    <div class="hoch">
-                        <div id="googleMap1" style="width:100%;height:200px;"></div>
-                        <br>
-                        <script>
-                            function myMap() {
-                                var mapOptions1 = {
-                                    center: new google.maps.LatLng(<%= bike.lat %>, <%= bike.lon %>),
-                                    zoom: 9,
-                                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                                };
-                                var map1 = new google.maps.Map(document.getElementById("googleMap1"), mapOptions1);
-                            }
-                        </script>
-
-                        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyATk-avnh0vxDN-qRfcV6SeQWymLmy1gws&callback=myMap"></script>
-
-                    </div>
+                    # TODO CLANEDAR
                 </div>
             </div>
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
-                    <span>Standort: <%= bike.street %> <%= bike.housenumber %>, <%= bike.zip %> <%= bike.city %></span>
-                </div>
+                 <span><b>Fahrrad Position</b></span>
+                      </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
 
             <div class="col-12">
                 <div class="margin">
-                    <img src="/images/karte.jpg" alt="" class="karte" />
+                    <div id="map" style="width:100%;height:200px;"></div>
                 </div>
+                <div class="margin middle">
+                   <span>Standort: <%= bike.street %> <%= bike.housenumber %>, <%= bike.zip %> <%= bike.city %></span>
+          </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
-                    <span>Preis</span>
-                </div>
+                 <span><b>Preis</b></span>
+                      </div>
             </div>
-
         </div>
+
 
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
@@ -163,7 +160,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-12">
                 <div class="white margin">
                     <div class="padding linie-unten">
@@ -180,5 +177,22 @@
             </div>
 
         </div>
-
     </div>
+
+#TODO make like mockup
+
+    <script>                      
+        // center: new google.maps.LatLng(<%= maps_key %>, <%= bike.lon %>),
+        function initMap() {
+         var uluru = {lat: <%= bike.lat %>, lng: <%= bike.lon %>};
+         var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 15,
+           center: uluru
+         });
+         var marker = new google.maps.Marker({
+           position: uluru,
+           map: map
+         });
+       }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>

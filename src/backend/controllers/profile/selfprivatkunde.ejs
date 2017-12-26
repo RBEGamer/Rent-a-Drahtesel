@@ -46,7 +46,7 @@
 
             <div class="col-12">
                 <div class="margin">
-                    <img src="/images/karte.jpg" alt="" class="img-responsive karte" />
+                    <div id="map" style="width:100%;height:200px;"></div>
                 </div>
             </div>
 
@@ -200,3 +200,17 @@
 
 
 
+        <script>                      
+            function initMap() {
+             var uluru = {lat: <%= userdata.lat %>, lng: <%= userdata.lon %>};
+             var map = new google.maps.Map(document.getElementById('map'), {
+               zoom: 15,
+               center: uluru
+             });
+             var marker = new google.maps.Marker({
+               position: uluru,
+               map: map
+             });
+           }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
