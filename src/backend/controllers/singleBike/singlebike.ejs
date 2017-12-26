@@ -1,82 +1,9 @@
       <% layout(layoutPath + 'layout') -%>
 
-      <head>
-        <link rel="stylesheet" type="text/css" href="/css/clndr.css" />
-        <link rel="stylesheet" type="text/css" href="/css/clndr_templ.css" />
-      </head>
+     <head>
+            <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
+     </head>
 
-
-      <div class="cal1"></div>
-
-      <script>
-          var calendars = {};
-          var thisMonth = moment().format('YYYY-MM');
-    // Events to load into calendar
-    var eventArray = [
-        {
-            title: 'Multi-Day Event',
-            endDate: thisMonth + '-14',
-            startDate: thisMonth + '-10'
-        }, {
-            endDate: thisMonth + '-23',
-            startDate: thisMonth + '-21',
-            title: 'Another Multi-Day Event'
-        }, {
-            date: thisMonth + '-27',
-            title: 'Single Day Event'
-        }
-    ];
-
-      $(document).ready( function() {
-        calendars.clndr1 = $('.cal1').clndr({
-        events: eventArray,
-        clickEvents: {
-            click: function (target) {
-                console.log('Cal-1 clicked: ', target);
-            },
-            today: function () {
-                console.log('Cal-1 today');
-            },
-            nextMonth: function () {
-                console.log('Cal-1 next month');
-            },
-            previousMonth: function () {
-                console.log('Cal-1 previous month');
-            },
-            onMonthChange: function () {
-                console.log('Cal-1 month changed');
-            },
-            nextYear: function () {
-                console.log('Cal-1 next year');
-            },
-            previousYear: function () {
-                console.log('Cal-1 previous year');
-            },
-            onYearChange: function () {
-                console.log('Cal-1 year changed');
-            },
-            nextInterval: function () {
-                console.log('Cal-1 next interval');
-            },
-            previousInterval: function () {
-                console.log('Cal-1 previous interval');
-            },
-            onIntervalChange: function () {
-                console.log('Cal-1 interval changed');
-            }
-        },
-        multiDayEvents: {
-            singleDay: 'date',
-            endDate: 'endDate',
-            startDate: 'startDate'
-        },
-        showAdjacentMonths: true,
-        adjacentDaysChangeMonth: false
-    });
-
-      }
-      
-      </script>
       <div class="row no-gutters">
         <div class="col-12">
             <div class="überschrift margin p-1 middle">
@@ -160,8 +87,10 @@
             </div>
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
-                    
+                        <div id="calhold">
                         <div id="my-calendar"></div>
+                        </div>
+
                 </div>
             </div>
         </div>
@@ -207,11 +136,17 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="margin height">
+                    <form action="rent" method="post">
                     <% if(isLoggedIn){ %>
-                    <button type="submit" class="btn btn-secondary btn-block height" >Mieten</button>
+                    <input type="submit" class="btn btn-secondary btn-block height" value="Mieten"/>
                     <% }else{ %>
-                        <button type="submit" class="btn btn-secondary btn-block heigh" disabled>Mieten</button>
+                        <input type="submit" class="btn btn-secondary btn-block height" value="Mieten" disabled/>
                     <% } %>
+
+                    <div id="form_date"></div>
+
+
+                </form>
                 </div>
             </div>
         </div>
@@ -255,21 +190,15 @@
 
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="/scripts/clndr.js"></script>
 <script src="/js/zabuto_calendar.min.js"></script>
 
 
-    <div id="my-calendar1"></div>
+    
 
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $("#my-calendar1").zabuto_calendar({language: "de"});
-        });
-    </script>
+    
 
 
 #TODO make like mockup
@@ -292,76 +221,90 @@
 
 
 
-<link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
+
 <script type="application/javascript">
+  var cal = null;
+  var eventData = [];
+    //CREAT A DATASET FROM WITH PUSH COMMANDS WITH THE FIXED DAYS
+    <% booked_days.forEach(function(n) { %>
+        eventData.push({"date":"<%= n %>","badge":false,"title":"RESERVIERT", "fixed":true}) 
+    <% }); %>
+
   
- 
-   
-
-
-
-
-  //combined data fix + user selected
-  var eventData = [
-  {"date":"2017-11-19","badge":false,"title":"RESERVIERT", "fixed":true},
-  {"date":"2017-11-20","badge":false,"title":"RESERVIERT", "fixed":true},
-  {"date":"2017-11-21","badge":false,"title":"RESERVIERT", "fixed":true},
-
-  {"date":"2017-11-23","badge":true,"title":"GEBUCHT", "fixed":false},
-  {"date":"2017-11-24","badge":true,"title":"GEBUCHT", "fixed":false},
-];
-var eventData_bck =[];
-
-
-
-  //  $("#my-calendar").zabuto_calendar( { action: function() { myDateFunction(this.id); } } );
-  function splitValue(value, index) {
-    return value.substring(0, index) + "_" + value.substring(index);
-}
 
   function myDateFunction(id) {
+    console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
  console.log(id.split("_")[3]); //#3 is date
-var dtstring = id.split("_")[3];
+var dtstring = id.split("_")[3];//extrect the datestring
 
 var is_fixed = false;
 var remove_id = -1;
+var is_in  = false;
  for(var i = 0; i < eventData.length; i++){
      if(eventData[i].fixed == undefined || eventData[i].date == undefined){
          alert("Es ist ein allgemeiner Fehler aufgetreten. Bitte lade die Seite erneut.");
          break;
      }
-     //TODO HCECK IF NO IS UNDEFINED
+     //CHECK IF THE DATE IS A FROM OTHER RESERVED 
     if(eventData[i].date == dtstring && eventData[i].fixed == true){
         is_fixed = true;
         break;
     }
+    //CHECK If is a DAY TO ReMOVE
     if(eventData[i].date == dtstring  && eventData[i].fixed == false){
         remove_id = i;
-        console.log(i);
+        break;
+    }
+    if(eventData[i].date == dtstring  && eventData[i].fixed == false){
+        is_in = true;
+
         break;
     }
  }
 
- if(is_fixed){alert("Dieses Datum wurde bereit von einem anderen Kunden reserviert.");return;}
-
+ if(is_fixed){alert("Dieses Datum wurde bereit von einem anderen Kunden reserviert.Bitte waehle ein anderes.");return;}
+//REMOVE ENTRY
  if(remove_id != -1){
-    //eventData = []
-    eventData= eventData.splice(remove_id, 1);
-    for(var j = 0; j < eventData.length; j++){
-
+    console.log("REMOVE ENTRY");
+    var eventData_old = eventData;
+    eventData = [];
+    for(var j = 0; j < eventData_old.length; j++){
+        if(j != i){
+            eventData.push(eventData_old[j]);
+        }else{
+            console.log("SKIP:" + eventData_old[j]);
+        }
     }
-     alert("Der ausgewählte Tag wurde entfernt");
+    console.log(eventData);
+    $("#calhold").empty()
+ $("#calhold").append("<div id='my-calendar'></div>");
+ create_calendar();
+     return;
  }
-
-
+ //ADD NEW ENTRY
+ if(!is_in){
+     console.log("ADD");
+ eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
+ }
+//HACKY WORKAROUND
+ $("#calhold").empty()
+ $("#calhold").append("<div id='my-calendar'></div>");
+ create_calendar();
 }
 
 
-    $("#my-calendar").zabuto_calendar({
-  year: 2017,
-  month: 11,
-  day: 29,
+function create_calendar(){
+    //GET CURRENT DATE
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+  $("#my-calendar").zabuto_calendar({
+  year: yyyy,
+  month: mm,
+  day: dd,
   show_previous: true,
   cell_border: true,
   today: true,
@@ -378,10 +321,20 @@ data: eventData
 
 
 
+//CREATES A CUSTOM FORM INPUT WITH THE BOOKES DAYS
+//push only the not fixex data into the form = not fixed = user booked
+var ev_form = [];
+for(var i = 0; i < eventData.length; i++){
+    if(eventData[i].date != undefined && eventData[i].fixed != undefined && eventData[i].fixed == false){
+    ev_form.push(eventData[i]);
+    }
+}
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='result' value='"+JSON.stringify(ev_form)+"'/>";
+}
 
-
-
-
+$( document ).ready(function() {
+    create_calendar();
+});
 
     </script>
 
