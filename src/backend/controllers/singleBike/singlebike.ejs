@@ -1,5 +1,10 @@
       <% layout(layoutPath + 'layout') -%>
 
+      <head>
+        <link rel="stylesheet" type="text/css" href="/css/clndr.css" />
+        <link rel="stylesheet" type="text/css" href="/css/clndr_templ.css" />
+      </head>
+
       <div class="row no-gutters">
         <div class="col-12">
             <div class="überschrift margin p-1 middle">
@@ -83,7 +88,8 @@
             </div>
             <div class="col-12 col-sm-4">
                 <div class="white margin padding">
-                    # TODO CLANEDAR
+                    
+                        <div id="my-calendar"></div>
                 </div>
             </div>
         </div>
@@ -129,7 +135,11 @@
             </div>
             <div class="col-12 col-md-6">
                 <div class="margin height">
-                    <button type="submit" class="btn btn-secondary btn-block height">Mieten</button>
+                    <% if(isLoggedIn){ %>
+                    <button type="submit" class="btn btn-secondary btn-block height" >Mieten</button>
+                    <% }else{ %>
+                        <button type="submit" class="btn btn-secondary btn-block heigh" disabled>Mieten</button>
+                    <% } %>
                 </div>
             </div>
         </div>
@@ -144,39 +154,31 @@
 
         </div>
 
-        <div class="row no-gutters">
+            <div class="row no-gutters">
+                <div class="white margin">
+                    <div class="col-12">
+                        <div id="row no-gutters">
+                            <div class="col-6 col-md-6 ">
+                                <img src="/images/leer.png" alt="" height="25">
+                                <strong>&nbsp;USERNAME&emsp;</strong>
+                            </div>
 
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 1&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
-                    </div>
-                    <div class="padding">
-                        <span>Alles super!</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 2&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
-                    </div>
-                    <div class="padding">
-                        <span>Auch alles super!</span>
+                            <div class="col-6 col-md-6 right " style="float:right;">  
+                              <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                            </div>
+                        </div>
+                        <div id="row no-gutters margin">
+                                <div class="col-12 col-md-12 middle " style="float:right;"> 
+                                <span>DESC DESC DESC DESC DESC DESC DESC DESC</span>
+                                </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
+
+
     </div>
 
 #TODO make like mockup
@@ -196,3 +198,62 @@
        }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="/scripts/clndr.js"></script>
+<script src="/js/zabuto_calendar.min.js"></script>
+<script type="application/javascript">
+  
+ 
+   
+
+
+  var reservedData= [
+    {"year": 2017, "month": 11, "day":10},
+    {"year": 2017, "month": 11, "day":11},
+    {"year": 2017, "month": 11, "day":12},
+]
+
+
+  
+  var eventData = [
+  {"date":"2017-11-19","badge":false,"title":"RESERVIERT"},
+  {"date":"2017-11-20","badge":false,"title":"RESERVIERT"},
+  {"date":"2017-11-21","badge":false,"title":"RESERVIERT"},
+];
+
+
+
+
+  //  $("#my-calendar").zabuto_calendar( { action: function() { myDateFunction(this.id); } } );
+
+
+
+
+    $("#my-calendar").zabuto_calendar({
+  year: 2017,
+  month: 11,
+  day: 29,
+  show_previous: true,
+  cell_border: true,
+  today: true,
+  show_days: false,
+  weekstartson: 0,
+  nav_icon: {
+    prev: 'Weiter',
+    next: 'next'
+  },
+  action: function() { myDateFunction(this.id); },
+data: eventData
+});
+
+  
+    </script>
+
+
+
+  
