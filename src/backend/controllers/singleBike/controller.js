@@ -30,13 +30,17 @@ module.exports = function(app, passport, verificationMail) {
 			if (rows1.length) {
 				privat_benutzer = true;
 			}
-			connection.query("select biketype, size, price, description, porter, childseat, threeday, sevenday, country, city, street, zip, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+			connection.query("select biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 				if (err) {
 					console.log("get singlebike db failed")
 					return;
 				}
-
-				//
+				connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID` = " + sanitizer.sanitize(rows[0].pk_ID_Benutzer), function(err, rows4) {
+					if (err) {
+						console.log("get singlebike db failed")
+						return;
+					}
+				console.log(rows4[0])
 				connection.query("SELECT `picture`,`email`,`Rating`,`Description` FROM `BewertungFahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungFahrrad`.`Rater` WHERE `BewertungFahrrad`.`pk_ID` = ?",[sanitizer.sanitize(req.params.id)], function(err, rows3) {
 					if (err) {
 						console.log("get singlebike db failed")
@@ -82,10 +86,12 @@ module.exports = function(app, passport, verificationMail) {
 					bike_desc: txt,
 					booked_days: bkd,
 					bike_id: sanitizer.sanitize(req.params.id),
-					ratings:rows3
+					ratings:rows3,
+					user:rows4[0]
 				});
 			});
 		});
+	});
 				});
 			});
 			});

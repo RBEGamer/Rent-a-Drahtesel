@@ -44,9 +44,13 @@
 
             <div class="col-12 col-sm-6">
                 <div class="white margin padding middle">
-                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />                
+                        <% if(user.picture == undefined ||user.picture == ""){ %>
+                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />  
+                    <% }else{ %>
+                        <img class="bildklein margin" src="<%= user.picture %>" alt="" height="50" />  
+                        <% } %>
                     <div class="white margin padding middle">
-                        <a href="#">Benutzername</a><br />
+                        <a href="#"><%= user.email %></a><br />
                         <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                     </div>
                 </div>
