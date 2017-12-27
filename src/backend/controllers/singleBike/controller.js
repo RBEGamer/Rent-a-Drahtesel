@@ -36,7 +36,12 @@ module.exports = function(app, passport, verificationMail) {
 					return;
 				}
 
-
+				//
+				connection.query("SELECT `picture`,`email`,`Rating`,`Description` FROM `BewertungFahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungFahrrad`.`Rater` WHERE `BewertungFahrrad`.`pk_ID` = ?",[sanitizer.sanitize(req.params.id)], function(err, rows3) {
+					if (err) {
+						console.log("get singlebike db failed")
+						return;
+					}
 			//SELECT * FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?
 			connection.query("SELECT `booked_days` FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?",[sanitizer.sanitize(req.params.id)], function(err, rows2) {
 				if (err) {
@@ -75,9 +80,12 @@ module.exports = function(app, passport, verificationMail) {
 					isLoggedIn: req.isAuthenticated() & privat_benutzer,
 					maps_key: cred.credentials.google_map_api,
 					bike_desc: txt,
-					booked_days: bkd
+					booked_days: bkd,
+					bike_id: sanitizer.sanitize(req.params.id),
+					ratings:rows3
 				});
 			});
+		});
 				});
 			});
 			});

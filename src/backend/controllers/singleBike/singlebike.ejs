@@ -127,11 +127,13 @@
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
                 <div class="margin height text">
+                    <div id="price_holder">
                     <span class="durchstrichen">21.30€</span>
                     &emsp;&emsp;
                     <span class="rot">18.90€</span>
                     &emsp;&emsp;
                     <span>(3.00€ / Tag)</span>
+                </div>
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -142,10 +144,9 @@
                     <% }else{ %>
                         <input type="submit" class="btn btn-secondary btn-block height" value="Mieten" disabled/>
                     <% } %>
-
                     <div id="form_date"></div>
-
-
+                    <input type="hidden" value="<%= bike_id %>" name="bike_id" />
+                    
                 </form>
                 </div>
             </div>
@@ -161,29 +162,38 @@
 
         </div>
 
-            <div class="row no-gutters">
+
+     
+        <% ratings.forEach(function(n) { %>
+           <div class="row no-gutters">
                 <div class="white margin">
                     <div class="col-12">
                         <div id="row no-gutters">
-                            <div class="col-6 col-md-6 ">
+                            <div class="col-6 col-md-6">
+                                    <% if(n.picture == undefined || n.picture == ""){ %>
                                 <img src="/images/leer.png" alt="" height="25">
-                                <strong>&nbsp;USERNAME&emsp;</strong>
+                                <% }else{ %>
+                                <img src="<%= n.picture %>" alt="" height="25">
+                                <% } %>
+                                <strong>&nbsp;<%= n.email %>&emsp;</strong>
                             </div>
 
                             <div class="col-6 col-md-6 right " style="float:right;">  
-                              <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                              <div class="starRating" starMax="5" value="<%= n.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                             </div>
                         </div>
                         <div id="row no-gutters margin">
                                 <div class="col-12 col-md-12 middle " style="float:right;"> 
-                                <span>DESC DESC DESC DESC DESC DESC DESC DESC</span>
+                                <span><%= n.Description %></span>
                                 </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+        <% }); %>
 
+            
 
 
     </div>
@@ -198,10 +208,7 @@
 
     
 
-    
 
-
-#TODO make like mockup
 
     <script>                      
         // center: new google.maps.LatLng(<%= maps_key %>, <%= bike.lon %>),
@@ -223,7 +230,7 @@
 
 
 <script type="application/javascript">
-  var cal = null;
+  var booked_days = 0;
   var eventData = [];
     //CREAT A DATASET FROM WITH PUSH COMMANDS WITH THE FIXED DAYS
     <% booked_days.forEach(function(n) { %>
@@ -277,6 +284,7 @@ var is_in  = false;
         }
     }
     console.log(eventData);
+    //HACKY WORKAROUND
     $("#calhold").empty()
  $("#calhold").append("<div id='my-calendar'></div>");
  create_calendar();
@@ -329,7 +337,41 @@ for(var i = 0; i < eventData.length; i++){
     ev_form.push(eventData[i]);
     }
 }
-document.getElementById('form_date').innerHTML = "<input type='hidden' name='result' value='"+JSON.stringify(ev_form)+"'/>";
+booked_days = ev_form.length;
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='booked_days' value='"+JSON.stringify(ev_form)+"'/>";
+
+
+//CALCULATE PRICE
+var normal_price = <%= bike.price %>*booked_days;
+var threeday = <%= bike.threeday %>;
+var sevenday = <%= bike.sevenday %>;
+var fin_price = normal_price;
+if(booked_days >= 7){
+    fin_price = normal_price - (normal_price*(sevenday/100.0))
+}else if(booked_days >= 3){
+    fin_price = normal_price - (normal_price*(threeday/100.0))
+}
+var priceperday = <%= bike.price %>;
+if(booked_days > 0){
+priceperday = fin_price /booked_days;
+}
+
+priceperday = (Math.round(priceperday * 100) / 100)
+fin_price = (Math.round(fin_price * 100) / 100)
+normal_price = (Math.round(normal_price * 100) / 100)
+
+
+if(fin_price != normal_price){
+    document.getElementById('price_holder').innerHTML ="<span class='durchstrichen'>"+String(normal_price)+"€</span>&emsp;&emsp;<span class='rot'>"+String(fin_price)+"€</span>&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span>";
+}else{
+    document.getElementById('price_holder').innerHTML ="<span>"+String(fin_price)+"€</span>&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span>";
+}
+
+
+
+
+               
+
 }
 
 $( document ).ready(function() {
