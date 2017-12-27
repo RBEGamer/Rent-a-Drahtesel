@@ -2,6 +2,7 @@ var mysqlpool = require('../../config/database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
+var cred = require('../../config/credentials');
 var sanitizer = require('sanitizer');
 var MobileDetect = require('mobile-detect');
 
@@ -36,7 +37,7 @@ module.exports = function(app, passport, verificationMail) {
 							isLoggedIn : req.isAuthenticated(),
 							bikes: bikes,
 							mobile_popup: pop,
-							loggedIn : true
+							maps_key: cred.credentials.google_map_api,
 						});
 			});
 			connection.release();
