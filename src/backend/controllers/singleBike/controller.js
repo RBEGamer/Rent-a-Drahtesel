@@ -101,14 +101,6 @@ module.exports = function(app, passport, verificationMail) {
 	
 	app.post('/bike/rent', function(req, res) {
 		
-		md = new MobileDetect(req.headers['user-agent']);
-		var pop = true;
-		if(md.mobile() == null){pop = false;}
-		console.log( md.mobile() == null); 
-
-
-		var bikes =[];
-		console.log("session: " + JSON.stringify(req.session));
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get bike db failed a")
@@ -127,29 +119,12 @@ module.exports = function(app, passport, verificationMail) {
 			console.log(q);
 			connection.query(q, function(err, rows) {
 				if (err) {
-					console.log("book bike failed")
+					console.log("book bike failed");
 					return;
 				}
-			});
-			connection.query("SELECT `Name`,`Lat`,`Lon`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
-				if (err) {
-					console.log("sget bike db failed")
-					return;
-				}
-				bikes = rows;
-				res.render('../controllers/startseite/startseite.ejs',
-						{
-							bezeichnung : 'trekkingbike',
-							title : 'singlebike',
-							helper : require('../../views/helpers/helper'),
-							layoutPath : '../../views/',
-							isLoggedIn : req.isAuthenticated(),
-							bikes: bikes,
-							mobile_popup: pop,
-							maps_key: cred.credentials.google_map_api,
-						});
 			});
 			connection.release();
+			res.redirect('/');
 		});
 	});
 }
