@@ -23,7 +23,7 @@ module.exports = function(app, passport, verificationMail) {
 			}
 			connection.query("SELECT * FROM `Privatbenutzer` WHERE `pk_ID` = ? LIMIT 1",[sanitizer.sanitize(userid)], function(err, rows1) {
 				if (err) {
-					console.log("get singlebike db failed")
+					console.log("get singlebike db failed 1")
 					return;
 				}
 			var privat_benutzer = false;
@@ -32,32 +32,32 @@ module.exports = function(app, passport, verificationMail) {
 			}
 			connection.query("select biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 				if (err) {
-					console.log("get singlebike db failed")
+					console.log("get singlebike db failed 2")
 					return;
 				}
 				connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID` = " + sanitizer.sanitize(rows[0].pk_ID_Benutzer), function(err, rows4) {
 					if (err) {
-						console.log("get singlebike db failed")
+						console.log("get singlebike db failed 3")
 						return;
 					}
 				console.log(rows4[0])
 				connection.query("SELECT `picture`,`email`,`Rating`,`Description` FROM `BewertungFahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungFahrrad`.`Rater` WHERE `BewertungFahrrad`.`pk_ID` = ?",[sanitizer.sanitize(req.params.id)], function(err, rows3) {
 					if (err) {
-						console.log("get singlebike db failed")
+						console.log("get singlebike db failed 4")
 						return;
 					}
 			//SELECT * FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?
 			connection.query("SELECT `booked_days` FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?",[sanitizer.sanitize(req.params.id)], function(err, rows2) {
 				if (err) {
-					console.log("get singlebike db failed")
+					console.log("get singlebike db failed 5")
 					return;
 				}
 
 				bikes = rows;
 				var txt = rows[0].description.substring(0,300);
-				connection.query("select picture from Bild where id_fahrrad = " + req.params.id, function(err, rows) {
+				connection.query("select picture from Bild where id_fahrrad = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 					if (err) {
-						console.log("get singlebi ke pictures db failed")
+						console.log("get singlebi ke pictures db failed 6")
 						return;
 					}
 					//CONVERTS THE BOOKED DAY FROM DB TO A STRING ARRAY FOR EASY PARSE
@@ -103,23 +103,23 @@ module.exports = function(app, passport, verificationMail) {
 		
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
-				console.log("get bike db failed a")
+				console.log("get bike db failed 7")
 				console.log(err);
 				return;
 			}
 			var bookeddays = "";
 			JSON.parse(req.body.booked_days).forEach(function(day){
 				console.log("Day: " + day.date);
-				bookeddays += day.date + ',';
+				bookeddays += sanitizer.sanitize(day.date) + ',';
 			});
 			bookeddays = bookeddays.substring(0, bookeddays.length - 1);
 			console.log("Days: " + bookeddays);
 			console.log("Params: " + JSON.stringify(req.body));
-			var q = "INSERT INTO Bestellung (pk_id_Benutzer, pk_ID_Fahrrad, booked_days) VALUES ( " + req.session.passport.user + ", " + req.body.bike_id + ", '" + bookeddays + "')";
+			var q = "INSERT INTO Bestellung (pk_id_Benutzer, pk_ID_Fahrrad, booked_days) VALUES ( " + sanitizer.sanitize(req.session.passport.user) + ", " + sanitizer.sanitize(req.body.bike_id) + ", '" + bookeddays + "')";
 			console.log(q);
 			connection.query(q, function(err, rows) {
 				if (err) {
-					console.log("book bike failed");
+					console.log("book bike failed 8");
 					return;
 				}
 			});
