@@ -281,12 +281,20 @@ var is_in  = false;
     console.log(eventData);
     //HACKY WORKAROUND
     $("#calhold").empty()
- $("#calhold").append("<div id='my-calendar'></div>");
- create_calendar();
+    $("#calhold").append("<div id='my-calendar'></div>");
+    create_calendar();
      return;
  }
  //ADD NEW ENTRY
  if(!is_in){
+
+    var seldate = new Date(dtstring);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    if( tomorrow >seldate){
+        alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
+        return;
+    }
      console.log("ADD");
  eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
  }
