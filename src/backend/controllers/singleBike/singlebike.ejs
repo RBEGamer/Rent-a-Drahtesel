@@ -4,12 +4,10 @@
             <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
      </head>
 
-      <div class="row no-gutters">
-        <div class="col-12">
-            <div class="überschrift margin p-1 middle">
-                <span><%= bike.name %></span>
-            </div>
-        </div>
+    <div class="row">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center"><%= bike.name %></p></div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
     </div>
     <div class="row no-gutters">
         <div class="col-12">
@@ -99,12 +97,10 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                 <span><b>Fahrrad Position</b></span>
-                      </div>
-            </div>
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">FAHRRAD STANDORT</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
         </div>
 
         <div class="row no-gutters">
@@ -119,25 +115,24 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                 <span><b>Preis</b></span>
-                      </div>
-            </div>
-        </div>
-
-
+    <div class="row" style="margin-top:20px">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center">PREIS</div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    </div>
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
                 <div class="margin height text">
                     <div id="price_holder">
-                    <span class="durchstrichen">21.30€</span>
-                    &emsp;&emsp;
-                    <span class="rot">18.90€</span>
-                    &emsp;&emsp;
-                    <span>(3.00€ / Tag)</span>
-                </div>
+                    	<div class="row">
+                    		<span class="durchstrichen">21.30€</span>
+                    		&emsp;&emsp;
+                    		<span class="rot">18.90€</span>
+                    		
+                    	</div>
+                    		&emsp;&emsp;
+                    		<span>(3.00€ / Tag)</span>
+                	</div>
                 </div>
             </div>
             <div class="col-12 col-md-6">
@@ -156,15 +151,11 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                    <span>Bewertungen</span>
-                </div>
-            </div>
-
-        </div>
+    <div class="row" style="margin-top:20px">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center">BEWERTUNGEN</p></div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    </div>
 
 
      
@@ -323,8 +314,8 @@ function create_calendar(){
   show_days: false,
   weekstartson: 0,
   nav_icon: {
-    prev: 'Weiter',
-    next: 'next'
+    prev: 'zur&uuml;ck',
+    next: 'weiter'
   },
   action: function() { myDateFunction(this.id); },
 data: eventData
@@ -366,9 +357,9 @@ normal_price = (Math.round(normal_price * 100) / 100)
 
 
 if(fin_price != normal_price){
-    document.getElementById('price_holder').innerHTML ="<span class='durchstrichen'>"+String(normal_price)+"€</span>&emsp;&emsp;<span class='rot'>"+String(fin_price)+"€</span>&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span>";
+    document.getElementById('price_holder').innerHTML ="<div class='row'><div style='font-size: xx-large'><span class='durchstrichen'>"+String(normal_price)+"€</span>&emsp;&emsp;<span class='rot'>"+String(fin_price)+"€</span></div></div><div class='row'>&emsp;&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span></div>";
 }else{
-    document.getElementById('price_holder').innerHTML ="<span>"+String(fin_price)+"€</span>&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span>";
+    document.getElementById('price_holder').innerHTML ="<div class='row'>&emsp;&emsp;&emsp;&emsp;<span><div style='font-size: xx-large'>"+String(fin_price)+"€</div></span></div><div class='row'>&emsp;&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span></div>";
 }
 
 

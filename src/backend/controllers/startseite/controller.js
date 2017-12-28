@@ -19,7 +19,8 @@ module.exports = function(app, passport, verificationMail) {
 		console.log("session: " + JSON.stringify(req.session));
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
-				console.log("get bike db failed")
+				console.log("get bike db failed a")
+				console.log(err);
 				return;
 			}
 			connection.query("SELECT `Name`,`Lat`,`Lon`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
@@ -110,6 +111,7 @@ module.exports = function(app, passport, verificationMail) {
 							isLoggedIn : req.isAuthenticated(),
 							bikes: bikes,
 							mobile_popup: pop,
+							maps_key: cred.credentials.google_map_api,
 						});
 			});
 			connection.release();

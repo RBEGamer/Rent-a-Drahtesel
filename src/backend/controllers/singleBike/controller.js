@@ -4,7 +4,7 @@ var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
-
+var MobileDetect = require('mobile-detect');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/:id', function(req, res) {
@@ -16,7 +16,7 @@ module.exports = function(app, passport, verificationMail) {
 				console.log("get singlebike db failed")
 				return;
 			}
-			//CHEKC IF PRIVATBENUTZER ->wenn nein dann kein mieten möglich
+			//CHEKC IF PRIVATBENUTZER -> wenn nein dann kein mieten möglich
 			var userid = -1;
 			if(req.isAuthenticated()){
 			var userid = req.session.passport.user;
@@ -96,6 +96,60 @@ module.exports = function(app, passport, verificationMail) {
 			});
 			});
 			connection.release();	
+		});
+	});
+	
+	app.post('/bike/rent', function(req, res) {
+		
+		md = new MobileDetect(req.headers['user-agent']);
+		var pop = true;
+		if(md.mobile() == null){pop = false;}
+		console.log( md.mobile() == null); 
+
+
+		var bikes =[];
+		console.log("session: " + JSON.stringify(req.session));
+		mysqlpool.getConnection(function(err, connection) {
+			if (err) {
+				console.log("get bike db failed a")
+				console.log(err);
+				return;
+			}
+			var bookeddays = "";
+			JSON.parse(req.body.booked_days).forEach(function(day){
+				console.log("Day: " + day.date);
+				bookeddays += day.date + ',';
+			});
+			bookeddays = bookeddays.substring(0, bookeddays.length - 1);
+			console.log("Days: " + bookeddays);
+			console.log("Params: " + JSON.stringify(req.body));
+			var q = "INSERT INTO Bestellung (pk_id_Benutzer, pk_ID_Fahrrad, booked_days) VALUES ( " + req.session.passport.user + ", " + req.body.bike_id + ", '" + bookeddays + "')";
+			console.log(q);
+			connection.query(q, function(err, rows) {
+				if (err) {
+					console.log("book bike failed")
+					return;
+				}
+			});
+			connection.query("SELECT `Name`,`Lat`,`Lon`,`Fahrrad`.`pk_ID` as `totid`, `Price` as Preis, (AVG(`Rating`)) + 0.5 as Rating, `Picture` as Bild FROM Fahrrad LEFT JOIN `BewertungFahrrad` ON `BewertungFahrrad`.`pk_ID` = `Fahrrad`.`pk_ID` LEFT JOIN `Bild` ON `Bild`.`ID_Fahrrad` = `Fahrrad`.`pk_ID` GROUP BY `Fahrrad`.`pk_ID` ORDER BY `Rating` DESC LIMIT 25", function(err, rows) {
+				if (err) {
+					console.log("sget bike db failed")
+					return;
+				}
+				bikes = rows;
+				res.render('../controllers/startseite/startseite.ejs',
+						{
+							bezeichnung : 'trekkingbike',
+							title : 'singlebike',
+							helper : require('../../views/helpers/helper'),
+							layoutPath : '../../views/',
+							isLoggedIn : req.isAuthenticated(),
+							bikes: bikes,
+							mobile_popup: pop,
+							maps_key: cred.credentials.google_map_api,
+						});
+			});
+			connection.release();
 		});
 	});
 }
