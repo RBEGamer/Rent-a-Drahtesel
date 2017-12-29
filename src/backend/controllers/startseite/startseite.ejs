@@ -7,11 +7,9 @@
                     <h1 class="display-3">Rent a Drahtesel</h1>
                     <br>
                     <span>
-                        NEIN Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.   
-
-Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,    </span>
+                    Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,    </span>
 <br />
-<br />                
+<br />
 </div>
             </div>
         </div>
@@ -20,6 +18,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
                 <div class="col-12 col-md">
                     <div class="margin height">
                         <select name="type" class="form-control height">
+                            <option>Typ</option>
                             <option value="Mountainbike">Mountainbike</option>
                             <option value="Elektrofahrrad">Elektrofahrrad</option>
                             <option value="Damenrad">Damenrad</option>
@@ -44,6 +43,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
                 <div class="col-12 col-md">
                     <div class="margin height">
                         <select name="preis" name="Preis" class="form-control height">
+                            <option>Preis</option>
                             <option value="3">< 3€&emsp;</option>
                             <option value="5">< 5€&emsp;</option>
                             <option value="7.5">< 7.5€&emsp;</option>
@@ -100,7 +100,7 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
            	 	</div>
 
               <div class="col-6 col-md-6">
-                            <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
+                            <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
             </div>
             </div>
 
@@ -109,6 +109,19 @@ Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie co
                     <div class="col-10 col-md"><hr style="color: black; height: 1px; background-color:black;" /></div>
                     <div class="col-2 col-md"></div>
             </div>
+ 
             <% }); %>
+
+
+
+
+            <% if(mobile_popup != undefined && mobile_popup == true){ %>
+                <script>
+                alert("Bitte oeffne die Seite auf deinem PC! Die Seite wird (wie im Lastenheft beschrieben) nicht komplett responsive sein");
+                </script>
+            <% } %>
         </div>
 
+
+        
+        

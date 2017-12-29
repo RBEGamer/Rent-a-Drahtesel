@@ -1,5 +1,5 @@
 var credentials = {
-        'google_map_api': 'AIzaSyD2ikyNk4Adr5oQeIbP2oWRGEKoOHornes',
+        'google_map_api': 'AIzaSyATk-avnh0vxDN-qRfcV6SeQWymLmy1gws',
         'database': {
           'host': 'marcelochsendorf.com',
           'user': 'rentrent',
