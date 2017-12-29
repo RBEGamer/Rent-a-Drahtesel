@@ -7,7 +7,7 @@
                         <% if(userdata.Banner != null){ %>
                             <img class="img-responsive bild margin karte" src="<%= userdata.Banner.toString('utf8') %>" alt="">
                         <% }else{ %>
-                            <img class="img-responsive bild margin karte" src="/images/bild.png" alt="">
+                            <img class="img-responsive karte" src="/images/placeholder-square.jpg" alt="">
                         <% } %>
                 </div>
             </div>
@@ -18,7 +18,7 @@
 
             <div class="col-12">
                 <div class="d-flex flex-column flex-md-row">
-                        <% if(userdata.picture != null){ %>
+                        <% if(userdata.picture != undefined){ %>
                             <img class="img-responsive bild margin" src="<%= userdata.picture.toString('utf8') %>" alt="">
                         <% }else{ %>
                             <img class="img-responsive bild margin" src="/images/leer.png" alt="">

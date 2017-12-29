@@ -14,7 +14,7 @@
                         <h1 class="display-4"><%= userdata.Vorname %> <%= userdata.Name %></h1>
                         <div class="starRating" starMax="5" value="<%= userdata.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
                         <span>E-mail: <%= userdata.email %></span><br />
-                        <% if(userdata.phone != null){ %>
+                        <% if(userdata.phone != undefined){ %>
                         <span>Telefon: <%= userdata.phone %></span>
                         <% } %>
                     </div>
