@@ -102,6 +102,13 @@
         </div>
 
         <div class="row no-gutters">
+
+
+
+
+
+                <% if(bikes!= undefined){ %>
+                    <% bikes.forEach(function(n) { %>
             <div class="col-12">
                 <div class="white margin">
                     <div class="padding linie-unten">
@@ -119,22 +126,10 @@
                 </div>
             </div>
 
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <strong>Bikename2&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                            &emsp;
-                            <a href="#">Löschen</a>
-                        </span>
-                    </div>
-                    <div class="padding">
-                        <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
-                        <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
-                    </div>
-                </div>
-            </div>
+
+
+
+
         </div>
 
         <div class="row no-gutters">
@@ -165,7 +160,7 @@
                                             <% }else{ %>
                                             <img src="<%= n.picture %>" alt="" height="25">
                                             <% } %>
-                                    <strong>&nbsp;<%= n.email %>&emsp;</strong>
+                                            <strong>&nbsp;<a href="/profile/<%= n.pk_ID %>"><%= n.email %></a>&emsp;</strong>
                                     <div class="starRating" size="20" starMax="5" value="<%= n.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
                                 </span>
                             </div>
