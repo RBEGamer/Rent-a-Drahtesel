@@ -48,12 +48,10 @@
         
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin">
                     <div id="map" style="width:100%;height:200px;"></div>   </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
@@ -66,17 +64,14 @@
 
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Soziale Medien</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="white margin padding middle">
                     <% if(userdata.FacebookUrl != undefined || userdata.FacebookUrl == ""){ %>
@@ -96,17 +91,14 @@
                     <% } %>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Fahrräder</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
@@ -146,7 +138,6 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin height">
                     <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
@@ -155,46 +146,39 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Bewertungen</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 1&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
+                <% if(ratings!= undefined){ %>
+                <% ratings.forEach(function(n) { %>
+                    <div class="col-12">
+                        <div class="white margin">
+                            <div class="padding linie-unten">
+                                <span>
+                                        <% if(n.picture == undefined || n.picture == ""){ %>
+                                            <img src="/images/leer.png" alt="" height="25">
+                                            <% }else{ %>
+                                            <img src="<%= n.picture %>" alt="" height="25">
+                                            <% } %>
+                                    <strong>&nbsp;<%= n.email %>&emsp;</strong>
+                                    <div class="starRating" size="20" starMax="5" value="<%= n.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+                                </span>
+                            </div>
+                            <div class="padding">
+                                <span><%= n.Description %></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="padding">
-                        <span>Alles super!</span>
-                    </div>
+                    <% }); %>
+                    <% } %>
                 </div>
-            </div>
 
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 2&emsp;</strong>
-                           <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
-                    </div>
-                    <div class="padding">
-                        <span>Auch alles super!</span>
-                    </div>
-                </div>
-            </div>
+            
 
         </div>
 

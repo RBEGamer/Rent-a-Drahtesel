@@ -35,16 +35,26 @@ module.exports = function(app, passport, verificationMail) {
 						res.redirect('/');//TODO ADD FLASH MESSAGE
 						return;
 					}
-					console.log(rows);
+					//console.log(rows);
 					userdata = rows[0];
+						console.log(sanitizer.sanitize(user))
+					connection.query("SELECT * FROM `BewertungBenutzer`  LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungBenutzer`.`pk_ID` WHERE `Benutzer`.`pk_ID` = '" + sanitizer.sanitize(user) +"'", function(err, rows4) {
+						if (err) {
+							console.log("get user db failed 3");
+							res.redirect('/');//TODO ADD FLASH MESSAGE
+							return;
+						}
+				console.log(rows4)
 					res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
 								layoutPath : '../../views/',
 								isLoggedIn : req.isAuthenticated(),
 								userdata: userdata,
-								maps_key: cred.credentials.google_map_api
+								maps_key: cred.credentials.google_map_api,
+								ratings: rows4
 							});
+						});
 				});
 			});
 			connection.release();
@@ -79,19 +89,29 @@ module.exports = function(app, passport, verificationMail) {
 						res.redirect('/');//TODO ADD FLASH MESSAGE
 						return;
 					}
-					console.log(rows);
+					//console.log(rows);
 					userdata = rows[0];
 					//TOD IMAGE DATA
 
-					//SELECT * FROM `Fahrrad` WHERE `pk_ID_Benutzer` = '15'
+
+					//
+					connection.query("SELECT * FROM `BewertungBenutzer`  LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungBenutzer`.`pk_ID` WHERE `Benutzer`.`pk_ID` = '" + sanitizer.sanitize(user) +"'", function(err, rows4) {
+						if (err) {
+							console.log("get user db failed 3");
+							res.redirect('/');//TODO ADD FLASH MESSAGE
+							return;
+						}
+				console.log(rows4)
 					res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
 								layoutPath : '../../views/',
 								isLoggedIn : req.isAuthenticated(),
 								userdata: userdata,
-								maps_key: cred.credentials.google_map_api
+								maps_key: cred.credentials.google_map_api,
+								ratings: rows4
 							});
+						});
 				});
 			});
 			connection.release();
