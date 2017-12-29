@@ -108,15 +108,20 @@
 
 
                 <% if(bikes!= undefined){ %>
-                    <% bikes.forEach(function(n) { %>
+                    <% bikes.forEach(function(m) { %>
             <div class="col-12">
                 <div class="white margin">
                     <div class="padding linie-unten">
                         <span>
-                            <strong>Bikename1&emsp;</strong>
+                            <strong><%= m.Name %>&emsp;</strong>
                             <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                             &emsp;
-                            <a href="#">Löschen</a>
+                            
+                            <form method="post" action="/delete_inserat">
+                                <input type="hidden" name="user_id" value="<%= userid %>" />
+                                <input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
+                                <input type="submit" value="Loeschen" />
+                            </form>
                         </span>
                     </div>
                     <div class="padding">
@@ -125,17 +130,20 @@
                     </div>
                 </div>
             </div>
-
+            <% }); %>
+            <% } %>
 
 
 
 
         </div>
-
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="margin height">
-                    <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
+                    <form method="get" action="/inserieren"> 
+                    <input type="hidden" name="user_id" value="<%= userid %>" />
+                    <button type="submit" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
+                    </form>
                 </div>
             </div>
         </div>

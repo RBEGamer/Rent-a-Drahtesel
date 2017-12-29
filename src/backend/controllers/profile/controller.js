@@ -64,7 +64,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.get('/profile', function(req, res) {
 		var user = req.session.passport.user;
 		var route = "selfprivatkunde";
-		var query = "SELECT `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname";
+		var query = "SELECT picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname";
 		console.log(req.session);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
@@ -78,7 +78,7 @@ module.exports = function(app, passport, verificationMail) {
 					res.redirect('/');//TODO ADD FLASH MESSAGE
 					return;
 				}
-				if(rows[0].anz == 0){
+				if(rows[0].anz <= 0){
 					route = "selfgeschaeftskunde";
 					console.log("self gesch")
 					query = "SELECT `picture`,`Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
@@ -101,7 +101,16 @@ module.exports = function(app, passport, verificationMail) {
 							res.redirect('/');//TODO ADD FLASH MESSAGE
 							return;
 						}
-				console.log(rows4)
+
+						connection.query("SELECT * FROM `Fahrrad` WHERE `pk_ID_Benutzer` = '" + sanitizer.sanitize(user) +"'", function(err, rows5) {
+							if (err) {
+								console.log("get user db failed 3");
+								res.redirect('/');//TODO ADD FLASH MESSAGE
+								return;
+							}
+
+						//SELECT * FROM `Fahrrad` WHERE `pk_ID_Benutzer` = '15'
+				//console.log(rows4)
 					res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
@@ -110,9 +119,11 @@ module.exports = function(app, passport, verificationMail) {
 								userdata: userdata,
 								maps_key: cred.credentials.google_map_api,
 								ratings: rows4,
-								bikes: null
+								bikes: rows5,
+								userid: sanitizer.sanitize(user)
 							});
 						});
+					});
 				});
 			});
 			connection.release();
