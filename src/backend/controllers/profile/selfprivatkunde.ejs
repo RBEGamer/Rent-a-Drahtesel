@@ -2,7 +2,6 @@
 
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="d-flex flex-column flex-md-row">
                         <% if(userdata.picture != undefined){ %>
@@ -14,17 +13,15 @@
                         <h1 class="display-4"><%= userdata.Vorname %> <%= userdata.Name %></h1>
                         <div class="starRating" starMax="5" value="<%= userdata.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
                         <span>E-mail: <%= userdata.email %></span><br />
-                        <% if(userdata.phone != null){ %>
+                        <% if(userdata.phone != undefined){ %>
                         <span>Telefon: <%= userdata.phone %></span>
                         <% } %>
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin height">
                     <button type="button" class="btn btn-secondary btn-block height">Profil bearbeiten</button>
@@ -33,37 +30,30 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Standort: <%= userdata.street %>  <%= userdata.housenumber %> , <%= userdata.zip %>  <%= userdata.city %> </span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin">
                     <div id="map" style="width:100%;height:200px;"></div>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Bestellungen</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-6">
                 <div class="margin height">
                     <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height" onclick="fahrräder()">Meine Fahrräder</button>
@@ -78,7 +68,6 @@
 
 
         <div id="meineFahrräder">
-
             <div class="row no-gutters">
                 <div class="col-12">
                     <div class="white margin">
@@ -117,9 +106,7 @@
         </div>
 
         <div id="meineBestellungen">
-
             <div class="row no-gutters">
-
                 <div class="col-12">
                     <div class="white margin">
                         <div class="padding">
@@ -146,7 +133,6 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin height">
                     <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
@@ -155,48 +141,39 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="überschrift margin p-1 middle">
                     <span>Bewertungen</span>
                 </div>
             </div>
-
         </div>
 
         <div class="row no-gutters">
-
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 1&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
+                <% if(ratings!= undefined){ %>
+                <% ratings.forEach(function(n) { %>
+                    <div class="col-12">
+                        <div class="white margin">
+                            <div class="padding linie-unten">
+                                <span>
+                                        <% if(n.picture == undefined || n.picture == ""){ %>
+                                            <img src="/images/leer.png" alt="" height="25">
+                                            <% }else{ %>
+                                            <img src="<%= n.picture %>" alt="" height="25">
+                                            <% } %>
+        
+                                            <strong>&nbsp;<a href="/profile/<%= n.pk_ID %>"><%= n.email %></a>&emsp;</strong>
+                                    <div class="starRating" size="20" starMax="5" value="<%= n.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+                                </span>
+                            </div>
+                            <div class="padding">
+                                <span><%= n.Description %></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="padding">
-                        <span>Alles super!</span>
-                    </div>
+                    <% }); %>
+                    <% } %>
                 </div>
-            </div>
 
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <img src="/images/leer.png" alt="" height="25">
-                            <strong>&nbsp;Bewertung 2&emsp;</strong>
-                            <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                        </span>
-                    </div>
-                    <div class="padding">
-                        <span>Auch alles super!</span>
-                    </div>
-                </div>
-            </div>
-
-        </div>
 
 
 

@@ -48,7 +48,7 @@
                         <img class="bildklein margin" src="<%= user.picture %>" alt="" height="50" />  
                         <% } %>
                     <div class="white margin padding middle">
-                        <a href="#"><%= user.email %></a><br />
+                        <a href="/profile/<%= user.pk_ID %>"><%= user.email %></a><br />
                         <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                     </div>
                 </div>
