@@ -1,6 +1,73 @@
 var formdata = require('../../config/register');
 var c= require('../../config/countries');
+var formqueries = null;
+var mysqlpool = require('../../config/database.js');
+var mysql = require('mysql');
+var bcrypt = require('bcrypt-nodejs');
+var dbconfig = require('../../config/database');
+var sanitizer = require('sanitizer');
+var cred = require('../../config/credentials.js');
+
 module.exports = function(app, passport, verificationMail) {
+
+	var queryBen = "SHOW COLUMNS FROM Benutzer";
+	var queryGeschaeft = "SHOW COLUMS FROM Geschaeftsbenutzer";
+	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";
+
+	/*mysqlpool.getConnection(function(err, connection) {
+		if (err) {
+			console.log("get connection db failed")
+			return;
+		}
+		connection.query(queryBen, function(err, rows) {
+			if (err) {
+				console.log("get userrole db failed")
+				return;
+			}
+			console.log("base: ");
+			console.log(rows);
+		});
+		connection.release();
+	});*/
+
+	mysqlpool.getConnection(function(err, connection) {
+		if (err) {
+			console.log("get connection db failed")
+			return;
+		}
+		connection.query(queryPrivat, function(err, rows) {
+			if (err) {
+				console.log("get userrole db failed")
+				return;
+			}
+			var string=JSON.stringify(rows);
+			var json =  JSON.parse(string);
+			for(var i = 0; i < json.length; i++) {
+				console.log(json[i].Field);
+			}
+
+
+		});
+		connection.release();
+	});
+
+	/*mysqlpool.getConnection(function(err, connection) {
+		if (err) {
+			console.log("get connection db failed")
+			return;
+		}
+		connection.query(queryGeschaeft, function(err, rows) {
+			if (err) {
+				console.log("get userrole db failed")
+				return;
+			}
+			console.log("geschäft: ");
+			console.log(rows);
+		});
+		connection.release();
+	});*/
+
+
 	app.get('/register', function(req, res) {
 		res.render(__dirname +'/register.ejs', { 
 			bezeichnung: 'trekkingbike', 
