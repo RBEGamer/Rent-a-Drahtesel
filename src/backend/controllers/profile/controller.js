@@ -109,7 +109,8 @@ module.exports = function(app, passport, verificationMail) {
 								isLoggedIn : req.isAuthenticated(),
 								userdata: userdata,
 								maps_key: cred.credentials.google_map_api,
-								ratings: rows4
+								ratings: rows4,
+								bikes: null
 							});
 						});
 				});
