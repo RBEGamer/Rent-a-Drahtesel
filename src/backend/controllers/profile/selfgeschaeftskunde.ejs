@@ -104,8 +104,9 @@
         <div class="row no-gutters">
 
 
+     
 
-
+        <h1><script>alert("<% bookings %>");</script></h1>
 
                 <% if(bikes!= undefined){ %>
                     <% bikes.forEach(function(m) { %>
@@ -125,8 +126,13 @@
                         </span>
                     </div>
                     <div class="padding">
-                        <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
-                        <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
+                    <% if(bookings != undefined){ %>     
+                    <% bookings.forEach(function(o) { %>   
+                        <% if(m.pk_ID_Fahrrad == o.bike_id){%>
+                                <span><%= o.rent_date %> -> <%= o.booked_days %>: Gebucht von <a href="/profile/<%= o.userid %>"><%= o.email %></a>></span>
+                        <% } %>
+                    <% }); %>
+                    <% } %>
                     </div>
                 </div>
             </div>
