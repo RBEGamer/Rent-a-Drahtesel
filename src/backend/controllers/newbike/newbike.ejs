@@ -1,7 +1,7 @@
     <% layout(layoutPath + 'layout') -%>
 
 
-    <form>
+    <form method="post" action="/bike/new">
 
         <div class="row">
             <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
@@ -41,7 +41,7 @@
                         </div>
                         <div class="col-12">
                             <div class="margin middle">
-                                <textarea class="form-control" style="resize: none;" name="beschreibung" placeholder="Beschreibung zum Bike" rows="4"></textarea>
+                                <textarea class="form-control" style="resize: none;" name="description" placeholder="Beschreibung zum Bike" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
@@ -131,6 +131,21 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
                         <input name="housenumber" type="text" class="form-control height">
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-2"></div>
+            </div>
+            
+            <div class="row no-gutters">
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span>Land*</span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input name="country" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-2"></div>

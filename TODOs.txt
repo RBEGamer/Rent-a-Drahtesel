@@ -1,0 +1,10 @@
+- bilder upload beim fahrrad inserieren
+- lat und long berechnen (fahrrad inserieren)
+- kalender beim fahrrad inserieren
+- profilansicht design
+- name in bewertungen statt email
+- profilansicht fertig
+- profil bearbeiten
+- beim inserieren checken ob daten schon belegt sind (POST)
+- responsive Design
+- testen/fixen

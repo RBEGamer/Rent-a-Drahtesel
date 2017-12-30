@@ -24,34 +24,56 @@ module.exports = function(app, passport, verificationMail) {
 			}
 			var query = "INSERT INTO Fahrrad (Biketype, Size, Price, Description, Porter, Childseat, Threeday, Sevenday,"
 						+ " Country, City, Street, ZIP, Housenumber, Lat, Lon, pk_ID_Benutzer, Name) VALUES ("
-			query += req.body.type + ", ";
-			query += req.body.size + ", ";
+			query += "'" + req.body.type + "'" + ", ";
+			query += "'" + req.body.size + "'" + ", ";
 			query += req.body.price + ", ";
-			query += req.body.description + ", ";
-			query += req.body.porter + ", ";
-			query += req.body.childseat +", ";
-			query += rey.body.threedays + ", ";
-			query += req.body.sevendays + ", ";
-			query += req.body.county + ",";
-			query += req.body.city + ", ";
-			query += req.body.street + ", ";
-			query += req.body.zip + ", ";
-			query += req.body.housenumber + ", ";
+			query += "'" + req.body.description + "'" + ", ";
+			if(req.body.porter === 'on'){
+				query += "1, ";
+			}else{
+				query += "0, ";
+			}
+			if(req.body.childseat === 'on'){
+				query += "1, ";
+			}else{
+				query += "0, ";
+			}
+			if(req.body.threedays === ''){
+				query += 0 + ", ";
+			}
+			else{
+
+				query += req.body.threedays + ", ";
+			}
+			if(req.body.sevendays === ''){
+				query += 0 + ", ";
+			}
+			else{
+
+				query += req.body.sevendays + ", ";
+			}
+			query += "'" + req.body.country + "'" + ",";
+			query += "'" + req.body.city + "'" + ", ";
+			query += "'" + req.body.street + "'" + ", ";
+			query += "'" + req.body.zip + "'" + ", ";
+			query += "'" + req.body.housenumber + "'" + ", ";
 			//TODO!! lat und lon berechnen
+			var lat = "10";
+			var lon = "10";
 			query += lat + ", ";
 			query += lon + ", ";
 			query += req.session.passport.user + ", ";
-			query += req.body.name + ", ";
-			
-			
+			query += "'" + req.body.name + "'" + ")";
+			console.log("childseat: " + req.body.childseat);
+			console.log(query);
 			connection.query(query, function(err, rows) {
 				if (err) {
 					console.log("insert bike db failed")
 					return;
 				}
-				res.redirect("/profile");
 			});
 			connection.release();
 		});
+		res.redirect("/profile");
 	});
 }
