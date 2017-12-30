@@ -3,60 +3,64 @@
 
     <form>
 
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">FAHHRAD INFORMATIONEN</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
+			<div class="row">
+            <span class="col-md-1 margin padding height text">&nbsp;&nbsp;&nbsp;Name</span>
+            <input name="name" type="text" class="col-md-5 form-control height w-25">
+        	</div>
             <div class="row no-gutters">
-
-                <div class="col-12">
-                    <div class="überschrift margin p-1 middle">
-                        <span>Fahrrad Informationen</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row no-gutters">
+            
                 <div class="col-12 col-sm-8">
                     <div class="row no-gutters">
                         <div class="col-6">
                             <div class="margin height">
-                                <select class="form-control height">
-                                    <option>Bike-Typ</option>
-                                </select>
+                                <select name="type" class="form-control height">
+                            		<option value="Mountainbike">Mountainbike</option>
+                            		<option value="Elektrofahrrad">Elektrofahrrad</option>
+                            		<option value="Damenrad">Damenrad</option>
+                            		<option value="Herrenrad">Herrenrad</option>
+                        		</select>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="margin height">
-                                <select class="form-control height">
-                                    <option>Größe</option>
-                                </select>
+                                <select name="size" class="form-control height">
+                            		<option value="12">12</option>
+                            		<option value="14">14</option>
+                            		<option value="16">16</option>
+                            		<option value="18">18</option>
+                           		 	<option value="20">20</option>
+                            		<option value="24">24</option>
+                            		<option value="28">28</option>
+                        		</select>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="margin middle">
-                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="4"></textarea>
+                                <textarea class="form-control" style="resize: none;" name="beschreibung" placeholder="Beschreibung zum Bike" rows="4"></textarea>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-sm-4">
-                    <div class="white margin padding">
-                        <div class="hoch">
-                            <div id="googleMap1" style="width:100%;height:200px;"></div>
-                            <br>
-                            <script>
-                                function myMap() {
-                                    var mapOptions1 = {
-                                        center: new google.maps.LatLng(51.508742, -0.120850),
-                                        zoom: 9,
-                                        mapTypeId: google.maps.MapTypeId.ROADMAP
-                                    };
-                                    var map1 = new google.maps.Map(document.getElementById("googleMap1"), mapOptions1);
-                                }
-                            </script>
-
-                            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-ew1LG5TK1A8so6_Thu4vdcnXrGl_uTw&callback=myMap"></script>
-
-                        </div>
+                    <div class="col-12 col-sm-12">
+                    <div class="margin padding">
+                        &emsp;
+                        <input type="checkbox" name="porter" class="form-check-input position-static">
+                        <span class="text">Gepäckträger</span><br />
+                        &emsp;
+                        <input type="checkbox" name="childseat" class="form-check-input position-static">
+                        <span class="text">Kindersitz</span>
                     </div>
+                </div>
+                            
+                            KALENDER
+
+                            
                 </div>
             </div>
 
@@ -64,36 +68,23 @@
                 <div class="col-12 col-sm-8">
                     <div class="d-flex flex-row">
                         <span class="margin padding height text">Rabatt nach 3 Tagen</span>
-                        <input type="text" class="form-control height w-25" width="20">
+                        <input name="threedays" type="text" class="form-control height w-25" width="20">
                         <span class="margin padding height text">%</span>
                     </div>
                     <div class="d-flex flex-row">
                         <span class="margin padding height text">Rabatt nach 7 Tagen</span>
-                        <input type="text" class="form-control height w-25" width="20">
+                        <input name="sevendays" type="text" class="form-control height w-25" width="20">
                         <span class="margin padding height text">%</span>
                     </div>
                 </div>
-                <div class="col-12 col-sm-4">
-                    <div class="margin padding">
-                        &emsp;
-                        <input type="checkbox" class="form-check-input position-static">
-                        <span class="text">Gepäckträger</span><br />
-                        &emsp;
-                        <input type="checkbox" class="form-check-input position-static">
-                        <span class="text">Seitenwagen</span>
-                    </div>
-                </div>
+                
             </div>
 
-            <div class="row no-gutters">
-
-                <div class="col-12">
-                    <div class="überschrift margin p-1 middle">
-                        <span>Fahrrad Standort</span>
-                    </div>
-                </div>
-
-            </div>
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">FAHRRAD STANDORT</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
 
             <div class="row no-gutters">
                 <div class="col-12 col-md-12 col-lg-2"></div>
@@ -104,7 +95,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" class="form-control height">
+                        <input name="city" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
@@ -114,7 +105,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" class="form-control height">
+                        <input name="zip" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-2"></div>
@@ -129,7 +120,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" class="form-control height">
+                        <input name="street" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
@@ -139,21 +130,17 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" class="form-control height">
+                        <input name="housenumber" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-2"></div>
             </div>
 
-            <div class="row no-gutters">
-
-                <div class="col-12">
-                    <div class="überschrift margin p-1 middle">
-                        <span>Bilder</span>
-                    </div>
-                </div>
-
-            </div>
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">BILDER</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
 
             <div class="row no-gutters">
 
@@ -204,25 +191,25 @@
                 <div class="col-12 col-md-12 col-lg-2"></div>
             </div>
 
-            <div class="row no-gutters">
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">PREIS</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
 
-                <div class="col-12">
-                    <div class="überschrift margin p-1 middle">
-                        <span>Preis</span>
-                    </div>
-                </div>
-
-            </div>
 
             <div class="row no-gutters">
                 <div class="col-12 col-md-3 col-lg-4"></div>
-                <div class="col-6 col-md-3 col-lg-2">
+                <div class="col-5 col-md-2 col-lg-1">
                     <div class="margin height">
-                        <input type="text" class="form-control height" placeholder="Preis">
+                        <input name="price" type="number" step="0.01" class="form-control height">
                     </div>
                 </div>
+                <div class="margin height col-1 col-md-1 col-lg-1">
+                    &euro;
+                </div>
                 <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height">
+                    <div class="">
                         <button type="submit" class="btn btn-secondary btn-block height">Inserieren</button>
                     </div>
                 </div>

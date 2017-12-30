@@ -124,7 +124,7 @@ module.exports = function(app, passport, verificationMail) {
 				}
 			});
 			connection.release();
-			res.redirect('/');
+			res.redirect('/profile');
 		});
 	});
 }
