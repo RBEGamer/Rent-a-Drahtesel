@@ -24,7 +24,9 @@
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="margin height">
-                    <button type="button" class="btn btn-secondary btn-block height">Profil bearbeiten</button>
+                        <form action="/profile/edit" method="get">
+                    <input type="submit" class="btn btn-secondary btn-block height" value="Profil bearbeiten" />
+                    </form>
                 </div>
             </div>
         </div>
@@ -69,39 +71,37 @@
 
         <div id="meineFahrräder">
             <div class="row no-gutters">
+                    <% if(bikes!= undefined){ %>
+                        <% bikes.forEach(function(m) { %>
                 <div class="col-12">
                     <div class="white margin">
                         <div class="padding linie-unten">
                             <span>
-                                <strong>Bikename1&emsp;</strong>
-                                <div class="starRating" starMax="5" value="7" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                                <strong><%= m.Name %>&emsp;</strong>
+                                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                                 &emsp;
-                                <a href="#">Löschen</a>
+                                <form method="post" action="/bike/delete">
+                                    <input type="hidden" name="user_id" value="<%= userid %>" />
+                                    <input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
+                                    <input type="submit" value="Loeschen" />
+                                </form>
                             </span>
                         </div>
                         <div class="padding">
-                            <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
-                            <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
+                        <% if(bookings != undefined){ %>     
+                        <% bookings.forEach(function(o) { %>   
+                            <% if(m.pk_ID_Fahrrad == o.bike_id){%>
+                                    <span><%= o.rent_date %> -> <%= o.booked_days %>: Gebucht von <a href="/profile/<%= o.userid %>"><%= o.email %></a>></span>
+                            <% } %>
+                        <% }); %>
+                        <% } %>
                         </div>
                     </div>
                 </div>
+                <% }); %>
+                <% } %>
 
-                <div class="col-12">
-                    <div class="white margin">
-                        <div class="padding linie-unten">
-                            <span>
-                                <strong>Bikename2&emsp;</strong>
-                                <div class="starRating" starMax="5" value="8" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                                &emsp;
-                                <a href="#">Löschen</a>
-                            </span>
-                        </div>
-                        <div class="padding">
-                            <span>15.11.17 - 16.11.17: Gebucht von Benutzername1</span>
-                            <span>17.11.17 - 18.11.17: Gebucht von Benutzername2</span>
-                        </div>
-                    </div>
-                </div>
+
             </div>
         </div>
 

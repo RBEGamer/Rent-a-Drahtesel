@@ -127,4 +127,24 @@ module.exports = function(app, passport, verificationMail) {
 			res.redirect('/profile');
 		});
 	});
+
+
+	app.post('/bike/delete', function(req, res) {
+		if(req.body.user_id == undefined || req.body.inserat_id == undefined){
+			console.log("/bike/delte not enogugh arguments")
+			res.redirect('/profile');
+		}
+		//<input type="hidden" name="user_id" value="<%= userid %>" />
+		//<input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
+
+		mysqlpool.getConnection(function(err, connection) {
+			if (err) {
+				console.log("get bike db failed 7")
+				console.log(err);
+				return;
+			}
+			
+			res.redirect('/profile');
+		});
+	});
 }

@@ -156,4 +156,11 @@ module.exports = function(app, passport, verificationMail) {
 	});
 
 
+
+
+	app.get('/profile/edit', function(req, res) {
+			res.redirect('/profile');
+			//TODO 
+	});
+
 }

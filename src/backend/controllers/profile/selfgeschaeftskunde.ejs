@@ -37,10 +37,11 @@
         </div>
 
         <div class="row no-gutters">
-
             <div class="col-12">
                 <div class="margin height">
-                    <button type="button" class="btn btn-secondary btn-block height">Profil bearbeiten</button>
+                        <form action="/profile/edit" method="get">
+                            <input type="submit" class="btn btn-secondary btn-block height" value="Profil bearbeiten" />
+                            </form>
                 </div>
             </div>
         </div>
@@ -101,13 +102,10 @@
             </div>
         </div>
 
+
         <div class="row no-gutters">
 
-
-     
-
-        <h1><script>alert("<% bookings %>");</script></h1>
-
+        
                 <% if(bikes!= undefined){ %>
                     <% bikes.forEach(function(m) { %>
             <div class="col-12">
@@ -117,8 +115,7 @@
                             <strong><%= m.Name %>&emsp;</strong>
                             <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                             &emsp;
-                            
-                            <form method="post" action="/delete_inserat">
+                            <form method="post" action="/bike/delete">
                                 <input type="hidden" name="user_id" value="<%= userid %>" />
                                 <input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
                                 <input type="submit" value="Loeschen" />
@@ -146,8 +143,7 @@
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="margin height">
-                    <form method="get" action="/inserieren"> 
-                    <input type="hidden" name="user_id" value="<%= userid %>" />
+                    <form method="get" action="/bike/new"> 
                     <button type="submit" id="meineFahrräderBtn" class="btn btn-secondary btn-block height">Fahrrad inserieren</button>
                     </form>
                 </div>
@@ -161,6 +157,7 @@
                 </div>
             </div>
         </div>
+
 
         <div class="row no-gutters">
                 <% if(ratings!= undefined){ %>
@@ -186,9 +183,6 @@
                     <% }); %>
                     <% } %>
                 </div>
-
-            
-
         </div>
 
 
