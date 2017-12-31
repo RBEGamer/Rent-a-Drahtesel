@@ -1,18 +1,30 @@
-var formdata = require('../../config/register');
+var formdata = require('../../config/formdata');
 var c= require('../../config/countries');
-var formqueries = null;
 var mysqlpool = require('../../config/database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
 var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
+var formgenerator = require('../../config/formgenerator.js');
+var formvalidator = require('../../config/formvalidator.js');
+var model = require('../../config/model');
 
 module.exports = function(app, passport, verificationMail) {
 
-	var queryBen = "SHOW COLUMNS FROM Benutzer";
+	/*var queryBen = "SHOW COLUMNS FROM Benutzer";
 	var queryGeschaeft = "SHOW COLUMS FROM Geschaeftsbenutzer";
-	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";
+	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
+	
+	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
+	model.addModel('privatbenutzer');
+	/*app.get('/register', function(req, res) {
+		res.render('signup.ejs', { 
+			layoutPath: '/',
+			isLoggedIn: req.isAuthenticated(),
+			forms: forms
+		});
+	});*/
 
 	/*mysqlpool.getConnection(function(err, connection) {
 		if (err) {
@@ -30,7 +42,7 @@ module.exports = function(app, passport, verificationMail) {
 		connection.release();
 	});*/
 
-	mysqlpool.getConnection(function(err, connection) {
+	/*mysqlpool.getConnection(function(err, connection) {
 		if (err) {
 			console.log("get connection db failed")
 			return;
@@ -49,7 +61,7 @@ module.exports = function(app, passport, verificationMail) {
 
 		});
 		connection.release();
-	});
+	});*/
 
 	/*mysqlpool.getConnection(function(err, connection) {
 		if (err) {
@@ -67,21 +79,26 @@ module.exports = function(app, passport, verificationMail) {
 		connection.release();
 	});*/
 
-
 	app.get('/register', function(req, res) {
+
+		var start = req.flash('start');
+		var error = req.flash('error');
+		var data = req.flash('olddata');
+
+		console.log('error: ', error[0]);
+		console.log('data: ', data);
+		console.log('start: ', start);
 		res.render(__dirname +'/register.ejs', { 
-			bezeichnung: 'trekkingbike', 
-			title: 'singlebike',
-			helper: require('../../views/helpers/helper'),
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
-			formdata: formdata,
-			countries: c.countries,
-			max: (formdata.commercial.length > formdata.private.length ? formdata.commercial.length : formdata.private.length)
+			data: data[0],
+			error: error[0],
+			forms: forms,
+			start: start
 		});
 	});
 
-	app.post('/register', function(req, res, next) {
+	/*app.post('/register', function(req, res, next) {
 		passport.authenticate('local-signup', function(err, user, info){
 			if(err) {console.log("error"); return next(err); }
 			if(!user) {console.log("error2"); return res.redirect('/register');}
@@ -92,11 +109,20 @@ module.exports = function(app, passport, verificationMail) {
 				return res.redirect('/login');
 			});
 		})(req, res, next);
-	});
-	app.get('/register/form', function(req, res, next) {
-		res.json(formdata)	
-	});
+	});*/
 
+
+	app.post('/register', formvalidator.validate, function(req, res, next) {
+		if(req.flash('invalid')) {
+			res.redirect('/register');
+		} else {
+			res.json( {success: true});
+		}
+	});
+	app.get('/register/countries', function(req, res, next) {
+		res.json(c.countries);	
+	});
+	
 	app.get('/register/style.css', function(req, res, next) {
 		res.sendfile(__dirname +'/_style.css');
 	});

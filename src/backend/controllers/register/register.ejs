@@ -2,86 +2,38 @@
 <% script('/register/script.js') -%> 
 <% layout(layoutPath + 'layout') -%>
 
-        <datalist id="countries">
-        <% for (var i = 0; i < countries.length; i++) { %>
-            <option value=<%= countries[i] %>>
-        <% } %>
-        </datalist>
-
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="white margin padding middle">
-                    <h1 class="display-4">Registrieren</h1>
-                </div>
-            </div>
+<% console.log('registerview: ' + start) %>
+ <div class="row no-gutters">
+    <div class="col-12">
+        <div class="white margin padding middle">
+            <h1 class="display-4">Registrieren Debug</h1>
         </div>
+    </div>
+</div>
 
-        <form id="registerForm" method="post" action="/register">
-            <div class="row no-gutters">
-                <div class="col-12 col-md-12 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height text">
-                        <span>Geschäftskunde</span>
-                    </div>
+
+<div class="row no-gutters">
+            <div class="col-12 col-md-12 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height text">
+                    <span>Geschäftskunde</span>
                 </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height text">
-                        <input type="checkbox" id="chkProfile" class="form-check-input position-static">
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2"></div>
-                <div class="col-12 col-md-12 col-lg-2"></div>
             </div>
-
-
-            <% for(var i = 0; i < max; i+= 2) { %> 
-                <div class="row no-gutters ">
-                    
-                    <div class="col-12 col-md-12 col-lg-2"></div>
-                    <div class="col-6 col-md-3 col-lg-2">
-                        <div class="margin height text">
-                            <span class="formtext" element=<%= i %>></span>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 col-lg-2">
-                        <div class="margin height">
-                            <input element=<%= i %> class="form-control height">
-                        </div>
-                    </div>
-
-                    <div class="col-6 col-md-3 col-lg-2">
-                        <div class="margin height text">
-                            <span class="formtext" element=<%= i+1 %>></span>
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 col-lg-2">
-                        <div class="margin height">
-                            <input element=<%= i+1 %> class="form-control height">
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-12 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height text">
+                    <input type="checkbox" id="chkProfile" class="form-check-input position-static">
                 </div>
-            <% } %>
-
-           
-
-            <div class="row no-gutters">
-                <div class="col-12 col-md-12 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height textklein">
-                        <span>*Pflichtfeld</span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height">
-                        <button type="submit" class="btn btn-secondary btn-block height">Registrieren</button>
-                    </div>
-                </div>
-                <div class="col-12 col-md-12 col-lg-2"></div>
             </div>
-        </form>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-12 col-md-12 col-lg-2"></div>
+</div>
+<% var mode = 'Registrieren' %>
+<div id='starter' class=<%= start %>>
+<% include ../../views/partials/2ColumnsForm %>
+
+
+
+
 
 

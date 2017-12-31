@@ -1,93 +1,66 @@
+
 $(document).ready(function () {
  
-	var formdata = null; var max = 0; var private = true;
- /*
-<div class="formcol">
-<div class="col-6 col-md-3 col-lg-2">
-    <div class="margin height text">
-        <span class="formtext"></span>
-    </div>
-</div>
-<div class="col-6 col-md-3 col-lg-2">
-    <div class="margin height">
-        <input class="form-control height">
-    </div>
-</div>
-</div>
+    
+    var datafields = [];
 
-
-<div class="formcol">
-<div class="col-6 col-md-3 col-lg-2 form-col">
-    <div class="margin height text">
-        <span class="formtext"></span>
-    </div>
-</div>
-<div class="col-6 col-md-3 col-lg-2">
-    <div class="margin height">
-        <input class="form-control height">
-    </div>
-</div>
-</div>
- */
- function getMode() {
- 	return private ? "private" : "commercial";
+    var mode = $('#starter').attr('class');
+    if(mode == "")  {
+        console.log("geht in loadmode");
+        mode = 'registerprivat';
+        loadMode();
+    } else {
+        $('#' + mode).show();
+        if(mode === 'registercommercial') {
+            $('#chkProfile').prop('checked', true);
+        } else {
+            $('#chkProfile').prop('checked', false);
+        }
     }
 
+    function loadMode() {
+        $('form').each(function() {
+            $(this).hide();
+        });
+        $('input').each(function() {
+            if($(this).attr('type') != 'hidden') {
+                $(this).attr('value', '');
+            }
+        });
+        $('#errorField').empty();
+        $('#' + mode).show();
+    }
+    
+
     $('#chkProfile').change(function() {
- 	  private = !private;
- 	  generateForm();
+        
+        if($(this).prop('checked')) {
+            mode = 'registercommercial';
+        } else {
+            mode = 'registerprivat';
+        }
+        loadMode();
+    });
+
+    $('input[element=autofill]').each(function() {
+        var data = $(this).attr('list');
+        $.ajax({
+             type: "GET",
+             url: "/register/" + data,
+             success: function(result)  {
+                if(datafields.indexOf(data) === -1) {
+                    var s = '<datalist id="' + data +'">';
+                    for(var i = 0; i < result.length; i++) {
+                        s += '<option value="' + result[i] + '">';
+                    }
+                    s+= '</datalist>';
+                    $('body').append(s);
+                }
+                datafields.push(data);
+             }
+        });
     });
 
  
- function generateForm() {
- 	max = formdata[getMode()].length;
- 	var data = formdata[getMode()];
- 	$('.formtext').each(function() {
- 		var pos = parseInt($(this).attr("element"));
- 		if(pos >= max) {
- 			$(this).hide();
- 		} else {
- 			$(this).show();
- 			$(this).html(data[pos].text);
- 		}
- 	});
-
- 	$('.form-control').each(function() {
- 		var pos = parseInt($(this).attr("element"));
- 		if(pos >= max) {
- 			$(this).hide();
- 		} else {
- 			$(this).show();
-            var attrs = data[pos].input;
-            for(var a in attrs) 
-            {
-
-                if(a == 'class') {
-                    console.log(a);
-                    $(this).addClass(attrs[a]);
-                } else {
-                    $(this).attr(a, attrs[a]);  
-                }
-            }
- 			
- 		}
- 	  });
-
-        $('.autofill').each(function() {
-                console.log($(this).attr("list"));
-         });
-    }
-
-
  
- 
- $.ajax({
-	 type: "GET",
-	 url: "/register/form",
-	 success: function(result)	{
-	 	formdata = result;
-	 	max = (formdata.commercial.length >	 formdata.private.length ? formdata.commercial.length : formdata.private.length);
-	 	generateForm();
-	 }
- });
 });
