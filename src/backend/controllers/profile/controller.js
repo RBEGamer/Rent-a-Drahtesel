@@ -119,6 +119,19 @@ module.exports = function(app, passport, verificationMail) {
 								}
 								console.log(rows6);
 								console.log("-------------------------------")
+							
+								connection.query("SELECT * FROM `Bestellung` WHERE `pk_ID_Benutzer` = '" + sanitizer.sanitize(user) +"'", function(err, rows7) {
+									if (err) {
+										console.log("get user db failed 4");
+										res.redirect('/');//TODO ADD FLASH MESSAGE
+										return;
+									}
+									console.log(rows7);
+									console.log("-------------------------------")
+
+
+
+								
 							res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
@@ -129,13 +142,14 @@ module.exports = function(app, passport, verificationMail) {
 								ratings: rows4,
 								bikes: rows5,
 								userid: sanitizer.sanitize(user),
-								bookings: rows6
+								bookings: rows6,
+								own_bookings: rows7
 							});
 						});
 				
 							
 							
-
+					});
 
 						});
 					

@@ -109,7 +109,8 @@ function gen_table(_divid, _data, _rentdate){
     var dt = _data.split(',');
     var table = "<table>";
     for(var j = 0; j < dt.length; j++){
-    table += "<tr><td>"+dt[j]+"</td></tr>";
+        var dtd = new Date(dt[j]);
+    table += "<tr><td>"+dtd.getDay() + "." + dtd.getMonth() + dtd-getFullYear()+"</td></tr>";
     }
     table += "</table>";
     document.getElementById(_divid).innerHTML = table;
@@ -157,11 +158,9 @@ function gen_table(_divid, _data, _rentdate){
             </div>
             <% }); %>
             <% } %>
-
-
-
-
         </div>
+
+        
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="margin height">
