@@ -111,29 +111,28 @@ module.exports = function(app, passport, verificationMail) {
 							}
 							console.log(rows5);
 							console.log("-------------------------------")
-							
-							rows5.forEach(n => {
-								console.log(n.pk_ID)
-								connection.query("SELECT * FROM `Bestellung` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer` WHERE `pk_ID_Fahrrad` = '" + n.pk_ID + "'", function(err, resu) {
+							connection.query("SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer` WHERE 1", function(err, rows6) {
 								if (err) {
-									console.log("get user db failed 5");
+									console.log("get user db failed 4");
+									res.redirect('/');//TODO ADD FLASH MESSAGE
 									return;
 								}
-								//TODOFIX
-								console.log(resu);
-								resu.forEach(m => {
-									console.log("bla");
-									bookings.push({booked_days:m.booked_days,userid:m.pk_ID,rent_date:m.Rentdate,email:m.email, bike_id:n.pk_ID})
-									console.log({booked_days:m.booked_days,userid:m.pk_ID,rent_date:m.Rentdate, email:m.email, bike_id:n.pk_ID})
-								});
-							});
+								console.log(rows6);
+								console.log("-------------------------------")
 							
-						});
-							
-							//TODO FIX
-							console.log("bk" + bookings)
+								connection.query("SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung`  LEFT JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Fahrrad`.`pk_ID_Benutzer` WHERE `Bestellung`.`pk_ID_Benutzer`='" + sanitizer.sanitize(user) +"'", function(err, rows7) {
+									if (err) {
+										console.log("get user db failed 4");
+										res.redirect('/');//TODO ADD FLASH MESSAGE
+										return;
+									}
+									console.log(rows7);
+									console.log("-------------------------------")
 
-					res.render(__dirname + '/' + route + '.ejs',
+
+
+								
+							res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
 								layoutPath : '../../views/',
@@ -143,8 +142,15 @@ module.exports = function(app, passport, verificationMail) {
 								ratings: rows4,
 								bikes: rows5,
 								userid: sanitizer.sanitize(user),
-								bookings: bookings
+								bookings: rows6,
+								own_bookings: rows7
 							});
+						});
+				
+							
+							
+					});
+
 						});
 					
 					});
