@@ -120,7 +120,7 @@ module.exports = function(app, passport, verificationMail) {
 								console.log(rows6);
 								console.log("-------------------------------")
 							
-								connection.query("SELECT * FROM `Bestellung` WHERE `pk_ID_Benutzer` = '" + sanitizer.sanitize(user) +"'", function(err, rows7) {
+								connection.query("SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung`  LEFT JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Fahrrad`.`pk_ID_Benutzer` WHERE `Bestellung`.`pk_ID_Benutzer`='" + sanitizer.sanitize(user) +"'", function(err, rows7) {
 									if (err) {
 										console.log("get user db failed 4");
 										res.redirect('/');//TODO ADD FLASH MESSAGE
