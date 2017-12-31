@@ -49,9 +49,6 @@ module.exports = function() {
     this.sendMail = function(user) {
         var id = user.pk_ID;
         var hash = this.getHash(4);
-        console.log("--------------");
-        console.log(id);
-        console.log("--------------");
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = ? WHERE `pk_ID` = ?";
         console.log(updateQuery);
 
