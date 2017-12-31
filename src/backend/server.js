@@ -15,13 +15,18 @@ var path = require('path');
 var cron = require('node-cron');
 var db = require('./config/database');
 var mkdirp = require('mkdirp');
+var model = require('./config/model');
+
+
+
 
 var bsip = require('./config/base_ip.js')
 console.log(bsip);
 // connect to our database
 require('./config/passport')(passport, verificationMail); // pass passport for configuration
 
-
+model.addModel('Privatbenutzer');
+model.addModel('Geschaeftsbenutzer');
 
 mkdirp(config.config.image_upload_tmp_path, function(err) {
 if(err){

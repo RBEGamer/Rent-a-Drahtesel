@@ -53,17 +53,17 @@ module.exports = {
     },
     models: 
     {
-        'benutzer' : {
-            table: 'benutzer',
+        'Benutzer' : {
+            table: 'Benutzer',
             parent: null
         },
-        'privatbenutzer': {
-            table: 'privatbenutzer',
-            parent: 'benutzer'
+        'Privatbenutzer': {
+            table: 'Privatbenutzer',
+            parent: 'Benutzer'
         },
-        'geschaeftsbenutzer': {
-            table: 'geschaeftsbenutzer',
-            parent: 'benutzer'
+        'Geschaeftsbenutzer': {
+            table: 'Geschaeftsbenutzer',
+            parent: 'Benutzer'
         }
     }
 }

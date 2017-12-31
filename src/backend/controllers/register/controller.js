@@ -17,7 +17,7 @@ module.exports = function(app, passport, verificationMail) {
 	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
 	
 	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
-	model.addModel('privatbenutzer');
+	
 	/*app.get('/register', function(req, res) {
 		res.render('signup.ejs', { 
 			layoutPath: '/',
