@@ -27,28 +27,28 @@ module.exports = {
             [
                 'email', 'Vorname', 'Name','country', 'city', 'zip', 'housenumber', 'street', 'pw', 'phone', 'passwortwdh', 'picture'
             ],
-            'model': 'privatbenutzer'
+            'model': 'Privatbenutzer'
         },
         'registercommercial' : {
             'elements': 
             [
             'email', 'Firmenname', 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
             ],
-            'model': 'commercialbenutzer'
+            'model': 'Geschaeftsbenutzer'
         },
         'editprivate' : {
             'elements':
             [
             'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone', 'picture'
             ],
-            'model': 'privatbenutzer'
+            'model': 'Privatbenutzer'
         },
         'login' : {
             'elements':
             [
             'email', 'pw'
             ],
-            'model': 'benutzer'
+            'model': 'Benutzer'
         }
     },
     models: 

@@ -1,93 +1,36 @@
-var cred  = require('./credentials.js');
-var crypto = require('crypto');
-var mysqlpool = require('./database');
-var sanitizer = require('sanitizer');
-var formdata = require('./formdata');
-
-
-function Model(){
-
-	var _models = {};
+module.exports = function(name, data, path) {
 	var self = this;
-	this.dbconnection = function(query, callback) {
-		mysqlpool.getConnection(function(err,connection){
+	this.primaryKeys = [];
+	this.subModels = []
+	this.name = name;
+	this.hierarchie = [];
 
-		        	if (err) {
-				  		console.log(err);
-						return;
-		        	}
-								
-		        	connection.query(query, function(err, rows) {	
-		        		if(err) {
-		        			console.log(err);
-		        		}
-		        		var string=JSON.stringify(rows);
-						callback(JSON.parse(string));
-		        	});
-					connection.release();
+	this.setPath = function(d) {
+		for(var i = d.length -1 ; i >= 0; i--) {
+			this.hierarchie.push(d[i]);
+		}
+	}
+
+	this.splitData = function(d) {
+		Object.keys(d).forEach(function(key,index) {
+			self.subModels.push(d[key]);
+		});
+	}
+	this.getPrimaryKey = function(d) {
+		Object.keys(d).forEach(function(key,index) {
+			var tmpModel = d[key];
+			for(var i = 0; i < tmpModel.length; i++) {
+				var col = tmpModel[i];
+				if(col.Key === 'Pri') {
+					self.primaryKeys.push(col.Key);
+					continue;
+				}
+			}
 		});
 	}
 
-	this.Waterfall = function(list, iterator, callback) {
-		var pos = 0;
 
-		function ready() {
-			pos++;
-			if(pos == list.length)
-				callback();
-			else 
-				iterator(list[pos], ready);
-		}
-
-		iterator(list[0], ready);
-	}
-
-	this.getModelData = function(tablename, callback) {
-		
-	}
-
-	this.addModel = function(name) {
-
-		var path = [];
-		var target = [];
-		var tmp = name;
-		while(tmp != null) {
-			path.push(tmp);
-			tmp = formdata.models[tmp].parent;
-		}
-
-		/*for(var i = 0; i < path.length; i++) {
-			console.log(path[i]);
-		}*/
-
-		this.Waterfall(path, 
-			function(parent, ready) {
-				console.log(parent);
-				var query = "SHOW COLUMNS FROM `" + parent + "`";
-				self.dbconnection(query, function(rows) {
-					target.push(rows);
-					ready();
-				});
-			}, 
-			function() {
-				_models[name] = {};
-				for(var i = path.length -1; i >= 0; i--) {
-					_models[name][path[i]] = target[i];
-				}
-				console.log(_models);
-			}
-		);
-
-	}
-
-	
+	this.getPrimaryKey(data);
+	this.splitData(data);
+	this.setPath(path);
 }
-
-
-
-var modelObject = new Model();
-
-
-
-
-module.exports =  modelObject;

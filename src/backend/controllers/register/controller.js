@@ -8,7 +8,7 @@ var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
 var formgenerator = require('../../config/formgenerator.js');
 var formvalidator = require('../../config/formvalidator.js');
-var model = require('../../config/model');
+var models = require('../../config/models');
 
 module.exports = function(app, passport, verificationMail) {
 
@@ -17,7 +17,6 @@ module.exports = function(app, passport, verificationMail) {
 	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
 	
 	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
-	
 	/*app.get('/register', function(req, res) {
 		res.render('signup.ejs', { 
 			layoutPath: '/',
@@ -85,9 +84,9 @@ module.exports = function(app, passport, verificationMail) {
 		var error = req.flash('error');
 		var data = req.flash('olddata');
 
-		console.log('error: ', error[0]);
-		console.log('data: ', data);
-		console.log('start: ', start);
+		//console.log('error: ', error[0]);
+		//console.log('data: ', data);
+		//console.log('start: ', start);
 		res.render(__dirname +'/register.ejs', { 
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
@@ -113,10 +112,15 @@ module.exports = function(app, passport, verificationMail) {
 
 
 	app.post('/register', formvalidator.validate, function(req, res, next) {
-		if(req.flash('invalid')) {
+		
+		var invalid = req.flash('invalid')[0];
+		console.log(invalid);
+		if(invalid == 'true') {
 			res.redirect('/register');
 		} else {
-			res.json( {success: true});
+			models.insertIntoModel(req.body.model, req.body, function(data) {
+				res.json({data: data});
+			});
 		}
 	});
 	app.get('/register/countries', function(req, res, next) {
