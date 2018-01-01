@@ -4,6 +4,8 @@ var mysqlpool = require('./database');
 var sanitizer = require('sanitizer');
 var formdata = require('./formdata');
 var model = require('./model');
+var format = require('./formatstring');
+
 
 
 function Models(){
@@ -16,20 +18,19 @@ function Models(){
 	}
 	this.dbconnection = function(query, callback) {
 		mysqlpool.getConnection(function(err,connection){
-
-		        	if (err) {
-				  		console.log(err);
-						return;
-		        	}
-								
-		        	connection.query(query, function(err, rows) {	
-		        		if(err) {
-		        			console.log(err);
-		        		}
-		        		var string=JSON.stringify(rows);
-						callback(JSON.parse(string));
-		        	});
-					connection.release();
+        	if (err) {
+		  		console.log(err);
+				return;
+        	}
+						
+        	connection.query(query, function(err, rows) {	
+        		if(err) {
+        			console.log(err);
+        		}
+        		var string=JSON.stringify(rows);
+				callback(JSON.parse(string));
+        	});
+			connection.release();
 		});
 	}
 
@@ -51,16 +52,19 @@ function Models(){
 
 		for(var i = 0; i < _models[modelname].subModels.length; i++) {
 			var tmpCols = _models[modelname].subModels[i];
+			//console.log(_models[modelname].parent[i]);
 			var submodelname = _models[modelname].hierarchie[i];
 			var query = "INSERT INTO `" + submodelname + "` ";
 			query += "(";
 			for(var j = 0; j < tmpCols.length; j++) {
 				var field = tmpCols[j].Field;
-				if(data[field] != null && data[field] != "") {
+				//console.log(tmpCols[j].Field + ": " + tmpCols[j].Key + ", " + tmpCols[j].Extra);
+				if((data[field] != null && data[field] != "") || (tmpCols[j].Extra != 'auto_increment' && tmpCols[j].Key === 'PRI')) {
 					query += field;
 					query += ", ";
 				}
 			}
+
 			query = query.slice(0, -2);
 			query += ")";
 			query += " VALUES ";
@@ -69,22 +73,52 @@ function Models(){
 			for(var j = 0; j < tmpCols.length; j++) {
 				var field = tmpCols[j].Field;
 				if(data[field] != null  && data[field] != "") {
-					query += data[field];
+					query += "'" + data[field] + "'";
 					query += ", ";
 				}
+
+				if(tmpCols[j].Extra != 'auto_increment' && tmpCols[j].Key === 'PRI') {
+					query += " {0} ";
+					query += ", ";
+				}
+
+				
 			}
 			query = query.slice(0, -2);
 			query += ")";
-			callback(query);
+			callback({query: query, parent: _models[modelname].parent[i]});
 		}
 	}
 
 	this.insertIntoModel = function(modelname, data, callback) {
-		console.log('models - insert into model', data);
-		console.log('models - submodelarray');
+		//console.log('models - insert into model', data);
+		//console.log('models - submodelarray');
+		var queries = [];
+		var lastID = -1;
 		this.getInsertionQuery(modelname, data, function(query) {
-			console.log(query);
+			queries.push(query);
 		});
+		
+		this.Waterfall(queries,
+			function(query, ready) {
+
+				var finalquery = query.query;
+				if(!query.parent) {
+					finalquery = format(finalquery, [lastID]);
+				}
+
+				self.dbconnection(finalquery, function(rows) {
+					if(query.parent) {
+						lastID = rows.insertId;
+						ready();
+					}
+				});
+				
+			}, function() {
+
+			}
+		);
+
 		callback(true);
 
 	}
@@ -117,6 +151,7 @@ function Models(){
 					tmpData[path[i]] = target[i];
 				}
 				_models[name] = new model(name, tmpData, path);
+				//console.log(tmpData);
 			}
 		);
 

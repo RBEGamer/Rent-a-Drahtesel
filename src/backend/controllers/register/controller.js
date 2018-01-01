@@ -15,7 +15,14 @@ module.exports = function(app, passport, verificationMail) {
 	/*var queryBen = "SHOW COLUMNS FROM Benutzer";
 	var queryGeschaeft = "SHOW COLUMS FROM Geschaeftsbenutzer";
 	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
-	
+	String.prototype.format = function() {
+  		a = this;
+  		for (k in arguments) {
+    		a = a.replace("{" + k + "}", arguments[k])
+  		}
+  		return a
+	}
+		
 	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
 	/*app.get('/register', function(req, res) {
 		res.render('signup.ejs', { 
@@ -114,7 +121,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.post('/register', formvalidator.validate, function(req, res, next) {
 		
 		var invalid = req.flash('invalid')[0];
-		console.log(invalid);
+		//console.log(invalid);
 		if(invalid == 'true') {
 			res.redirect('/register');
 		} else {
