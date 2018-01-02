@@ -11,8 +11,8 @@ module.exports = function(app, passport, verificationMail) {
 		var user = req.params.id;
 		var route = "privatkunde";
 		var query = "SELECT `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname"
-		console.log("Params: " + JSON.stringify(req.params))
-		console.log("User: " + user);
+	//	console.log("Params: " + JSON.stringify(req.params))
+	//	console.log("User: " + user);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get connection db failed")
@@ -37,14 +37,14 @@ module.exports = function(app, passport, verificationMail) {
 					}
 					//console.log(rows);
 					userdata = rows[0];
-						console.log(sanitizer.sanitize(user))
+					//	console.log(sanitizer.sanitize(user))
 					connection.query("SELECT * FROM `BewertungBenutzer`  LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungBenutzer`.`pk_ID` WHERE `Benutzer`.`pk_ID` = '" + sanitizer.sanitize(user) +"'", function(err, rows4) {
 						if (err) {
 							console.log("get user db failed 3");
 							res.redirect('/');//TODO ADD FLASH MESSAGE
 							return;
 						}
-				console.log(rows4)
+			//	console.log(rows4)
 					res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
@@ -66,13 +66,13 @@ module.exports = function(app, passport, verificationMail) {
 		var bookings = [];
 		var route = "selfprivatkunde";
 		var query = "SELECT `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname";
-		console.log(req.session);
+		//console.log(req.session);
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
 				console.log("get connection db failed 0")
 				return;
 			}
-			console.log("USER " + user); //#TODO CHECK USER
+		//	console.log("USER " + user); //#TODO CHECK USER
 			connection.query("Select COUNT(*) as anz FROM `Privatbenutzer` WHERE `pk_ID` = ?",[sanitizer.sanitize(user)], function(err, rows) {
 				if (err) {
 					console.log("get userrole db failed 1")
@@ -109,16 +109,16 @@ module.exports = function(app, passport, verificationMail) {
 								res.redirect('/');//TODO ADD FLASH MESSAGE
 								return;
 							}
-							console.log(rows5);
-							console.log("-------------------------------")
+						//	console.log(rows5);
+						//	console.log("-------------------------------")
 							connection.query("SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer` WHERE 1", function(err, rows6) {
 								if (err) {
 									console.log("get user db failed 4");
 									res.redirect('/');//TODO ADD FLASH MESSAGE
 									return;
 								}
-								console.log(rows6);
-								console.log("-------------------------------")
+							//	console.log(rows6);
+							//	console.log("-------------------------------")
 							
 								connection.query("SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung`  LEFT JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Fahrrad`.`pk_ID_Benutzer` WHERE `Bestellung`.`pk_ID_Benutzer`='" + sanitizer.sanitize(user) +"'", function(err, rows7) {
 									if (err) {
@@ -126,8 +126,8 @@ module.exports = function(app, passport, verificationMail) {
 										res.redirect('/');//TODO ADD FLASH MESSAGE
 										return;
 									}
-									console.log(rows7);
-									console.log("-------------------------------")
+								//	console.log(rows7);
+								//	console.log("-------------------------------")
 
 
 

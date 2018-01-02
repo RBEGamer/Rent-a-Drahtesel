@@ -97,6 +97,13 @@ module.exports = function(app, passport, verificationMail) {
 		req.logout();
 		res.redirect('/');
 	});
+
+	app.get('/editprofile', isLoggedIn, function(req, res) {
+		res.render('editprofile.ejs', {
+			user : req.user // get the user out of session and pass to template
+		});
+	});
+
 };
 
 // route middleware to make sure
