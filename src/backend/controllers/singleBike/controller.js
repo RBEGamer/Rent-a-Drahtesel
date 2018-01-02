@@ -41,7 +41,7 @@ module.exports = function(app, passport, verificationMail) {
 						return;
 					}
 				console.log(rows4[0])
-				connection.query("SELECT `picture`,`email`,`Rating`,`Description` FROM `BewertungFahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungFahrrad`.`Rater` WHERE `BewertungFahrrad`.`pk_ID` = ?",[sanitizer.sanitize(req.params.id)], function(err, rows3) {
+				connection.query("SELECT  `BewertungFahrrad`.`Rater` AS `rater`,`picture`,`email`,`Rating`,`Description` FROM `BewertungFahrrad` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungFahrrad`.`Rater` WHERE `BewertungFahrrad`.`pk_ID` = ?",[sanitizer.sanitize(req.params.id)], function(err, rows3) {
 					if (err) {
 						console.log("get singlebike db failed 4")
 						return;
@@ -87,7 +87,8 @@ module.exports = function(app, passport, verificationMail) {
 					booked_days: bkd,
 					bike_id: sanitizer.sanitize(req.params.id),
 					ratings:rows3,
-					user:rows4[0]
+					user:rows4[0],
+					userid: userid
 				});
 			});
 		});
