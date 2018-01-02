@@ -104,16 +104,16 @@ app.post('/editprofile', function(req, res) {
         //UPDATE INFO
         //wenn pw1 gesetzt passwort updaten && pw1==pw2
         //wenn picture oder banner gesetzt sind hochladen und so
-        redirectes.redirect('/profile');
+        res.redirect('/profile');
         return;
 
     }else  if (req.body.action == "delete") {
         //DELETE USER
         //aus privat/geschäft dann aus fahrräder / bewertungen buchungen zuletzt aus benutzer
-        redirectes.redirect('/');
+        res.redirect('/');
         return;
     }else{
-        redirectes.redirect('/editprofile');
+        res.redirect('/editprofile');
         return;
      }   
 });
