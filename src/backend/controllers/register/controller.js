@@ -9,20 +9,14 @@ var cred = require('../../config/credentials.js');
 var formgenerator = require('../../config/formgenerator.js');
 var formvalidator = require('../../config/formvalidator.js');
 var models = require('../../config/models');
+var modelmiddelware = require('../../config/modelmiddelware');
 
 module.exports = function(app, passport, verificationMail) {
 
 	/*var queryBen = "SHOW COLUMNS FROM Benutzer";
 	var queryGeschaeft = "SHOW COLUMS FROM Geschaeftsbenutzer";
 	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
-	String.prototype.format = function() {
-  		a = this;
-  		for (k in arguments) {
-    		a = a.replace("{" + k + "}", arguments[k])
-  		}
-  		return a
-	}
-		
+
 	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
 	/*app.get('/register', function(req, res) {
 		res.render('signup.ejs', { 
@@ -91,7 +85,6 @@ module.exports = function(app, passport, verificationMail) {
 		var error = req.flash('error');
 		var data = req.flash('olddata');
 
-		//console.log('error: ', error[0]);
 		//console.log('data: ', data);
 		//console.log('start: ', start);
 		res.render(__dirname +'/register.ejs', { 
@@ -117,11 +110,14 @@ module.exports = function(app, passport, verificationMail) {
 		})(req, res, next);
 	});*/
 
-
-	app.post('/register', formvalidator.validate, function(req, res, next) {
+	var benutzerExists = modelmiddelware.itemExists('Benutzer', ['email']);
+	app.post('/register', 
+		formvalidator.validate, 
+		benutzerExists,
+		function(req, res, next) {
 		
 		var invalid = req.flash('invalid')[0];
-		//console.log(invalid);
+		console.log("controller - invalid ", invalid);
 		if(invalid == 'true') {
 			res.redirect('/register');
 		} else {

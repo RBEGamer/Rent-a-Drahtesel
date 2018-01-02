@@ -48,7 +48,6 @@ var formvalidator = function()  {
 			req.flash('error', error);
 			req.flash('olddata', req.body);
 			req.flash('start', req.body.kind);
-			console.log(req.body.kind);
 			req.flash('invalid', 'true');
 		} else {
 			req.flash('invalid', 'false');
@@ -56,6 +55,7 @@ var formvalidator = function()  {
 		
 		next();
 	}
+
 }
 
 module.exports = new formvalidator();

@@ -120,7 +120,19 @@ function Models(){
 		);
 
 		callback(true);
+	}
 
+	this.findOne = function(modelname, data, callback) {
+		var query = "SELECT * FROM `" + modelname + "` WHERE ";
+		Object.keys(data).forEach(function(key,index) {
+			query += key;
+			query += " = '";
+			query += data[key];
+			query += "' ";
+		});
+		this.dbconnection(query, function(rows) {
+			callback(rows);
+		});
 	}
 
 	this.addModel = function(name) {
