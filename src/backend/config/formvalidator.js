@@ -44,15 +44,11 @@ var formvalidator = function()  {
 				}
 			}
 		}
-		if(!valide) {
-			req.flash('error', error);
-			req.flash('olddata', req.body);
-			req.flash('start', req.body.kind);
-			req.flash('invalid', 'true');
-		} else {
-			req.flash('invalid', 'false');
-		}
-		
+
+		res.locals.olddata = req.body;
+		res.locals.start = req.body.kind;
+		res.locals.invalid = !valide
+
 		next();
 	}
 

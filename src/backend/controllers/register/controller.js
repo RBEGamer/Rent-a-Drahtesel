@@ -10,6 +10,8 @@ var formgenerator = require('../../config/formgenerator.js');
 var formvalidator = require('../../config/formvalidator.js');
 var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
+var bsip = require('../../config/base_ip.js')
+
 
 module.exports = function(app, passport, verificationMail) {
 
@@ -81,17 +83,26 @@ module.exports = function(app, passport, verificationMail) {
 
 	app.get('/register', function(req, res) {
 
-		var start = req.flash('start');
+		/*var start = req.flash('start');
 		var error = req.flash('error');
 		var data = req.flash('olddata');
-
+		console.log(req.flash());
+		console.log(res.locals);
 		//console.log('data: ', data);
-		//console.log('start: ', start);
+		//console.log('start: ', start);*/
+
+		var m =  app.locals.formdata
+		console.log('register get ', app.locals.formdata);
+		var data = (m ? m.olddata  : {});
+		var start = (m ? m.start : "");
+		var invalid = (m ? m.invalid : false);
+		var error = (m ? m.error : null);
+		app.locals.formdata = null;
 		res.render(__dirname +'/register.ejs', { 
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
-			data: data[0],
-			error: error[0],
+			data: data,
+			error: error,
 			forms: forms,
 			start: start
 		});
@@ -111,12 +122,42 @@ module.exports = function(app, passport, verificationMail) {
 	});*/
 
 	var benutzerExists = modelmiddelware.itemExists('Benutzer', ['email']);
+	var hashPassword = modelmiddelware.hashValue('pw');
+	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
 	app.post('/register', 
 		formvalidator.validate, 
 		benutzerExists,
+		hashPassword,
+		insertHash, 
 		function(req, res, next) {
-		
-		var invalid = req.flash('invalid')[0];
+			//res.json({data: data});
+			console.log(req.body);
+			if(res.locals.findOne.found) {
+				res.locals.invalid = true;
+				res.locals.error = {};
+				req.body['pw'] = "";
+				req.body['passwortwdh'] = "";
+				res.locals.data = req.body;
+				res.locals.error['email'] = {text: 'Email*', error: 'Die Email Adresse ist schon vergeben!'};
+			}
+
+			if(res.locals.invalid) {
+				app.locals.formdata = res.locals;
+				console.log(res.locals);
+				res.redirect('/register');
+			} else {
+
+				models.insertIntoModel(req.body.model, req.body, function(data) {
+					
+					verificationMail.sendMailMSG(
+						"Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"register/verification/" + data.lastID + "/" + req.body.verification_hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
+						req.body['email']
+					);
+					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Befolgen Sie den Anweisungen sofort. Schalten Sie nicht die Polizei ein. Die Email wird sich um 0:00 selber löschen.');
+					res.redirect('/login');
+				});
+			}
+		/*var invalid = req.flash('invalid')[0];
 		console.log("controller - invalid ", invalid);
 		if(invalid == 'true') {
 			res.redirect('/register');
@@ -124,7 +165,11 @@ module.exports = function(app, passport, verificationMail) {
 			models.insertIntoModel(req.body.model, req.body, function(data) {
 				res.json({data: data});
 			});
-		}
+		}*/
+	});
+
+	app.get('/register/verification/:id/:hash', function(req, res, next) {
+
 	});
 	app.get('/register/countries', function(req, res, next) {
 		res.json(c.countries);	

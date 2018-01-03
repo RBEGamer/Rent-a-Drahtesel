@@ -95,6 +95,7 @@ function Models(){
 		//console.log('models - submodelarray');
 		var queries = [];
 		var lastID = -1;
+		var allRows = [];
 		this.getInsertionQuery(modelname, data, function(query) {
 			queries.push(query);
 		});
@@ -110,16 +111,17 @@ function Models(){
 				self.dbconnection(finalquery, function(rows) {
 					if(query.parent) {
 						lastID = rows.insertId;
-						ready();
 					}
+					allRows.push(rows);
+					ready();
 				});
 				
 			}, function() {
-
+				callback({lastID: lastID, allRows: allRows});
 			}
 		);
 
-		callback(true);
+		
 	}
 
 	this.findOne = function(modelname, data, callback) {

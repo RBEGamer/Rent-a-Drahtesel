@@ -1,41 +1,43 @@
 var models = require('./models');
 var forms =  require('./formdata');
+var bcrypt = require('bcrypt-nodejs');
+
 
 function itemExists(modelname, data) {
 	return function(req, res, next) {
-
-		if(req.flash('invalid') === 'true') {
-			req.flash('invalid','true');
-			next();
-		} else {
-			var columns = {};
-			for(var i = 0; i < data.length; i++) {
-				columns[data[i]] = req.body[data[i]];
-			}
-			models.findOne(modelname, columns, function(response) {
-				console.log(response);
-				console.log(req.flash('invalid'));
-				if(response.length === 0) {
-					req.flash('invalid', 'false');
-				}
-				else {
-					var error = {};
-					error[data[0]] = {text: forms.formelements[data[0]].text, error: "Schon vorhanden!"};
-					req.flash('invalid', 'true');
-					req.flash('error', error);
-					req.flash('olddata', req.body);
-					req.flash('start', req.body.kind);
-
-				}
-				next();
-			});
+		var columns = {};
+		for(var i = 0; i < data.length; i++) {
+			columns[data[i]] = req.body[data[i]];
 		}
-		
-	};
+		models.findOne(modelname, columns, function(response) {
+			res.locals.findOne = {response: response, found: (response.length > 0)};
+			next();
+		});
+	}
+};
+
+function hashValue(column) {
+	return function(req, res, next) {
+		var unhashed = req.body[column];
+		req.body[column] = bcrypt.hashSync(unhashed, null, null);
+		next();
+	}
+}
+
+function updateReqBody(keys, values) {
+	return function(req, res, next) {
+		for(var i = 0; i < keys.length; i++) {
+			req.body[keys[i]] = values[i];
+		}
+		next();
+	}
 }
 
 
+
 module.exports =  {
-	itemExists: itemExists
+	itemExists: itemExists,
+	hashValue: hashValue,
+	updateReqBody: updateReqBody
 
 }
