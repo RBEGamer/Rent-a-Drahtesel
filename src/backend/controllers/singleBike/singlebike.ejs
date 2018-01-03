@@ -48,7 +48,12 @@
                         <img class="bildklein margin" src="<%= user.picture %>" alt="" height="50" />  
                         <% } %>
                     <div class="white margin padding middle">
+                            
+                        <% if(userid == user.pk_ID){ %>
+                        <a href="/profile/"><%= user.email %></a><br />
+                        <% }else{ %>
                         <a href="/profile/<%= user.pk_ID %>"><%= user.email %></a><br />
+                        <% } %>
                         <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                     </div>
                 </div>
@@ -170,7 +175,16 @@
                                 <% }else{ %>
                                 <img src="<%= n.picture %>" alt="" height="25">
                                 <% } %>
-                                <strong>&nbsp;<%= n.email %>&emsp;</strong>
+                                <strong>&nbsp;
+                                    
+                                        <% if(userid == n.rater){ %>
+                                            <a href="/profile/"><%= n.email %></a><br />
+                                            <% }else{ %>
+                                            <a href="/profile/<%= n.rater %>"><%= n.email %></a><br />
+                                            <% } %>
+
+                                    &emsp;</strong>
+                                
                             </div>
 
                             <div class="col-6 col-md-6 right " style="float:right;">  
