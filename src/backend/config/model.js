@@ -4,7 +4,7 @@ module.exports = function(name, data, path) {
 	this.subModels = []
 	this.name = name;
 	this.hierarchie = [];
-	this.parent = [false, false];
+	this.parent = [];
 
 	this.setPath = function(d) {
 		for(var i = d.length -1 ; i >= 0; i--) {
@@ -19,16 +19,19 @@ module.exports = function(name, data, path) {
 	}
 	this.getPrimaryKey = function(d) {
 		Object.keys(d).forEach(function(key,index) {
+
 			var tmpModel = d[key];
+			var isParent = false;
 			for(var i = 0; i < tmpModel.length; i++) {
 				var col = tmpModel[i];
 				if(col.Key === 'PRI') {
-					self.primaryKeys.push(col.Key);
+					self.primaryKeys.push(col.Field);
 				}
 				if(col.Extra === 'auto_increment') {
-					self.parent[index] = true;
+					isParent = true;
 				}
 			}
+			self.parent.push(isParent)
 		});
 	}
 

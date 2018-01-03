@@ -5,6 +5,7 @@ var sanitizer = require('sanitizer');
 var formdata = require('./formdata');
 var model = require('./model');
 var format = require('./formatstring');
+var sqlParser = require('./sqlParser');
 
 
 
@@ -15,6 +16,21 @@ function Models(){
 
 	this.getModels = function() {
 		return _models;
+	}
+
+	this.getValue = function(modelname, field, value) {
+		//console.log("models - gatValue - modelname, field, value: ", modelname, field, value);
+		var allModels = _models[modelname].subModels;
+		for(var i = 0; i < allModels.length; i++) {
+			var subModel = _models[modelname].subModels[i];
+			for(var j = 0; j < subModel.length; j++) {
+				var fieldobj = subModel[j];
+				if(fieldobj.Field === field) {
+					return sqlParser(fieldobj.Type, value);
+				}
+			}
+		}
+
 	}
 	this.dbconnection = function(query, callback) {
 		mysqlpool.getConnection(function(err,connection){
@@ -133,8 +149,44 @@ function Models(){
 			query += "' ";
 		});
 		this.dbconnection(query, function(rows) {
+			if(rows.length > 0) {
+				//console.log(rows[0]);
+				callback(rows[0]);
+			}
+			else {
+				callback(null);
+			}
+		});
+	}
+
+	this.update = function(modelname, data, where, callback) {
+		var query = "UPDATE `" + modelname + "` SET ";
+		Object.keys(data).forEach(function(key, index) {
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, data[key]);
+			query += ", ";
+			
+		});
+		query = query.slice(0, -2);
+		query += " WHERE ";
+		
+		Object.keys(where).forEach(function(key, index) {
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, where[key]);
+			query += " AND ";
+		});
+		query = query.slice(0, -5);
+		this.dbconnection(query, function(rows) {
 			callback(rows);
 		});
+
+		/*this.getValue(modelname, 'verified', 1);
+		this.dbconnection("UPDATE `Benutzer` SET `verified`= 1 WHERE `pk_ID` = 57", function(rows) {
+			callback(rows);
+		});*/
+
 	}
 
 	this.addModel = function(name) {
@@ -163,6 +215,9 @@ function Models(){
 				var tmpData = {};
 				for(var i = path.length -1; i >= 0; i--) {
 					tmpData[path[i]] = target[i];
+					if(_models[path[i]] == null) {
+						self.addModel(path[i]);
+					}
 				}
 				_models[name] = new model(name, tmpData, path);
 				//console.log(tmpData);

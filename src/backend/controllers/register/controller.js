@@ -169,7 +169,29 @@ module.exports = function(app, passport, verificationMail) {
 	});
 
 	app.get('/register/verification/:id/:hash', function(req, res, next) {
-
+		var id = parseInt(req.params.id);
+        var hash = req.params.hash;
+        var loginMessage = '';
+        models.findOne('Benutzer', {pk_ID: id}, function(cols) {
+        	if(cols) {
+        		console.log(cols.verification_hash);
+        		console.log(hash);
+        		if(cols.verification_hash === hash) {
+        			models.update('Benutzer', {verified: '1'}, {pk_ID: id}, function(rows) {
+        				//console.log(rows.model.Benutzer);
+        				//res.json({data: rows});
+        				req.flash('loginMessage', 'Sie können sich nun einloggen.');
+        				res.redirect('/login');
+        			});
+        		} else {
+        			req.flash('loginMessage', "Verification hat nicht geklappt");
+        			res.redirect('/login');
+        		}
+        	} else {
+        		req.flash('loginMessage', "Verification hat nicht geklappt");
+        		res.redirect('/login');
+        	}
+        });
 	});
 	app.get('/register/countries', function(req, res, next) {
 		res.json(c.countries);	
