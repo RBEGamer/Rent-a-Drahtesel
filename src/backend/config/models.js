@@ -49,7 +49,20 @@ function Models(){
 			connection.release();
 		});
 	}
-
+	this.queryFunctions = function(functions, callback) {
+		var results = [];
+		this.Waterfall(functions, 
+			function(f, ready) {
+				f(function(rows) {
+					results.push(rows);
+					console.log('models- queryfunctions -zwischenergebnisse: ',rows);
+					ready();
+				});
+			},
+			function() {
+				callback(results);
+			});
+	}
 	this.Waterfall = function(list, iterator, callback) {
 		var pos = 0;
 
@@ -106,6 +119,44 @@ function Models(){
 		}
 	}
 
+	this.getFindCompleteQuery = function(modelname, selects, data) {
+		var fields = _models[modelname].fields;
+		var hierarchie = _models[modelname].hierarchie;
+		var primaryKeys = _models[modelname].primaryKeys;
+		var query = "SELECT ";
+		for(var i = 0; i < selects.length; i++) {
+			query +=  selects[i];
+			query += ", ";
+		}
+		query = query.slice(0, -2);
+		query += " FROM ";
+		query += hierarchie[0];
+
+		
+
+		for(var i = 1; i < hierarchie.length; i++) {
+			query += " JOIN ";
+			query += hierarchie[i];
+			query += " ON ";
+			query += hierarchie[0] + "." + primaryKeys[0];
+			query += " = ";
+			query += hierarchie[i] + "." + primaryKeys[i];
+		}
+
+		query += " WHERE ";
+
+		Object.keys(data).forEach(function(key, index) {
+			query += fields[key] + "." + key;
+			query += " = ";
+			query += self.getValue(fields[key], key, data[key]);
+			query += " AND ";
+		});
+
+		query = query.slice(0, -5);
+		return query;
+
+	}
+
 	this.insertIntoModel = function(modelname, data, callback) {
 		//console.log('models - insert into model', data);
 		//console.log('models - submodelarray');
@@ -140,18 +191,55 @@ function Models(){
 		
 	}
 
+	this.findComplete = function(modelname, selects, data, callback) {
+		//SELECT email, city, Vorname FROM benutzer JOIN privatbenutzer ON benutzer.pk_ID = privatbenutzer.pk_ID  WHERE city = 'Aachen' AND Name = 'Arndt';
+		console.log('findComplete ');
+		var query = this.getFindCompleteQuery(modelname, selects, data);
+		this.dbconnection(query, function(rows) {
+			callback(rows);
+		});	
+
+		
+	}
+
+	this.findSpecialisation = function(modelstocheck, basemodel, data, callback) {
+		var queries = [];
+		var result = {};
+		var pos = 0;
+		for (var i = 0; i < modelstocheck.length; i++) {
+			var tmp = this.getFindCompleteQuery(modelstocheck[i], "*", data);
+			queries.push(tmp);
+		}
+
+		this.Waterfall(queries, 
+			function(query, ready) {
+				self.dbconnection(query, function(rows) {
+					console.log('modelstocheck, pos: ', modelstocheck, pos);
+					if(rows.length > 0) {
+						result = {model: modelstocheck[pos], data: rows[0]};
+					}
+					pos++;
+					ready();
+				});
+			},
+			function() {
+				callback(result);
+			}
+		);
+	}
+
 	this.findOne = function(modelname, data, callback) {
 		var query = "SELECT * FROM `" + modelname + "` WHERE ";
 		Object.keys(data).forEach(function(key,index) {
 			query += key;
-			query += " = '";
-			query += data[key];
-			query += "' ";
+			query += " = ";
+			query += self.getValue(modelname, key, data[key]);
+			query += " ";
 		});
 		this.dbconnection(query, function(rows) {
 			if(rows.length > 0) {
 				//console.log(rows[0]);
-				callback(rows[0]);
+				callback(rows);
 			}
 			else {
 				callback(null);
@@ -215,9 +303,9 @@ function Models(){
 				var tmpData = {};
 				for(var i = path.length -1; i >= 0; i--) {
 					tmpData[path[i]] = target[i];
-					if(_models[path[i]] == null) {
+					/*if(_models[path[i]] == null) {
 						self.addModel(path[i]);
-					}
+					}*/
 				}
 				_models[name] = new model(name, tmpData, path);
 				//console.log(tmpData);

@@ -81,6 +81,58 @@ module.exports = function(app, passport, verificationMail) {
 		connection.release();
 	});*/
 
+	app.get('/register/debug', function(req, res) {
+
+		/*models.findComplete('Privatbenutzer',
+			["Name", "Vorname", "email"], {country: "Deutschland"},
+		 	function(rows) {
+				res.json({data: rows});
+			}
+		);*/
+		var pos = 0;
+		var queries = [
+			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)},
+			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)},
+			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)}
+		];
+
+
+		/*for(var i = 0; i < queries.length; i++){
+			queries[i](callback);
+		}
+		
+		function callback(rows) {
+			pos++;
+			console.log(pos + ". iteration: " + rows);
+		}*/
+		var id = req.session.passport.user;
+		models.findSpecialisation(
+			['Privatbenutzer', 'Geschaeftsbenutzer'], 
+			'Benutzer',
+			{pk_ID: id},
+			function(user) {
+
+				var queries = [
+					function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, callback);},
+			 		function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, callback);}
+				];
+				models.queryFunctions(queries, function(results) {
+					res.json({results: results, user: user});
+				});
+
+			}
+		);
+		/*function show2() {console.log("show2")};
+		function show3() {console.log("show3")};
+		var functions = [show2, show3];
+		for(var i = 0; i < functions.length; i++) {
+			functions[i]();
+		}*/
+
+	
+
+	});
+
 	app.get('/register', function(req, res) {
 
 		/*var start = req.flash('start');
@@ -174,9 +226,9 @@ module.exports = function(app, passport, verificationMail) {
         var loginMessage = '';
         models.findOne('Benutzer', {pk_ID: id}, function(cols) {
         	if(cols) {
-        		console.log(cols.verification_hash);
+        		console.log(cols[0].verification_hash);
         		console.log(hash);
-        		if(cols.verification_hash === hash) {
+        		if(cols[0].verification_hash === hash) {
         			models.update('Benutzer', {verified: '1'}, {pk_ID: id}, function(rows) {
         				//console.log(rows.model.Benutzer);
         				//res.json({data: rows});

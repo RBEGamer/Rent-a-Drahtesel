@@ -32,21 +32,29 @@ module.exports = {
         'registercommercial' : {
             'elements': 
             [
-            'email', 'Firmenname', 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
+                'email', 'Firmenname', 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
             ],
             'model': 'Geschaeftsbenutzer'
         },
         'editprivate' : {
             'elements':
             [
-            'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone', 'picture'
+                'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone', 'picture'
             ],
             'model': 'Privatbenutzer'
+        },
+        'editcommercial' : {
+            'elements':
+            [
+                'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
+
+            ],
+            'model': 'Geschaeftsbenutzer'
         },
         'login' : {
             'elements':
             [
-            'email', 'pw'
+                'email', 'pw'
             ],
             'model': 'Benutzer'
         }
@@ -64,6 +72,19 @@ module.exports = {
         'Geschaeftsbenutzer': {
             table: 'Geschaeftsbenutzer',
             parent: 'Benutzer'
+        },
+        'Fahrrad': {
+            table: 'Fahrrad',
+            join:   {
+                'Benutzer' : 'pk_ID_Benutzer'
+            }
+        },
+        'BewertungBenutzer' : {
+            table: 'BewertungBenutzer',
+            join: {
+                'Benutzer' : 'pk_ID'
+            }
         }
+
     }
 }

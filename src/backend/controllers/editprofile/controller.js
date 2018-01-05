@@ -64,7 +64,7 @@ module.exports = function(app, passport, verificationMail) {
 
            
 
-        var route = "";
+        /*var route = "";
         if(editmode == 1){route = "privat";}else if(editmode == 2){route = "gesch"}
         if(route != ""){
         res.render(__dirname +'/' + route + '_' + 'editprofile.ejs', { 
@@ -77,7 +77,7 @@ module.exports = function(app, passport, verificationMail) {
         }else{
             console.log("route = ''")
         res.redirect('/profile');
-        }
+        }*/
 
 
     }); }); }); });

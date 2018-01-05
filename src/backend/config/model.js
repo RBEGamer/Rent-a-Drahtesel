@@ -3,12 +3,17 @@ module.exports = function(name, data, path) {
 	this.primaryKeys = [];
 	this.subModels = []
 	this.name = name;
+	this.pos = -1;
 	this.hierarchie = [];
 	this.parent = [];
+	this.fields = {};
 
 	this.setPath = function(d) {
 		for(var i = d.length -1 ; i >= 0; i--) {
 			this.hierarchie.push(d[i]);
+			if(d[i] === name)
+				pos = i;
+
 		}
 	}
 
@@ -37,11 +42,22 @@ module.exports = function(name, data, path) {
 
 	this.toString = function() {
 		var s = "modelname: " + name + "/n";
-
 	}
+	this.setFields = function(d) {
+		var tmp = {};
+		for(var i = 0; i < this.subModels.length; i++) {
+			for(var j = 0; j < this.subModels[i].length; j++) {
+					tmp[this.subModels[i][j].Field] = this.hierarchie[i];
+			}
+		}
+		this.fields = tmp;
+	}
+
+
 
 
 	this.getPrimaryKey(data);
 	this.splitData(data);
 	this.setPath(path);
+	this.setFields(data);
 }

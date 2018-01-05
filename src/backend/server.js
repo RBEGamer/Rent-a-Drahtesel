@@ -16,6 +16,7 @@ var cron = require('node-cron');
 var db = require('./config/database');
 var mkdirp = require('mkdirp');
 var models = require('./config/models');
+var formdata = require('./config/formdata');
 
 
 
@@ -25,8 +26,10 @@ console.log(bsip);
 // connect to our database
 require('./config/passport')(passport, verificationMail); // pass passport for configuration
 
-models.addModel('Privatbenutzer');
-models.addModel('Geschaeftsbenutzer');
+Object.keys(formdata.models).forEach(function(key, index) {
+  console.log('server - models key: ', key);
+  models.addModel(key);
+});
 
 mkdirp(config.config.image_upload_tmp_path, function(err) {
 if(err){
