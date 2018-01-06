@@ -89,12 +89,7 @@ module.exports = function(app, passport, verificationMail) {
 				res.json({data: rows});
 			}
 		);*/
-		var pos = 0;
-		var queries = [
-			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)},
-			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)},
-			 function(callback) { models.findComplete('Privatbenutzer', ["Name", "Vorname", "email"], {country: "Deutschland"}, callback)}
-		];
+		
 
 
 		/*for(var i = 0; i < queries.length; i++){
@@ -109,6 +104,7 @@ module.exports = function(app, passport, verificationMail) {
 		models.findSpecialisation(
 			['Privatbenutzer', 'Geschaeftsbenutzer'], 
 			'Benutzer',
+			['*'],
 			{pk_ID: id},
 			function(user) {
 
@@ -156,7 +152,8 @@ module.exports = function(app, passport, verificationMail) {
 			data: data,
 			error: error,
 			forms: forms,
-			start: start
+			start: start,
+			target: 'register'
 		});
 	});
 

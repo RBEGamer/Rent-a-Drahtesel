@@ -13,7 +13,7 @@
 
 <% Object.keys(forms).forEach(function(key,index) { %>
 <div>
-    <form id=<%=key %> method="post" action="/register" style="display: 
+    <form id=<%=key %> method="post" action="/<%=target %>" style="display: 
         <% if(key === start) { %>
             block;
         <% } else { %>

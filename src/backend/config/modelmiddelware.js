@@ -16,6 +16,18 @@ function itemExists(modelname, data) {
 	}
 };
 
+function isLoggedIn() {
+	return function(req, res, next) {
+		if(req.isAuthenticated()) {
+			next();
+		} else {
+			req.flash('loginMessage', 'Melden Sie sich wieder an!');
+			res.redirect('/login');
+			return;
+		}
+	}
+}
+
 function hashValue(column) {
 	return function(req, res, next) {
 		var unhashed = req.body[column];
@@ -38,6 +50,7 @@ function updateReqBody(keys, values) {
 module.exports =  {
 	itemExists: itemExists,
 	hashValue: hashValue,
-	updateReqBody: updateReqBody
+	updateReqBody: updateReqBody,
+	isLoggedIn: isLoggedIn
 
 }

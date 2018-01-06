@@ -56,7 +56,8 @@ app.get('/editprofile', function(req, res, next) {
                 forms: forms,
                 model: user.model,
                 start: form,
-                mode: "Bearbeiten"
+                mode: "Update",
+                target: '/editprofile'
             });
 
 
@@ -141,21 +142,22 @@ app.get('/editprofile', function(req, res, next) {
     
 
 
-app.post('/editprofile', function(req, res) {
-    if(!req.isAuthenticated()) {
-        res.redirect('/login');
+app.post('/editprofile',
+    modelmiddelware.isLoggedIn, 
+    formvalidator.validate, 
+    modelmiddelware.hashValue('pw'),
+    function(req, res) {
+    
+    if(res.locals.invalid) {
+        app.locals.formdata = res.locals;
+        res.redirect('/register');
         return;
+    } else {
+        res.json(req.body);
     }
 
-    var user = req.session.passport.user;
-        console.log("USER:" + user);
-        if(user == undefined){
-            res.redirect('/login');
-            return;
-        }
 
-
-    if (req.body.action == "edit") {
+    /*if (req.body.action == "edit") {
         //TODO CHECK FIELDS
         //UPDATE INFO
         //wenn pw1 gesetzt passwort updaten && pw1==pw2
@@ -171,7 +173,11 @@ app.post('/editprofile', function(req, res) {
     }else{
         res.redirect('/editprofile');
         return;
-     }   
+     }*/ 
+});
+
+app.post('editprofile/delete', function(req, res) {
+
 });
 
 
