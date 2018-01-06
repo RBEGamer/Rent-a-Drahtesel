@@ -39,25 +39,26 @@ app.get('/editprofile', function(req, res, next) {
                 res.json({results: results, user: user});
             });*/
             var form = "";
-            if(user.model === "Privatbenutzer") form = "registerprivat";
-            if(user.model === "Geschaeftsbenutzer") form = "registercommecial";
+            if(user.model === "Privatbenutzer") form = "editprivate";
+            if(user.model === "Geschaeftsbenutzer") form = "editcommercial";
 
             var forms = formgenerator.generate([form]);
 
             var m =  app.locals.formdata
             var error = (m ? m.error : null);
+            var data = (m ? m.olddata : user.data);
             app.locals.formdata = null;
-            user.data["pw"] = "";
+            data["pw"] = "";
             res.render(__dirname +'/editprofile.ejs', { 
                 layoutPath: '../../views/',
                 isLoggedIn: req.isAuthenticated(),
-                data: user.data,
+                data: data,
                 error: error,
                 forms: forms,
                 model: user.model,
                 start: form,
                 mode: "Update",
-                target: '/editprofile'
+                target: 'editprofile'
             });
 
 
@@ -143,17 +144,17 @@ app.get('/editprofile', function(req, res, next) {
 
 
 app.post('/editprofile',
-    modelmiddelware.isLoggedIn, 
     formvalidator.validate, 
     modelmiddelware.hashValue('pw'),
-    function(req, res) {
-    
+    function(req, res, next) {
+    console.log('kommt an!');
+    console.log(res.locals);
     if(res.locals.invalid) {
         app.locals.formdata = res.locals;
-        res.redirect('/register');
+        res.redirect('/editprofile');
         return;
     } else {
-        res.json(req.body);
+        res.json({data: req.body});
     }
 
 
@@ -174,10 +175,6 @@ app.post('/editprofile',
         res.redirect('/editprofile');
         return;
      }*/ 
-});
-
-app.post('editprofile/delete', function(req, res) {
-
 });
 
 

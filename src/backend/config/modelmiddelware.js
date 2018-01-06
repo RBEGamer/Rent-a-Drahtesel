@@ -18,6 +18,7 @@ function itemExists(modelname, data) {
 
 function isLoggedIn() {
 	return function(req, res, next) {
+		console.log('isLoggedIn - kommt an!');
 		if(req.isAuthenticated()) {
 			next();
 		} else {
@@ -30,6 +31,7 @@ function isLoggedIn() {
 
 function hashValue(column) {
 	return function(req, res, next) {
+		console.log('hashValue - kommt an!');
 		var unhashed = req.body[column];
 		req.body[column] = bcrypt.hashSync(unhashed, null, null);
 		next();

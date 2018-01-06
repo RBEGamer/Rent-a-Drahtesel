@@ -3,9 +3,10 @@ var functions = require('./formvalidationfunctions');
 var formgenerator = require('./formgenerator');
 var formvalidator = function()  {
 	
-	var valide = true;
 
 	this.validate = function(req, res, next) {
+		console.log('formvalidator - kommt an!');
+		var valide = true;
 
 		var schema = formdata.forms[req.body.kind].elements;
 		var error = {};
@@ -44,11 +45,11 @@ var formvalidator = function()  {
 				}
 			}
 		}
-
+		res.locals.error = error;
 		res.locals.olddata = req.body;
 		res.locals.start = req.body.kind;
 		res.locals.invalid = !valide
-
+		console.log("formvalidator - invalid", res.locals.invalid);
 		next();
 	}
 
