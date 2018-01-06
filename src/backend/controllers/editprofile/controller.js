@@ -5,10 +5,66 @@ var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
 
+var formgenerator = require('../../config/formgenerator.js');
+var formvalidator = require('../../config/formvalidator.js');
+var models = require('../../config/models');
+var modelmiddelware = require('../../config/modelmiddelware');
+var formdata = require('../../config/formdata');
+var c= require('../../config/countries');
+
+
 module.exports = function(app, passport, verificationMail) {
 
 
-    app.get('/editprofile', function(req, res) {
+
+app.get('/editprofile', function(req, res, next) {
+    if(!req.isAuthenticated()) {
+        res.redirect('/login');
+        return;
+    }
+
+    var id = req.session.passport.user;
+    models.findSpecialisation(
+        ['Privatbenutzer', 'Geschaeftsbenutzer'], 
+        'Benutzer',
+        ["*"],
+        {pk_ID: id},
+        function(user) {
+
+            /*var queries = [
+                function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, callback);},
+                function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, callback);}
+            ];
+            models.queryFunctions(queries, function(results) {
+                res.json({results: results, user: user});
+            });*/
+            var form = "";
+            if(user.model === "Privatbenutzer") form = "registerprivat";
+            if(user.model === "Geschaeftsbenutzer") form = "registercommecial";
+
+            var forms = formgenerator.generate([form]);
+
+            var m =  app.locals.formdata
+            var error = (m ? m.error : null);
+            app.locals.formdata = null;
+            user.data["pw"] = "";
+            res.render(__dirname +'/editprofile.ejs', { 
+                layoutPath: '../../views/',
+                isLoggedIn: req.isAuthenticated(),
+                data: user.data,
+                error: error,
+                forms: forms,
+                model: user.model,
+                start: form,
+                mode: "Bearbeiten"
+            });
+
+
+        }
+    );
+});
+
+    /*app.get('/editprofile', function(req, res) {
 
 		if(!req.isAuthenticated()) {
             res.redirect('/profile');
@@ -21,7 +77,7 @@ module.exports = function(app, passport, verificationMail) {
             res.redirect('/profile');
             return;
         }
-        var editmode = 0; //0 = invalid // 1= privat // 2 = geschäft
+        /*var editmode = 0; //0 = invalid // 1= privat // 2 = geschäft
 
         mysqlpool.getConnection(function(err, connection) {
 			if (err) {
@@ -64,7 +120,7 @@ module.exports = function(app, passport, verificationMail) {
 
            
 
-        /*var route = "";
+        var route = "";
         if(editmode == 1){route = "privat";}else if(editmode == 2){route = "gesch"}
         if(route != ""){
         res.render(__dirname +'/' + route + '_' + 'editprofile.ejs', { 
@@ -77,24 +133,24 @@ module.exports = function(app, passport, verificationMail) {
         }else{
             console.log("route = ''")
         res.redirect('/profile');
-        }*/
+        }
 
 
     }); }); }); });
-});
+});*/
     
 
 
 app.post('/editprofile', function(req, res) {
     if(!req.isAuthenticated()) {
-        res.redirect('/profile');
+        res.redirect('/login');
         return;
     }
 
     var user = req.session.passport.user;
         console.log("USER:" + user);
         if(user == undefined){
-            res.redirect('/profile');
+            res.redirect('/login');
             return;
         }
 

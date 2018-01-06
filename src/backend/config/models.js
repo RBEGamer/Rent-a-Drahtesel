@@ -202,12 +202,12 @@ function Models(){
 		
 	}
 
-	this.findSpecialisation = function(modelstocheck, basemodel, data, callback) {
+	this.findSpecialisation = function(modelstocheck, basemodel, fields, data, callback) {
 		var queries = [];
 		var result = {};
 		var pos = 0;
 		for (var i = 0; i < modelstocheck.length; i++) {
-			var tmp = this.getFindCompleteQuery(modelstocheck[i], "*", data);
+			var tmp = this.getFindCompleteQuery(modelstocheck[i], fields, data);
 			queries.push(tmp);
 		}
 
