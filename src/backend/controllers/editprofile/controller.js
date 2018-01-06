@@ -154,8 +154,16 @@ app.post('/editprofile',
         res.redirect('/editprofile');
         return;
     } else {
-        res.json({data: req.body});
+        var id = req.session.passport.user;
+
+        models.update(req.body.model, req.body, {pk_ID: id}, function(rows) {
+            res.json(rows);
+        });
+
     }
+});
+
+}
 
 
     /*if (req.body.action == "edit") {
@@ -175,9 +183,7 @@ app.post('/editprofile',
         res.redirect('/editprofile');
         return;
      }*/ 
-});
 
 
 
 
-}

@@ -175,21 +175,12 @@ module.exports = function(app, passport, verificationMail) {
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
 	app.post('/register', 
 		formvalidator.validate, 
-		benutzerExists,
+		//benutzerExists,
 		hashPassword,
 		insertHash, 
 		function(req, res, next) {
 			//res.json({data: data});
-			console.log(req.body);
-			if(res.locals.findOne.found) {
-				res.locals.invalid = true;
-				res.locals.error = {};
-				req.body['pw'] = "";
-				req.body['passwortwdh'] = "";
-				res.locals.data = req.body;
-				res.locals.error['email'] = {text: 'Email*', error: 'Die Email Adresse ist schon vergeben!'};
-			}
-
+			
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				console.log(res.locals);

@@ -119,6 +119,28 @@ function Models(){
 		}
 	}
 
+	this.getUpdateQuery = function(modelname, data, where) {
+		var query = "UPDATE `" + modelname + "` SET ";
+		Object.keys(data).forEach(function(key, index) {
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, data[key]);
+			query += ", ";
+			
+		});
+		query = query.slice(0, -2);
+		query += " WHERE ";
+		
+		Object.keys(where).forEach(function(key, index) {
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, where[key]);
+			query += " AND ";
+		});
+		query = query.slice(0, -5);
+		return query;
+	}
+
 	this.getFindCompleteQuery = function(modelname, selects, data) {
 		var fields = _models[modelname].fields;
 		var hierarchie = _models[modelname].hierarchie;
@@ -248,24 +270,42 @@ function Models(){
 	}
 
 	this.update = function(modelname, data, where, callback) {
-		var query = "UPDATE `" + modelname + "` SET ";
+
+		var fields = _models[modelname].fields;
+		var hierarchie = _models[modelname].hierarchie;
+		var submodels = {};
+		var queries = [];
+		var results = [];
+		for(var i = 0; i < hierarchie.length; i++) {
+			submodels[hierarchie[i]] = {};
+		}
 		Object.keys(data).forEach(function(key, index) {
-			query += key;
-			query += " = ";
-			query += self.getValue(modelname, key, data[key]);
-			query += ", ";
-			
+			if(fields[key] != null) {
+				submodels[fields[key]][key] = data[key];
+			}
+
 		});
-		query = query.slice(0, -2);
-		query += " WHERE ";
-		
-		Object.keys(where).forEach(function(key, index) {
-			query += key;
-			query += " = ";
-			query += self.getValue(modelname, key, where[key]);
-			query += " AND ";
+
+		Object.keys(submodels).forEach(function(key, index) {
+			if(Object.keys(submodels[key]).length > 0) {
+				var tmp = self.getUpdateQuery(hierarchie[index], submodels[key], where);
+				queries.push(tmp);
+			}
 		});
-		query = query.slice(0, -5);
+
+		this.Waterfall(queries, 
+			function(query, ready) {
+				self.dbconnection(query, function(rows) {
+					results.push(rows);
+					ready();
+				});
+			}, function() {
+				callback(results);
+			}
+		);
+
+
+		/*
 		this.dbconnection(query, function(rows) {
 			callback(rows);
 		});

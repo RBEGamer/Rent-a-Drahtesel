@@ -39,7 +39,7 @@ module.exports = {
         'editprivate' : {
             'elements':
             [
-                'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone'
+                'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone', 'picture'
             ],
             'model': 'Privatbenutzer'
         },

@@ -5,6 +5,7 @@ var bcrypt = require('bcrypt-nodejs');
 
 function itemExists(modelname, data) {
 	return function(req, res, next) {
+		console.log("itemExists", req.body);
 		var columns = {};
 		for(var i = 0; i < data.length; i++) {
 			columns[data[i]] = req.body[data[i]];
