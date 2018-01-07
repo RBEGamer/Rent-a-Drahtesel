@@ -12,7 +12,6 @@ var ValidationFunctions = function() {
 	this.isMail = function(data) {
 		var regex = /\S+@\S+\.\S+/;
 		var valide = regex.test(data.value)
-		console.log("formvalidationfunctions- isMail: ", data.value, valide);
 		if(!valide) {
 			return {value: false, error: "Die Email hat kein gültiges Format!"};
 		}
@@ -34,7 +33,6 @@ var ValidationFunctions = function() {
 
 	}
 	this.isInArray = function(data) {
-		console.log("formvalidationdunctions - isInArray", data);
 		if(data.data.array.indexOf(data.value) >= 0) {
 			return {value: true};
 		}
@@ -43,9 +41,7 @@ var ValidationFunctions = function() {
 	}
 
 	this.isNumeric = function(data) {
-		console.log("formvalidationdunctions - isNumeric");
-		console.log(parseFloat(data.value));
-		console.log(data.value);
+
 		if(parseFloat(data.value) == data.value)
 			return {value: true};
 		return {value: false, error: "Eintrag muss eine Zahl sein."};
@@ -53,7 +49,6 @@ var ValidationFunctions = function() {
 	}
 
 	this.lengthInRange = function(data) {
-		console.log("formvalidationdunctions - lengthInRange", data);
 		if(data.value.length >= data.data.min && data.value.length <= data.data.max) 
 			return {value: true};
 		return {value: false, error: "Eintrag muss zwischen " + data.data.min + " und " + data.data.max + " Zeichen lang sein."};
@@ -69,7 +64,6 @@ var ValidationFunctions = function() {
 	}
 
 	this.isSame = function(data) {
-		console.log("formvalidationdunctions - isSame", data, data.connected);
 		if(data.connected.value === data.value)
 			return {value: true}
 		return {value: false, error: "Feld muss mit " + data.connected.text + " übereinstimmen!"};

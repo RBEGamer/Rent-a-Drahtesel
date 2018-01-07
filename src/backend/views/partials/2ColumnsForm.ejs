@@ -13,7 +13,7 @@
 
 <% Object.keys(forms).forEach(function(key,index) { %>
 <div>
-    <form id=<%=key %> method="post" action="/<%=target %>" style="display: 
+    <form id=<%=key %> method="post"  action="/<%=target %>" style="display: 
         <% if(key === start) { %>
             block;
         <% } else { %>
@@ -41,10 +41,16 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
                         <input class="form-control height" 
+                        <% var isFile = false; %>
                         <% Object.keys(forms[key].elements[i].input).forEach(function(key1, index1) { %>
-                            <%= key1 %> = <%= forms[key].elements[i].input[key1] %>
+                            <% if(forms[key].elements[i].input[key1] === 'file') { isFile = true;} %>
+                            <%= key1 %> = "<%= forms[key].elements[i].input[key1] %>"
                         <% }); %>
-                        name = <%= forms[key].elements[i].name %> value = <%= value %>>
+                         <% if(!isFile) { %> name = "<%= forms[key].elements[i].name %>" value = "<%= value %>" <% } %>>
+                         <% if(isFile) { %>
+                            <input name="<%= forms[key].elements[i].name %>" type="hidden" value=<%= value %>>
+                         <% } %>
+
                     </div>
                 </div>
                 
@@ -66,10 +72,16 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
                         <input class="form-control height" 
+                        <% isFile = false; %>
                         <% Object.keys(forms[key].elements[i+1].input).forEach(function(key1, index1) { %>
-                            <%= key1 %> = <%= forms[key].elements[i+1].input[key1] %>
+                            <% if(forms[key].elements[i+1].input[key1] === 'file') { isFile = true;} %>
+                            <%= key1 %> = "<%= forms[key].elements[i+1].input[key1] %>"
                         <% }); %>
-                        name = <%= forms[key].elements[i+1].name %> value = <%= value2 %>>
+                        <% if(!isFile) { %>name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>"<% } %>>
+                        <% if(isFile) { %>
+                            <input name="<%= forms[key].elements[i+1].name %>" type="hidden" value=<%= value %>>
+                        <% } %>
+
                     </div>
                 </div>
                 <% } %>
@@ -101,3 +113,5 @@
         </div>
     </form>
 <% }); %>
+
+<div id="debug"></div>

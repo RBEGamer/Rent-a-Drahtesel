@@ -5,19 +5,11 @@ var bcrypt = require('bcrypt-nodejs');
 
 function itemExists(modelname, data) {
 	return function(req, res, next) {
-		console.log("itemExists", req.body);
 		var columns = {};
 		for(var i = 0; i < data.length; i++) {
 			columns[data[i]] = req.body[data[i]];
 		}
-		console.log(columns);
-		console.log(modelname);
 		models.findOne(modelname, columns, function(response) {
-			console.log("FIND ONE ");
-			console.log("----------------------");
-			console.log(response);
-			console.log("----------------------");
-			console.log("FIND ONE");
 			if(response != null)
 				res.locals.findOne = {response: response, found: true};
 			else
@@ -29,7 +21,6 @@ function itemExists(modelname, data) {
 
 function isLoggedIn() {
 	return function(req, res, next) {
-		console.log('isLoggedIn - kommt an!');
 		if(req.isAuthenticated()) {
 			next();
 		} else {
@@ -42,7 +33,6 @@ function isLoggedIn() {
 
 function hashValue(column) {
 	return function(req, res, next) {
-		console.log('hashValue - kommt an!');
 		var unhashed = req.body[column];
 		req.body[column] = bcrypt.hashSync(unhashed, null, null);
 		next();

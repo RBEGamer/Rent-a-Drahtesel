@@ -10,7 +10,8 @@ var formgenerator = require('../../config/formgenerator.js');
 var formvalidator = require('../../config/formvalidator.js');
 var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
-var bsip = require('../../config/base_ip.js')
+var bsip = require('../../config/base_ip.js');
+
 
 
 module.exports = function(app, passport, verificationMail) {
@@ -140,12 +141,13 @@ module.exports = function(app, passport, verificationMail) {
 		//console.log('start: ', start);*/
 
 		var m =  app.locals.formdata;
-		console.log('register get ', app.locals.formdata);
+		console.log("FORMDATA 1" , formdata);
 		var data = (m ? m.olddata  : {});
 		var start = (m ? m.start : "");
 		var invalid = (m ? m.invalid : false);
 		var error = (m ? m.error : null);
 		app.locals.formdata = null;
+		console.log("FORMDATA 2", formdata);
 		res.render(__dirname +'/register.ejs', { 
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
@@ -173,14 +175,15 @@ module.exports = function(app, passport, verificationMail) {
 	var benutzerExists = modelmiddelware.itemExists('Benutzer', ['email']);
 	var hashPassword = modelmiddelware.hashValue('pw');
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
+	console.log("FORMDATA 3", formdata);
 	app.post('/register', 
 		formvalidator.validate, 
 		benutzerExists,
 		hashPassword,
-		insertHash, 
+		insertHash,
 		function(req, res, next) {
 			//res.json({data: data});
-			
+			console.log(req.body);
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
@@ -188,7 +191,6 @@ module.exports = function(app, passport, verificationMail) {
 				if(res.locals.findOne.found) {
 					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet!"};
 				}
-				console.log(app.locals.formdata);
 				res.redirect('/register');
 			} else {
 
@@ -219,8 +221,7 @@ module.exports = function(app, passport, verificationMail) {
         var loginMessage = '';
         models.findOne('Benutzer', {pk_ID: id}, function(cols) {
         	if(cols) {
-        		console.log(cols[0].verification_hash);
-        		console.log(hash);
+
         		if(cols[0].verification_hash === hash) {
         			models.update('Benutzer', {verified: '1'}, {pk_ID: id}, function(rows) {
         				//console.log(rows.model.Benutzer);

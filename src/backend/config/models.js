@@ -55,7 +55,6 @@ function Models(){
 			function(f, ready) {
 				f(function(rows) {
 					results.push(rows);
-					console.log('models- queryfunctions -zwischenergebnisse: ',rows);
 					ready();
 				});
 			},
@@ -102,7 +101,7 @@ function Models(){
 			for(var j = 0; j < tmpCols.length; j++) {
 				var field = tmpCols[j].Field;
 				if(data[field] != null  && data[field] != "") {
-					query += "'" + data[field] + "'";
+					query += self.getValue(submodelname, field, data[field]);
 					query += ", ";
 				}
 
@@ -115,6 +114,7 @@ function Models(){
 			}
 			query = query.slice(0, -2);
 			query += ")";
+			console.log(query);
 			callback({query: query, parent: _models[modelname].parent[i]});
 		}
 	}
@@ -215,7 +215,6 @@ function Models(){
 
 	this.findComplete = function(modelname, selects, data, callback) {
 		//SELECT email, city, Vorname FROM benutzer JOIN privatbenutzer ON benutzer.pk_ID = privatbenutzer.pk_ID  WHERE city = 'Aachen' AND Name = 'Arndt';
-		console.log('findComplete ');
 		var query = this.getFindCompleteQuery(modelname, selects, data);
 		this.dbconnection(query, function(rows) {
 			callback(rows);
@@ -236,7 +235,6 @@ function Models(){
 		this.Waterfall(queries, 
 			function(query, ready) {
 				self.dbconnection(query, function(rows) {
-					console.log('modelstocheck, pos: ', modelstocheck, pos);
 					if(rows.length > 0) {
 						result = {model: modelstocheck[pos], data: rows[0]};
 					}

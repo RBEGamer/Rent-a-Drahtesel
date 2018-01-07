@@ -45,7 +45,8 @@ module.exports = function(app, passport, verificationMail) {
 							return;
 						}
 			//	console.log(rows4)
-					res.render(__dirname + '/' + route + '.ejs',
+						console.log("PROFILE", userdata);
+							res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
 								layoutPath : '../../views/',
@@ -131,7 +132,7 @@ module.exports = function(app, passport, verificationMail) {
 
 
 
-								
+							console.log("USERDATA", userdata);
 							res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),

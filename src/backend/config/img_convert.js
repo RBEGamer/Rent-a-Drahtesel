@@ -2,10 +2,9 @@ var base64Img = require('base64-img');
 const uuidv1 = require('uuid/v1');
 const sharp = require('sharp');
 
-var supported_type = ['png', 'jpg', 'JPG', 'jpeg', 'gif']
+var supported_type = ['png', 'jpg', 'JPG', 'jpeg', 'gif'];
 
 //gif, jpg, png
-
 //.png
 function type_validator(_extention){
 if(_extention == undefined){return false;}
@@ -34,4 +33,12 @@ return filepath;
 function img_covert_to_base(_path){
   //TODO REZISE
 return base64Img.base64Sync(_path);
+}
+
+
+module.exports = {
+	base64_covert_to_img: base64_covert_to_img,
+	img_covert_to_base: img_covert_to_base,
+	get_file_extention: get_file_extention,
+	type_validator: type_validator
 }

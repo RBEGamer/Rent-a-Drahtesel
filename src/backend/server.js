@@ -17,7 +17,7 @@ var db = require('./config/database');
 var mkdirp = require('mkdirp');
 var models = require('./config/models');
 var formdata = require('./config/formdata');
-
+var fileUpload = require('express-fileupload');
 
 
 
@@ -55,6 +55,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(bodyParser.json());
+
 
 app.engine('ejs', engine);
 app.set('view engine', 'ejs'); // set up ejs for templating
