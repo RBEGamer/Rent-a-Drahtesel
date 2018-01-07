@@ -10,8 +10,18 @@ function itemExists(modelname, data) {
 		for(var i = 0; i < data.length; i++) {
 			columns[data[i]] = req.body[data[i]];
 		}
+		console.log(columns);
+		console.log(modelname);
 		models.findOne(modelname, columns, function(response) {
-			res.locals.findOne = {response: response, found: (response.length > 0)};
+			console.log("FIND ONE ");
+			console.log("----------------------");
+			console.log(response);
+			console.log("----------------------");
+			console.log("FIND ONE");
+			if(response != null)
+				res.locals.findOne = {response: response, found: true};
+			else
+				res.locals.findOne = {response: null, found: false};
 			next();
 		});
 	}

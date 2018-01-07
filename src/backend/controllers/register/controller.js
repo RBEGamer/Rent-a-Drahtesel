@@ -139,7 +139,7 @@ module.exports = function(app, passport, verificationMail) {
 		//console.log('data: ', data);
 		//console.log('start: ', start);*/
 
-		var m =  app.locals.formdata
+		var m =  app.locals.formdata;
 		console.log('register get ', app.locals.formdata);
 		var data = (m ? m.olddata  : {});
 		var start = (m ? m.start : "");
@@ -175,7 +175,7 @@ module.exports = function(app, passport, verificationMail) {
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
 	app.post('/register', 
 		formvalidator.validate, 
-		//benutzerExists,
+		benutzerExists,
 		hashPassword,
 		insertHash, 
 		function(req, res, next) {
@@ -183,7 +183,12 @@ module.exports = function(app, passport, verificationMail) {
 			
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
-				console.log(res.locals);
+				app.locals.formdata.olddata.pw = "";
+				app.locals.formdata.olddata.passwortwdh = "";
+				if(res.locals.findOne.found) {
+					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet!"};
+				}
+				console.log(app.locals.formdata);
 				res.redirect('/register');
 			} else {
 

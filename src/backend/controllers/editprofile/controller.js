@@ -48,7 +48,7 @@ app.get('/editprofile', function(req, res, next) {
             var error = (m ? m.error : null);
             var data = (m ? m.olddata : user.data);
             app.locals.formdata = null;
-            data["pw"] = "";
+            data["pw"] = ""; data["passwortwdh"] = "";
             res.render(__dirname +'/editprofile.ejs', { 
                 layoutPath: '../../views/',
                 isLoggedIn: req.isAuthenticated(),

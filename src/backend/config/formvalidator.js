@@ -26,7 +26,10 @@ var formvalidator = function()  {
 								s = validationObjects[key];
 							} 	
 							if(key === 'connected') {
-								args[key] = req.body[validationObjects[key]];
+								var field = validationObjects[key];
+								args[key] = {};
+								args[key].value = req.body[field];
+								args[key].text = formdata.formelements[field].text;
 							}
 							else  {
 								args[key] = validationObjects[key];
