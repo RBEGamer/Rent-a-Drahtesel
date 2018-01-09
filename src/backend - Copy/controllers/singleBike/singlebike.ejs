@@ -1,0 +1,402 @@
+      <% layout(layoutPath + 'layout') -%>
+
+     <head>
+            <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
+     </head>
+
+    <div class="row">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center"><%= bike.name %></p></div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    </div>
+    <div class="row no-gutters">
+        <div class="col-12">
+            <div class="middle">
+                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="70"></div>
+            </div>
+        </div>
+    </div>
+
+       <div class="row no-gutters">
+            <div class="col-12 col-sm-6">
+                <div class="margin">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <% pictures.forEach(function(pic) { %>
+                            <div class="carousel-item active">
+                                <img height="300px" width="100%" class="img-responsive" src="<%= pic.picture.toString('utf8') %>" alt="Second slide">
+                            </div>
+                            <% }); %>
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-sm-6">
+                <div class="white margin padding middle">
+                        <% if(user.picture == undefined ||user.picture == ""){ %>
+                    <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />  
+                    <% }else{ %>
+                        <img class="bildklein margin" src="<%= user.picture %>" alt="" height="50" />  
+                        <% } %>
+                    <div class="white margin padding middle">
+                            
+                        <% if(userid == user.pk_ID){ %>
+                        <a href="/profile/"><%= user.email %></a><br />
+                        <% }else{ %>
+                        <a href="/profile/<%= user.pk_ID %>"><%= user.email %></a><br />
+                        <% } %>
+                        <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding">
+                    <div class="hoch">
+                        <%= bike_desc %>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding middle">
+                    <div class="hoch">
+                        <span><b><%= bike.biketype %></b></span><br />
+                        <span><%= bike.size %> "</span>
+              <br/>
+                        &emsp;
+                        <% if(bike.porter  == 1){ %>
+                        	<input type="checkbox" disabled checked class="form-check-input position-static">
+                        <% }else{ %>
+                        	<input type="checkbox" disabled class="form-check-input position-static">
+                        <% } %>
+                        <span>Gepäckträger</span><br />
+                        &emsp;
+                        <% if(bike.childseat == 1){ %>
+                        	<input type="checkbox" disabled checked class="form-check-input position-static">
+                        <% }else{ %>
+                        	<input type="checkbox" disabled class="form-check-input position-static">
+                        <% } %>
+                        <span>Kindersitz</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4">
+                <div class="white margin padding">
+                        <div id="calhold">
+                        <div id="my-calendar"></div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+            <div class="col-2 col-md"><p class="text-center">FAHRRAD STANDORT</p></div>
+            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        </div>
+
+        <div class="row no-gutters">
+
+            <div class="col-12">
+                <div class="margin">
+                    <div id="map" style="width:100%;height:200px;"></div>
+                </div>
+                <div class="margin middle">
+                   <span>Standort: <%= bike.street %> <%= bike.housenumber %>, <%= bike.zip %> <%= bike.city %></span>
+          </div>
+            </div>
+        </div>
+
+    <div class="row" style="margin-top:20px">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center">PREIS</div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    </div>
+        <div class="row no-gutters">
+            <div class="col-12 col-md-6">
+                <div class="margin height text">
+                    <div id="price_holder">
+                    	<div class="row">
+                    		<span class="durchstrichen">21.30€</span>
+                    		&emsp;&emsp;
+                    		<span class="rot">18.90€</span>
+                    		
+                    	</div>
+                    		&emsp;&emsp;
+                    		<span>(3.00€ / Tag)</span>
+                	</div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="margin height">
+                    <form action="rent" method="post">
+                    <% if(isLoggedIn){ %>
+                    <input type="submit" class="btn btn-secondary btn-block height" value="Mieten"/>
+                    <% }else{ %>
+                        <input type="submit" class="btn btn-secondary btn-block height" value="Mieten" disabled/>
+                    <% } %>
+                    <div id="form_date"></div>
+                    <input type="hidden" value="<%= bike_id %>" name="bike_id" />
+                    
+                </form>
+                </div>
+            </div>
+        </div>
+
+    <div class="row" style="margin-top:20px">
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="col-2 col-md"><p class="text-center">BEWERTUNGEN</p></div>
+        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    </div>
+
+
+     
+        <% ratings.forEach(function(n) { %>
+           <div class="row no-gutters">
+                <div class="white margin">
+                    <div class="col-12">
+                        <div id="row no-gutters">
+                            <div class="col-6 col-md-6">
+                                    <% if(n.picture == undefined || n.picture == ""){ %>
+                                <img src="/images/leer.png" alt="" height="25">
+                                <% }else{ %>
+                                <img src="<%= n.picture %>" alt="" height="25">
+                                <% } %>
+                                <strong>&nbsp;
+                                    
+                                        <% if(userid == n.rater){ %>
+                                            <a href="/profile/"><%= n.email %></a><br />
+                                            <% }else{ %>
+                                            <a href="/profile/<%= n.rater %>"><%= n.email %></a><br />
+                                            <% } %>
+
+                                    &emsp;</strong>
+                                
+                            </div>
+
+                            <div class="col-6 col-md-6 right " style="float:right;">  
+                              <div class="starRating" starMax="5" value="<%= n.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                            </div>
+                        </div>
+                        <div id="row no-gutters margin">
+                                <div class="col-12 col-md-12 middle " style="float:right;"> 
+                                <span><%= n.Description %></span>
+                                </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+
+            
+
+
+    </div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+<script src="/js/zabuto_calendar.min.js"></script>
+
+
+    
+
+
+
+    <script>                      
+        // center: new google.maps.LatLng(<%= maps_key %>, <%= bike.lon %>),
+        function initMap() {
+         var uluru = {lat: <%= bike.lat %>, lng: <%= bike.lon %>};
+         var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 15,
+           center: uluru
+         });
+         var marker = new google.maps.Marker({
+           position: uluru,
+           map: map
+         });
+       }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
+
+
+
+
+<script type="application/javascript">
+  var booked_days = 0;
+  var eventData = [];
+    //CREAT A DATASET FROM WITH PUSH COMMANDS WITH THE FIXED DAYS
+    <% booked_days.forEach(function(n) { %>
+        eventData.push({"date":"<%= n %>","badge":false,"title":"RESERVIERT", "fixed":true}) 
+    <% }); %>
+
+  
+
+  function myDateFunction(id) {
+    console.log(eventData);
+ if(!id.includes("calendar")){alert("err");return;}
+ console.log(id.split("_")[3]); //#3 is date
+var dtstring = id.split("_")[3];//extrect the datestring
+
+var is_fixed = false;
+var remove_id = -1;
+var is_in  = false;
+ for(var i = 0; i < eventData.length; i++){
+     if(eventData[i].fixed == undefined || eventData[i].date == undefined){
+         alert("Es ist ein allgemeiner Fehler aufgetreten. Bitte lade die Seite erneut.");
+         break;
+     }
+     //CHECK IF THE DATE IS A FROM OTHER RESERVED 
+    if(eventData[i].date == dtstring && eventData[i].fixed == true){
+        is_fixed = true;
+        break;
+    }
+    //CHECK If is a DAY TO ReMOVE
+    if(eventData[i].date == dtstring  && eventData[i].fixed == false){
+        remove_id = i;
+        break;
+    }
+    if(eventData[i].date == dtstring  && eventData[i].fixed == false){
+        is_in = true;
+
+        break;
+    }
+ }
+
+ if(is_fixed){alert("Dieses Datum wurde bereit von einem anderen Kunden reserviert.Bitte waehle ein anderes.");return;}
+//REMOVE ENTRY
+ if(remove_id != -1){
+    console.log("REMOVE ENTRY");
+    var eventData_old = eventData;
+    eventData = [];
+    for(var j = 0; j < eventData_old.length; j++){
+        if(j != i){
+            eventData.push(eventData_old[j]);
+        }else{
+            console.log("SKIP:" + eventData_old[j]);
+        }
+    }
+    console.log(eventData);
+    //HACKY WORKAROUND
+    $("#calhold").empty()
+    $("#calhold").append("<div id='my-calendar'></div>");
+    create_calendar();
+     return;
+ }
+ //ADD NEW ENTRY
+ if(!is_in){
+
+    var seldate = new Date(dtstring);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() - 1);
+    if( tomorrow >seldate){
+        alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
+        return;
+    }
+     console.log("ADD");
+ eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
+ }
+//HACKY WORKAROUND
+ $("#calhold").empty()
+ $("#calhold").append("<div id='my-calendar'></div>");
+ create_calendar();
+}
+
+
+function create_calendar(){
+    //GET CURRENT DATE
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+
+  $("#my-calendar").zabuto_calendar({
+  year: yyyy,
+  month: mm,
+  day: dd,
+  show_previous: true,
+  cell_border: true,
+  today: true,
+  show_days: false,
+  weekstartson: 0,
+  nav_icon: {
+    prev: 'zur&uuml;ck',
+    next: 'weiter'
+  },
+  action: function() { myDateFunction(this.id); },
+data: eventData
+});
+
+
+
+
+//CREATES A CUSTOM FORM INPUT WITH THE BOOKES DAYS
+//push only the not fixex data into the form = not fixed = user booked
+var ev_form = [];
+for(var i = 0; i < eventData.length; i++){
+    if(eventData[i].date != undefined && eventData[i].fixed != undefined && eventData[i].fixed == false){
+    ev_form.push(eventData[i]);
+    }
+}
+booked_days = ev_form.length;
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='booked_days' value='"+JSON.stringify(ev_form)+"'/>";
+
+
+//CALCULATE PRICE
+var normal_price = <%= bike.price %>*booked_days;
+var threeday = <%= bike.threeday %>;
+var sevenday = <%= bike.sevenday %>;
+var fin_price = normal_price;
+if(booked_days >= 7){
+    fin_price = normal_price - (normal_price*(sevenday/100.0))
+}else if(booked_days >= 3){
+    fin_price = normal_price - (normal_price*(threeday/100.0))
+}
+var priceperday = <%= bike.price %>;
+if(booked_days > 0){
+priceperday = fin_price /booked_days;
+}
+
+priceperday = (Math.round(priceperday * 100) / 100)
+fin_price = (Math.round(fin_price * 100) / 100)
+normal_price = (Math.round(normal_price * 100) / 100)
+
+
+if(fin_price != normal_price){
+    document.getElementById('price_holder').innerHTML ="<div class='row'><div style='font-size: xx-large'><span class='durchstrichen'>"+String(normal_price)+"€</span>&emsp;&emsp;<span class='rot'>"+String(fin_price)+"€</span></div></div><div class='row'>&emsp;&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span></div>";
+}else{
+    document.getElementById('price_holder').innerHTML ="<div class='row'>&emsp;&emsp;&emsp;&emsp;<span><div style='font-size: xx-large'>"+String(fin_price)+"€</div></span></div><div class='row'>&emsp;&emsp;&emsp;<span>("+String(priceperday)+"€ / Tag)</span></div>";
+}
+
+
+
+
+               
+
+}
+
+$( document ).ready(function() {
+    create_calendar();
+});
+
+    </script>
+
+
+
+  

@@ -1,0 +1,39 @@
+<% stylesheet('/register/style.css') -%>
+<% script('/register/script.js') -%> 
+<% layout(layoutPath + 'layout') -%>
+
+<% console.log('registerview: ' + start) %>
+ <div class="row no-gutters">
+    <div class="col-12">
+        <div class="white margin padding middle">
+            <h1 class="display-4">Registrieren Debug</h1>
+        </div>
+    </div>
+</div>
+
+
+<div class="row no-gutters">
+            <div class="col-12 col-md-12 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height text">
+                    <span>Geschäftskunde</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height text">
+                    <input type="checkbox" id="chkProfile" class="form-check-input position-static">
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-12 col-md-12 col-lg-2"></div>
+</div>
+<% var mode = 'Registrieren' %>
+<div id='starter' class=<%= start %>>
+<% include ../../views/partials/2ColumnsForm %>
+
+
+
+
+
+

@@ -1,0 +1,92 @@
+<% layout('layout') -%>
+
+<div class="row no-gutters">
+    <div class="col-12">
+        <div class="white margin padding middle">
+            <h1 class="display-4">Registrieren Debug</h1>
+        </div>
+    </div>
+</div>
+
+<div class="row no-gutters">
+	        <div class="col-12 col-md-12 col-lg-2"></div>
+	        <div class="col-6 col-md-3 col-lg-2">
+	            <div class="margin height text">
+	                <span>Geschäftskunde</span>
+	            </div>
+	        </div>
+	        <div class="col-6 col-md-3 col-lg-2">
+	            <div class="margin height text">
+	                <input type="checkbox" id="chkProfile" class="form-check-input position-static">
+	            </div>
+	        </div>
+	        <div class="col-6 col-md-3 col-lg-2"></div>
+	        <div class="col-6 col-md-3 col-lg-2"></div>
+	        <div class="col-12 col-md-12 col-lg-2"></div>
+	    </div>
+
+<% Object.keys(forms).forEach(function(key,index) { %>
+<div>
+	<form id=<%=key %> method="post" action="/register">
+   	
+   			<% for(var i = 0; i < forms[key].length; i+=2) { %>      
+            <div class="row no-gutters">
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key][i].text %></span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input 
+                      	<% Object.keys(forms[key][i].input).forEach(function(key1, index1) { %>
+                			<%= key1 %> = <%= forms[key][i].input[key1] %>
+                		<% }); %>
+						class="form-control height">
+                    </div>
+                </div>
+                <% if(i+1 < forms[key].length) { %>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key][i+1].text %></span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input 
+                      	<% Object.keys(forms[key][i+1].input).forEach(function(key1, index1) { %>
+                			<%= key1 %> = <%= forms[key][i+1].input[key1] %>
+                		<% }); %>
+						class="form-control height">
+                    </div>
+                </div>
+                <% } %>
+                <div class="col-12 col-md-12 col-lg-2"></div>
+
+                
+
+            </div>
+    		<% } %>
+	
+	   
+
+	    <div class="row no-gutters">
+	        <div class="col-12 col-md-12 col-lg-2"></div>
+	        <div class="col-6 col-md-3 col-lg-2">
+	            <div class="margin height textklein">
+	                <span>*Pflichtfeld</span>
+	            </div>
+	        </div>
+	        <div class="col-6 col-md-3 col-lg-2"></div>
+	        <div class="col-6 col-md-3 col-lg-2"></div>
+	        <div class="col-6 col-md-3 col-lg-2">
+	            <div class="margin height">
+	                <button type="submit" class="btn btn-secondary btn-block height">Registrieren</button>
+	            </div>
+	        </div>
+	        <div class="col-12 col-md-12 col-lg-2"></div>
+	    </div>
+	</form>
+</div>
+<% }); %>

@@ -1,0 +1,17 @@
+.navbar-element {
+    float: left;
+    margin-right: 20px;
+}
+
+.navbar-element-seperator {
+    border-right: 1px solid #000000;
+}
+.navbar-container {
+    list-style-type: none;
+    overflow: hidden;
+    margin-left:-40px;
+}
+
+.navbar-element-text {
+    margin-right: 20px;
+}

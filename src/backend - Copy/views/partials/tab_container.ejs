@@ -1,0 +1,29 @@
+<% var firstMenu = true; var firstContent = true %>
+<div id="exTab3" class="container">
+    <ul  class="nav nav-pills">
+        <% tab.menus.forEach(function(menu) { %>
+
+            <% if(firstMenu) { %>
+                <li class="active">
+            <% } else { %>
+                <li>
+            <% } %>
+                  <a  href="#<%= menu %>" data-toggle="tab"><%= menu %></a>
+            </li>
+        <% firstMenu = false; %>
+        <% }); %>
+    </ul>
+    <div class="tab-content clearfix">
+        <% for(var i = 0; i < tab.partials.length; i++) { %>
+                <% if(firstContent) { %>
+                    <div class="tab-pane active" id="<%=tab.menus[i]%>">
+                <% } else { %>
+                    <div class="tab-pane" id="<%=tab.menus[i]%>">
+                <% } %>
+
+                    <%-partial(tab.partials[i])%>
+                </div>
+        <% firstContent = false; %>
+        <% } %>
+    </div>
+</div>
