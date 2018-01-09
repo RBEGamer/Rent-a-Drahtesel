@@ -1,6 +1,5 @@
 var base64Img = require('base64-img');
 const uuidv1 = require('uuid/v1');
-const sharp = require('sharp');
 
 var supported_type = ['png', 'jpg', 'JPG', 'jpeg', 'gif'];
 
