@@ -57,7 +57,7 @@ module.exports = function(app, passport, verificationMail) {
 			console.log("NEW USER PW:" + pw + " HASH:" + pw_hash);
 			connection.query("UPDATE `Benutzer` SET `pw`=? WHERE `email`= ? LIMIT 1", [sanitizer.sanitize(pw_hash),sanitizer.sanitize(req.body.mail)], function(err, rows) {
 				req.flash('loginMessage', 'Wir haben eine Email mit einem neuen Passwort an  ' + req.body.mail + ' gesendet. Bitte aendere dies bei deinem naesten Besuch.<br>Bitte Antworte nicht auf diese E-Mail.<br>Viele Gruesse dein Rent-A-Bike Team.');
-				verificationMail.sendMailMSG("Hallo,<br> dein neues Pawwort lautet : "+ pw + "<br>", req.body.mail);
+				verificationMail.sendMailMSG("Hallo,<br> dein neues Passwort lautet : "+ pw + "<br>", req.body.mail);
 				req.flash('loginMessage', 'Eine Email mit deinem neuen Passwort wurde versand!');
 			});
 			

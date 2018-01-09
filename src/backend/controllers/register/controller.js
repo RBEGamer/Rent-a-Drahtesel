@@ -16,91 +16,13 @@ var bsip = require('../../config/base_ip.js');
 
 module.exports = function(app, passport, verificationMail) {
 
-	/*var queryBen = "SHOW COLUMNS FROM Benutzer";
-	var queryGeschaeft = "SHOW COLUMS FROM Geschaeftsbenutzer";
-	var queryPrivat = "SHOW COLUMNS FROM Privatbenutzer";*/
 
 	var forms = formgenerator.generate(['registerprivat', 'registercommercial']);
-	/*app.get('/register', function(req, res) {
-		res.render('signup.ejs', { 
-			layoutPath: '/',
-			isLoggedIn: req.isAuthenticated(),
-			forms: forms
-		});
-	});*/
 
-	/*mysqlpool.getConnection(function(err, connection) {
-		if (err) {
-			console.log("get connection db failed")
-			return;
-		}
-		connection.query(queryBen, function(err, rows) {
-			if (err) {
-				console.log("get userrole db failed")
-				return;
-			}
-			console.log("base: ");
-			console.log(rows);
-		});
-		connection.release();
-	});*/
-
-	/*mysqlpool.getConnection(function(err, connection) {
-		if (err) {
-			console.log("get connection db failed")
-			return;
-		}
-		connection.query(queryPrivat, function(err, rows) {
-			if (err) {
-				console.log("get userrole db failed")
-				return;
-			}
-			var string=JSON.stringify(rows);
-			var json =  JSON.parse(string);
-			for(var i = 0; i < json.length; i++) {
-				console.log(json[i].Field);
-			}
-
-
-		});
-		connection.release();
-	});*/
-
-	/*mysqlpool.getConnection(function(err, connection) {
-		if (err) {
-			console.log("get connection db failed")
-			return;
-		}
-		connection.query(queryGeschaeft, function(err, rows) {
-			if (err) {
-				console.log("get userrole db failed")
-				return;
-			}
-			console.log("geschäft: ");
-			console.log(rows);
-		});
-		connection.release();
-	});*/
 
 	app.get('/register/debug', function(req, res) {
 
-		/*models.findComplete('Privatbenutzer',
-			["Name", "Vorname", "email"], {country: "Deutschland"},
-		 	function(rows) {
-				res.json({data: rows});
-			}
-		);*/
-		
 
-
-		/*for(var i = 0; i < queries.length; i++){
-			queries[i](callback);
-		}
-		
-		function callback(rows) {
-			pos++;
-			console.log(pos + ". iteration: " + rows);
-		}*/
 		var id = req.session.passport.user;
 		models.findSpecialisation(
 			['Privatbenutzer', 'Geschaeftsbenutzer'], 
@@ -132,13 +54,7 @@ module.exports = function(app, passport, verificationMail) {
 
 	app.get('/register', function(req, res) {
 
-		/*var start = req.flash('start');
-		var error = req.flash('error');
-		var data = req.flash('olddata');
-		console.log(req.flash());
-		console.log(res.locals);
-		//console.log('data: ', data);
-		//console.log('start: ', start);*/
+		
 
 		var m =  app.locals.formdata;
 		console.log("FORMDATA 1" , formdata);
