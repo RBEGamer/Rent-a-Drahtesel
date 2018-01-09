@@ -8,3 +8,4 @@
 - beim inserieren checken ob daten schon belegt sind (POST)
 - responsive Design
 - testen/fixen
+- email spelling fixing
