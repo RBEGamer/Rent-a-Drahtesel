@@ -22,17 +22,17 @@
                 <div class="margin">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                            <% pictures.forEach(function(pic) { %>
+                           
                             <div class="carousel-item active">
-                                <img height="300px" width="100%" class="img-responsive" src="<%= pic.picture.toString('utf8') %>" alt="Second slide">
+                                <img height="300px" width="100%"  id="diashow_img" class="img-responsive" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Second slide">
                             </div>
-                            <% }); %>
+           
                         </div>
-                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" onclick="dia_prev();">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
-                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" onclick="dia_next();">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
@@ -391,7 +391,81 @@ if(fin_price != normal_price){
 
 }
 
+
+
+
+//-------------------------- DIASHOW STUFF ------------------------------------------------
+
+var dia_images = [];
+var dia_index = -1;
+
+
+<% pictures.forEach(function(pic) { %>
+    dia_images.push("<%= pic.picture.toString('utf8') %>");
+<% }); %>
+
+
+
+
+
+function dia_next(){
+if(dia_images.length > 0){
+if(dia_index < dia_images.length-1){
+dia_index++;
+}else{
+    dia_index = 0;
+}
+dia_load_img();
+}
+
+}
+
+
+function dia_prev(){
+    if(dia_images.length > 0){
+if(dia_index > 0){
+dia_index--;
+}else{
+    dia_index = dia_images.length -1;
+}
+dia_load_img();
+}
+
+}
+
+function dia_load_img(){
+    if(dia_index < 0){
+    document.getElementById('diashow_img')
+    .setAttribute(
+        'src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+    );
+    console.log("load default")
+    }else{
+        document.getElementById('diashow_img')
+    .setAttribute(
+        'src', dia_images[dia_index]
+    );  
+    console.log("load index:" + dia_index);
+    }
+}
+
+function dia_init(){
+if(dia_images.length > 0){
+dia_index = 0;
+dia_load_img();
+}
+}
+
+
+
+
+
+
+
+
+
 $( document ).ready(function() {
+    dia_init();
     create_calendar();
 });
 
