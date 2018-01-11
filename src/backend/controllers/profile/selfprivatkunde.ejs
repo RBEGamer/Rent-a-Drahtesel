@@ -57,18 +57,18 @@
         <div class="row no-gutters">
             <div class="col-6">
                 <div class="margin height">
-                    <button type="button" id="meineFahrräderBtn" class="btn btn-secondary btn-block height" onclick="fahrräder()">Meine Fahrräder</button>
+                    <button type="button" id="meineFahrraederBtn" class="btn btn-secondary btn-block height" onclick="show_bikes()">Meine Fahrraeder</button>
                 </div>
             </div>
             <div class="col-6">
                 <div class="margin height">
-                    <button type="button" id="meineBestellungenBtn" class="btn btn-secondary btn-block height" onclick="bestellungen()">Meine Bestellungen</button>
+                    <button type="button" id="meineBestellungenBtn" class="btn btn-secondary btn-block height" onclick="show_orders()">Meine Bestellungen</button>
                 </div>
             </div>
         </div>
+    
 
-
-        <div id="meineFahrräder">
+        <div id="meineFahrraeder">
                 <script>
 
 
@@ -210,6 +210,12 @@
 
 
 
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+
+
         <script>                      
             function initMap() {
              var uluru = {lat: <%= userdata.lat %>, lng: <%= userdata.lon %>};
@@ -224,3 +230,30 @@
            }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
+
+
+
+    <script type="application/javascript">
+        function hide_all(){
+            document.getElementById("meineFahrraeder").style.display = "none";
+            document.getElementById("meineBestellungen").style.display = "none"; 
+        }
+
+        function show_bikes(){
+            hide_all();
+            document.getElementById("meineFahrraeder").style.display = "block";
+        }
+
+        function show_orders(){
+            hide_all();
+            document.getElementById("meineBestellungen").style.display = "block";
+        }
+
+    
+
+        $( document ).ready(function() {
+            show_bikes();
+        });
+
+
+    </script>
