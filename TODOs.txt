@@ -26,3 +26,4 @@ SyntaxError: Unexpected token u in JSON at position 0
 - banner bild rezisen
 - register bei 3.5mb bild => payload to large error
 - bei urls http anfang check sonst appenden
+- mehrere fahrradbilder verrutschen ? per js machen ?
