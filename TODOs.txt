@@ -22,4 +22,6 @@ praktikum_swe_ws1718/src/backend/node_modules/mysql/lib/protocol/Parser.js:80
 
 SyntaxError: Unexpected token u in JSON at position 0
 
+-bilder hochladen inserieren
+
 
