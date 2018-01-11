@@ -23,5 +23,6 @@ praktikum_swe_ws1718/src/backend/node_modules/mysql/lib/protocol/Parser.js:80
 SyntaxError: Unexpected token u in JSON at position 0
 
 -bilder hochladen inserieren
-
-
+- banner bild rezisen
+- register bei 3.5mb bild => payload to large error
+- bei urls http anfang check sonst appenden
