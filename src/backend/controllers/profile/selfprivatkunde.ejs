@@ -1,5 +1,24 @@
 <% layout(layoutPath + 'layout') -%>
 
+
+<head>
+    <style>
+
+.tabcontent {
+   animation: fadeEffect 1s; /* Fading effect takes 1 second */
+}
+
+/* Go from zero to full opacity */
+@keyframes fadeEffect {
+   from {opacity: 0;}
+   to {opacity: 1;}
+}
+
+   </style>
+</head>
+
+
+
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="d-flex flex-column flex-md-row">
@@ -68,7 +87,7 @@
         </div>
     
 
-        <div id="meineFahrraeder">
+        <div id="meineFahrraeder" class="tabcontent">
                 <script>
 
 
@@ -127,7 +146,7 @@
                                     <% } %>
                                 </div>
 
-        <div id="meineBestellungen">
+        <div id="meineBestellungen" class="tabcontent">
             <div class="row no-gutters">
 
 
