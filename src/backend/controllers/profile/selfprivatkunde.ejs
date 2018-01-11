@@ -18,6 +18,21 @@
 </head>
 
 
+<script> 
+    function get_own_table(_divid, _data){
+                if(_data == undefined || _data == null || _data == ""){return;}
+                var dt = _data.split(',');
+                var table = "<table>";
+                for(var j = 0; j < dt.length; j++){
+                    var dtd = new Date(dt[j]);
+                table += "<tr><td>"+dtd.getDay() + "." + dtd.getMonth() + dtd.getFullYear()+"</td></tr>";
+                }
+                table += "</table>";
+                document.getElementById(_divid).innerHTML = table;
+    }
+    </script>
+
+
 
         <div class="row no-gutters">
             <div class="col-12">
@@ -86,24 +101,29 @@
             </div>
         </div>
     
+        <div id="meineBestellungen" class="tabcontent">
+            <div class="row no-gutters">
 
+                    <% if(own_bookings!= undefined){ %>
+                        <% own_bookings.forEach(function(p) { %>
+                <div class="col-12">
+                    <div class="white margin">
+                        <div class="padding">
+                            <span>
+                                <span><%= p.Rentdate %> -> Sie haben ein Fahrrad geliehen: <a href="/profile/<%= p.userid %>"><%= p.email %></a></span>
+                                <span id="<%= p.booked_days %><%= p.email %><%= p.userid %>"><%= p.booked_days %></span>
+                                <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+                            <script>get_own_table("<%= p.booked_days %><%= p.email %><%= p.userid %>","<%= p.booked_days %>");</script>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <% }); %>
+                <% } %>
+            </div>
+        </div>
         <div id="meineFahrraeder" class="tabcontent">
-                <script>
-
-
-                        function gen_table(_divid, _data, _rentdate){
-                            var dt = _data.split(',');
-                            var table = "<table>";
-                            for(var j = 0; j < dt.length; j++){
-                                var dtd = new Date(dt[j]);
-                            table += "<tr><td>"+dtd.getDay() + "." + dtd.getMonth() + dtd-getFullYear()+"</td></tr>";
-                            }
-                            table += "</table>";
-                            document.getElementById(_divid).innerHTML = table;
-                            var d = new Date(_rentdate)
-                            document.getElementById(_divid + "date").innerHTML = d.getDay() + "." +d.getMonth() + "."+d.getFullYear();
-                        }
-                        </script>
+               
                         
                                 <div class="row no-gutters">
                                         <% var counter = 0; %>
@@ -146,41 +166,7 @@
                                     <% } %>
                                 </div>
 
-        <div id="meineBestellungen" class="tabcontent">
-            <div class="row no-gutters">
-
-
-                <script> 
-                function get_own_table(_divid, _data){
-                    var dt = _data.split(',');
-                            var table = "<table>";
-                            for(var j = 0; j < dt.length; j++){
-                                var dtd = new Date(dt[j]);
-                            table += "<tr><td>"+dtd.getDay() + "." + dtd.getMonth() + dtd-getFullYear()+"</td></tr>";
-                            }
-                            table += "</table>";
-                            document.getElementById(_divid).innerHTML = table;
-                }
-                </script>
-
-                    <% if(own_bookings!= undefined){ %>
-                        <% own_bookings.forEach(function(p) { %>
-                <div class="col-12">
-                    <div class="white margin">
-                        <div class="padding">
-                            <span>
-                                <span><%= p.Rentdate %> -> Sie haben ein Fahrrad geliehen: <a href="/profile/<%= p.userid %>"><%= p.email %></a></span>
-                                <span id="<%= p.booked_days %><%= p.email %><%= p.userid %>"><%= p.booked_days %></span>
-                                <div class="starRating" starMax="5" value="9" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                            <script>get_own_table("<%= p.booked_days %><%= p.email %><%= p.userid %>","<%= p.booked_days %>");</script>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <% }); %>
-                <% } %>
-            </div>
-        </div>
+        
 
         <div class="row no-gutters">
             <div class="col-12">
@@ -261,11 +247,13 @@
         function show_bikes(){
             hide_all();
             document.getElementById("meineFahrraeder").style.display = "block";
+            console.log("show bikes");
         }
 
         function show_orders(){
             hide_all();
             document.getElementById("meineBestellungen").style.display = "block";
+            console.log("show orders");
         }
 
     
@@ -276,3 +264,7 @@
 
 
     </script>
+
+
+
+

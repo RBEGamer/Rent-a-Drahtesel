@@ -26,4 +26,4 @@ SyntaxError: Unexpected token u in JSON at position 0
 - bei urls http anfang check sonst appenden
 - mehrere fahrradbilder verrutschen ? per js machen ?
 - nur wenn pw felder gesetzt sind passwörter ändern
-- 
+- selfprivatuser müssen bei orders die username angezeigt werden
