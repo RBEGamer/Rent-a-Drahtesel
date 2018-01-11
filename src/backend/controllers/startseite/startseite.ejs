@@ -84,24 +84,28 @@
         		<div class="col-6 col-md-6">
              	   <div class="d-flex flex-row">
              	   	  <% if(row.Bild != null){ %>
-                  	  	<img class="img-responsive bild margin" src="<%= row.Bild.toString('utf8') %>" alt="">
+                  	  	<img class="img-responsive bild " src="<%= row.Bild.toString('utf8') %>" alt="">
                   	  <% }else{ %>
-                  	  	<img class="img-responsive bild margin" src="" alt="">
-                  	  <% } %>
+                  	  	<img class="img-responsive bild " src="" alt="">
+                        <% } %>
+              
               	      <div class="white margin padding">
                       	  <h6><%= row.Name %></h6>
                        	 <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                        	 	<span><%= row.Preis %>€&emsp;</span>
-                     	   	<a href="bike/<%= row.totid %>">ansehen</a>
+                                <a href="bike/<%= row.totid %>">ansehen</a>
+                                
+                                <div class="d-flex flex-row">
+                                    <img height="100px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
+                    </div>
+
                     	</div>
-
+   
                 	</div>
-
+                    
            	 	</div>
 
-              <div class="col-6 col-md-6">
-                            <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
-            </div>
+              
             </div>
 
             <div class="row no-gutters">
