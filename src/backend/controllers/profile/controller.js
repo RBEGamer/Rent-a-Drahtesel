@@ -72,9 +72,6 @@ module.exports = function(app, passport, verificationMail) {
 			['*'],
 			{pk_ID: id},
 			function(user) {
-
-
-
 				var bewertungenbenutzer =  function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, [{model: 'Benutzer', target: 'Rater', destination: 'pk_ID'}],callback);};
 				var bikes  = function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [], callback);};
 				var bestellungen = function(callback) { models.findComplete('Bestellung', ["*"], {}, [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}], callback);};
@@ -257,5 +254,20 @@ module.exports = function(app, passport, verificationMail) {
 		});*/
 		
 	});
+
+
+
+
+
+	app.post('/profile/delete_bike', function(req, res) {
+
+		var bid = req.params.inserat_id;
+		
+		//CHECK IF INSERAT IS FROM USER
+		
+		res.redirect('/profile');
+
+
+	});	
 
 }
