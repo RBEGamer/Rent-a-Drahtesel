@@ -27,3 +27,4 @@ SyntaxError: Unexpected token u in JSON at position 0
 - mehrere fahrradbilder verrutschen ? per js machen ?
 - nur wenn pw felder gesetzt sind passwörter ändern
 - selfprivatuser müssen bei orders die username angezeigt werden
+- inserat löschen in der /profile/controller die db logic machen tobi
