@@ -1,4 +1,4 @@
-ï»¿body {
+body {
     margin: auto;
     background-color: #f2f2f2;
 }
@@ -11,6 +11,20 @@
     max-width: 1000px;
     margin: auto;
     margin-top: 60px;
+}
+
+.grey {
+    position: relative;
+    display: block;
+    width: calc(100% - 10px);
+    height: 300px;
+    overflow:auto;
+    border: solid;
+    border-width: 3px;
+    border-color: grey;
+    border-radius: 5px;
+    background-color: white;
+    color: gray;
 }
 
 .white {
@@ -31,7 +45,7 @@
     border-color: #ced4da;
 }
 
-.Ã¼berschrift {
+.überschrift {
     position: relative;
     display: block;
     border-radius: 5px;
@@ -137,7 +151,7 @@
     width: 25px;
 }
 
-#meineFahrrÃ¤der {
+#meineFahrräder {
     display: block;
 }
 

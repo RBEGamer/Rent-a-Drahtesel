@@ -1,61 +1,120 @@
 <% layout(layoutPath + 'layout') -%>
 
-    <div class="row no-gutters">
-            <div class="col-12">
-                <div class="d-flex flex-column flex-md-row">
-                    <% if(userdata.picture != undefined){ %>
-                        <img class="img-responsive bild margin" src="<%= userdata.picture.toString('utf8') %>" alt="">
-                    <% }else{ %>
-                        <img class="img-responsive bild margin" src="/images/leer.png" alt="">
-                    <% } %>
-                    <div class="white margin padding">
-                    	<% if(isLoggedIn){ %>
-                        	<h1 class="display-4"><%= userdata.Vorname %> <%= userdata.Name %></h1>
-                        <% }else { %>
-                        	<h1 class="display-4"><%= userdata.Vorname.charAt(0) %>. <%= userdata.Name %></h1>
-                        <% } %>
-                        <div class="starRating" starMax="5" value="<%= userdata.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <% if(isLoggedIn){ %>
-            TODO: Standort, telefonnummer und email
-        <% } %>
-        
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                    <span>Bewertungen</span>
-                </div>
-            </div>
-        </div>
-        <div class="row no-gutters">
-                <% if(ratings!= undefined){ %>
-                <% ratings.forEach(function(n) { %>
-                    <div class="col-12">
-                        <div class="white margin">
-                            <div class="padding linie-unten">
-                                <span>
-                                        <% if(n.picture == undefined || n.picture == ""){ %>
-                                            <img src="/images/leer.png" alt="" height="25">
-                                            <% }else{ %>
-                                            <img src="<%= n.picture %>" alt="" height="25">
-                                            <% } %>
-                                    <strong>&nbsp;<a href="/profile/<%= n.pk_ID %>"><%= n.email %></a>&emsp;</strong>
-                                    <div class="starRating" size="20" starMax="5" value="<%= n.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
-                                </span>
-                            </div>
-                            <div class="padding">
-                                <span><%= n.Description %></span>
-                            </div>
-                        </div>
-                    </div>
-                    <% }); %>
-                    <% } %>
-                </div>
+<div class="row no-gutters">
+	<div class="col-12">
+		<div class="d-flex flex-column flex-md-row">
+			<% if(userdata.picture != undefined){ %> <img
+				class="img-responsive bild margin"
+				src="<%= userdata.picture.toString('utf8') %>" alt=""> <%
+			}else{ %> <img class="img-responsive bild margin"
+				src="/images/leer.png" alt=""> <% } %>
+			<div class="white margin padding">
+				<% if(isLoggedIn){ %>
+				<h1 class="display-4"><%= userdata.Vorname %> <%= userdata.Name
+					%></h1>
+				<% }else { %>
+				<h1 class="display-4"><%= userdata.Vorname.charAt(0) %>.
+					<%=userdata.Name %></h1>
+				<% } %>
+				<div class="starRating" starMax="5" value="<%= userdata.Rating %>"
+					fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="40"></div>
+
+				<% if(isLoggedIn){  %>
+					E-Mail: <%= userdata.email %>
+				<% if(userdata.phone != null){  %>
+					<br/>Telefon: <%= userdata.phone %>
+				<% }} %>
+			</div>
+		</div>
+	</div>
+</div>
+
+<% if(isLoggedIn){%>
+
+<div class="row">
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+	<div class="col-2 col-md">
+		<p class="text-center">Standort</p>
+	</div>
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+</div>
+
+<div class="row no-gutters">
+
+	<div class="col-12">
+		<div class="margin">
+			<div id="map" style="width: 100%; height: 200px;"></div>
+		</div>
+		<div class="margin middle">
+			<span>Standort: <%= userdata.street %> <%= userdata.housenumber %>,
+				<%= userdata.zip %> <%= userdata.city %></span>
+		</div>
+	</div>
+</div>
 
 
 
-       
+<% } %>
+
+<div class="row">
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+	<div class="col-2 col-md">
+		<p class="text-center">ANGEBOTE</p>
+	</div>
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+</div>
+
+<div class="row no-gutters">
+	<% if(ratings!= undefined){ %> <% ratings.forEach(function(n) { %>
+	<div class="col-12">
+		<div class="white margin">
+			<div class="padding linie-unten">
+				<span> <% if(n.picture == undefined || n.picture == ""){ %> <img
+					src="/images/leer.png" alt="" height="25"> <% }else{ %> <img
+					src="<%= n.picture %>" alt="" height="25"> <% } %> <strong>&nbsp;<a
+						href="/profile/<%= n.pk_ID %>"><%= n.email %></a>&emsp;
+				</strong>
+					<div class="starRating" size="20" starMax="5"
+						value="<%= n.Rating %>" mode="show" fillColor="yellow"
+						emptyColor="grey"></div>
+				</span>
+			</div>
+			<div class="padding">
+				<span><%= n.Description %></span>
+			</div>
+		</div>
+	</div>
+	<% }); %> <% } %>
+</div>
+
+
+
+
+<script>                      
+        // center: new google.maps.LatLng(<%= maps_key %>, <%= userdata.lon %>),
+        function initMap() {
+         var uluru = {lat: <%= userdata.lat %>, lng: <%= userdata.lon %>};
+         var map = new google.maps.Map(document.getElementById('map'), {
+           zoom: 15,
+           center: uluru
+         });
+         var marker = new google.maps.Marker({
+           position: uluru,
+           map: map
+         });
+       }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
+

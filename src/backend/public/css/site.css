@@ -13,6 +13,18 @@ body {
     margin-top: 60px;
 }
 
+.grey {
+    position: relative;
+    display: block;
+    width: calc(100%);
+    border: solid;
+    border-width: 1px;
+    border-color: #ced4da;
+    border-radius: 5px;
+    background-color: grey;
+    color: gray;
+}
+
 .white {
     position: relative;
     display: block;
