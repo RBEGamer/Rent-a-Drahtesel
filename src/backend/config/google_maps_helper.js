@@ -15,8 +15,7 @@ exports.get_maps_info_adress = function(_country,_city, _street, _number){
   return get_maps_info(_country + " " + _city + " " + _street + " " + _number)
 }
 
-
-module.exports= function get_maps_info(_map_combiner){
+exports.get_maps_info = function(_map_combiner){
 geocoder.geocode(_map_combiner)
   .then(function(res) {
     if(res == null  || res.length > 0){
@@ -34,9 +33,9 @@ geocoder.geocode(_map_combiner)
   })
   .catch(function(err) {
     console.log(err);
+    return{
+      "lat":-1,
+      "lon":-1
+    }
   });
 }
-
-//console.log(get_maps_info_adress("Deutschland", "Aachen", "Krugenofen" , "15"))
-
-
