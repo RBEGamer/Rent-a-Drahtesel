@@ -82,6 +82,8 @@ module.exports = function(app, passport, verificationMail) {
 				//SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung` JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad` JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Fahrrad`.`pk_ID_Benutzer` WHERE `Bestellung`.`pk_ID_Benutzer`= 57
 				var own_bestellungen = function(callback) {models.findComplete('Bestellung', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [{model: 'Fahrrad', target: 'pk_ID_Fahrrad', destination: 'pk_ID'}, {targetmodel: 'Benutzer', target: 'pk_ID', destinationmodel: 'Fahrrad', destination: 'pk_ID_Benutzer' }], callback); };
 				var own_rating = function(callback) {models.findComplete('BewertungBenutzer', ["avg(rating) AS Rating"], {pk_ID: user.data.pk_ID}, [], callback);};
+				
+				
 				//
 				/*var elements = [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}];
 				var elements1 = [{model: 'Fahrrad', target: 'pk_ID_Fahrrad', destination: 'pk_ID'}, {targetmodel: 'Benutzer', target: 'Benutzer.pk_ID', destination: 'Fahrrad.pk_ID_Benutzer' }];
@@ -99,6 +101,9 @@ module.exports = function(app, passport, verificationMail) {
 					own_rating: own_rating
 				}
 				
+
+				
+				
 				/*var queries = [
 					function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}],callback);},
 			 		function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [], callback);},
@@ -108,6 +113,33 @@ module.exports = function(app, passport, verificationMail) {
 				var route = "selfprivatkunde";
 				if(user.model === "Geschaeftsbenutzer") route = "selfgeschaeftskunde";
 				models.queryFunctions(querieObject, function(results) {
+					results.own_bestellungen.forEach(function(bestellung) {
+						models.findSpecialisation['Geschaeftsbenutzer', 'Privatbenutzer'], 
+						'Benutzer',
+						['*'],
+						{pk_ID: id},
+						function(rater) {
+							if(rater.model === "Geschaeftsbenutzer"){
+								var raterdata = function(callback){ models.findComplete('Geschaeftsbenutzer', ["*"], {pk_ID: bestellung.rater}, [], callback);};
+								var quo = {
+										raterdata: raterdata
+									}
+								models.queryFunctions(quo, function(res) {
+									bestellung.ratername = res.raterdata.Firmenname;
+								});
+							}else{
+								var raterdata = function(callback){ models.findComplete('Privatbenutzer', ["*"], {pk_ID: bestellung.rater}, [], callback);};
+								var quo = {
+										raterdata: raterdata
+									}
+								models.queryFunctions(quo, function(res) {
+									bestellung.ratername = res.raterdata.Vorname + res.raterdata.Name;
+								});
+							}
+						}
+					});
+					
+					
 					console.log("OOOOOOOOOOOOOOOOOOOOOO");
 					console.log(results.own_rating);
 					console.log("OOOOOOOOOOOOOOOOOOOOOO");
