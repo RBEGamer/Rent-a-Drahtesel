@@ -192,7 +192,15 @@ function Models(){
 		var query = "SELECT ";
 		console.log("joins: ", joins);
 		for(var i = 0; i < selects.length; i++) {
-			query +=  selects[i];
+			if(selects[i] == "*"){
+				query +=  selects[i];
+			}else if(selects[i].indexOf("AS") > -1) {
+				query +=  selects[i];
+			}else if(selects[i].indexOf("(") > -1) {
+				query +=  selects[i];
+			}else{
+			query +=  "`"+selects[i]+"`";
+			}
 			query += ", ";
 		}
 		query = query.slice(0, -2);
