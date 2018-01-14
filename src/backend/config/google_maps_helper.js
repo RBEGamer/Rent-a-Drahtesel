@@ -11,7 +11,7 @@ var options = {
 
 var geocoder = NodeGeocoder(options);
 
-module.exports = function get_maps_info_adress(_country,_city, _street, _number){
+exports.get_maps_info_adress = function(_country,_city, _street, _number){
   return get_maps_info(_country + " " + _city + " " + _street + " " + _number)
 }
 
