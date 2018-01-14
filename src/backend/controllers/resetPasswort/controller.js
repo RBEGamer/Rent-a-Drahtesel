@@ -11,17 +11,46 @@ var bcrypt = require('bcrypt-nodejs');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/reset', function(req, res) {
-		res.render(__dirname +'/resetPasswort.ejs', { 
-			helper: require('../../views/helpers/helper'),
-			layoutPath: '../../views/',
-			isLoggedIn : req.isAuthenticated(),
-			message: req.flash('loginMessage'),
+
+		mysqlpool.getConnection(function(err,connection){
+            if (err) {
+			  console.log("passport.deserializeUser db failed")
+			  req.flash('loginMessage', 'Es ist ein allgemeiner Fehler aufgetreten. Bitte probiere es erneut');
+			  res.render(__dirname +'/resetPasswort.ejs', { 
+				helper: require('../../views/helpers/helper'),
+				layoutPath: '../../views/',
+				isLoggedIn : req.isAuthenticated(),
+				mail_succ: false,
+				message: req.flash('loginMessage'),
+				mails:null,
+			});
+			return;
+            }
+			connection.query("SELECT `email` FROM `Benutzer` WHERE 1", function(err, rows) {
+			console.log("abcabcabcabcabc---------------------")
+
+			console.log(rows[0].email);
+			var m = [];
+			for(var i = 0; i <rows.length; i++){
+				m.push(rows[i].email)
+			}
+			res.render(__dirname +'/resetPasswort.ejs', { 
+				helper: require('../../views/helpers/helper'),
+				layoutPath: '../../views/',
+				isLoggedIn : req.isAuthenticated(),
+				message: req.flash('loginMessage'),
+				mails:m
+			});
+				return;
 		});
+	});
+		
 	});
 
 
 
 	app.post('/reset', function(req, res) {
+		req.flash('loginMessage', 'Bitte gebe eine gueltige emailadresse an.');
 		if(req.body.mail == null){
 			console.log("MAIL == NULL")
 		res.render(__dirname +'/resetPasswort.ejs', { 
@@ -30,6 +59,7 @@ module.exports = function(app, passport, verificationMail) {
 			isLoggedIn : req.isAuthenticated(),
 			mail_succ: false,
 			message: req.flash('loginMessage'),
+			mails:null,
 		});
 	}else{
 		
@@ -43,6 +73,7 @@ module.exports = function(app, passport, verificationMail) {
 				isLoggedIn : req.isAuthenticated(),
 				mail_succ: false,
 				message: req.flash('loginMessage'),
+				mails:null,
 			});
 			return;
             }
@@ -73,6 +104,7 @@ module.exports = function(app, passport, verificationMail) {
 			isLoggedIn : req.isAuthenticated(),
 			mail_succ: false,
 			message: req.flash('loginMessage'),
+			mails:null,
 		});
 		});
 		

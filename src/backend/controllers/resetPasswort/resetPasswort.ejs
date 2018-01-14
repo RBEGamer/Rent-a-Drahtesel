@@ -4,9 +4,48 @@
             <div class="alert alert-danger"><%= message %></div>
         <% } %>
         
+
+            <div id="snm"></div>
+
     <% if(isLoggedIn == undefined || !isLoggedIn) { %>
         
     
+        <script>
+
+            var smails = [];
+            
+            
+            
+            
+            <% if(mails == undefined || mails == null) { %>
+               <% }else{ %>
+            <% mails.forEach(function(mail) { %>
+                smails.push("<%= mail %>");
+            <% }); %>
+            <% } %>
+            
+            
+            function ck(){
+                
+                if(document.getElementById("em") == null || document.getElementById("em") == undefined){return;}
+                var v = document.getElementById("em").value;
+                if(v == undefined || v == null){return;}
+            
+                for(var i = 0; i < smails.length; i++){
+                    console.log(smails[i]);
+                    if(smails[i].indexOf(v) !== -1){
+                        document.getElementById("snm").innerHTML = "<div class='alert alert-danger'>EMAIL NICHT VORHANDEN</div>";
+                    }else{
+                        document.getElementById("snm").innerHTML = "";
+
+                    }
+                }
+            }
+
+            ck()
+            </script>
+            
+
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="white margin padding middle">
@@ -25,7 +64,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input type="text" name="mail" class="form-control height" required>
+                        <input type="text" name="mail" id="em" class="form-control height" onchange="ck()" required>
                     </div>
                 </div>
                 <div class="col-12 col-md-3 col-lg-4"></div>
@@ -42,6 +81,16 @@
                 <div class="col-12 col-md-3 col-lg-4"></div>
             </div>
         </form>
+
+
+
+
+
+
+
+
+
+
         <% } else { %>
 
             <div class="row no-gutters">
