@@ -1,29 +1,16 @@
 - bilder upload beim fahrrad inserieren
-- lat und long berechnen (fahrrad inserieren)
-
-- profilansicht design
 - name in bewertungen statt email
-- profilansicht fertig s. privat TODO
-- beim inserieren checken ob daten schon belegt sind (POST)
-- responsive Design startseite/inserieren seite
-- testen/fixen
-- datalist lan in profile edit
 -überall die cdn link und gegen lokale versionen tauschen
--email creds aus config lesen
-
-BUGS:
-- abschicken einer invaliden reigstrierung schläft fel da query falsch
-sql: 'SELECT * FROM `Benutzer` WHERE email =  ' }
-praktikum_swe_ws1718/src/backend/node_modules/mysql/lib/protocol/Parser.js:80
-        throw err; // Rethrow non-MySQL errors
-        ^
-
-SyntaxError: Unexpected token u in JSON at position 0
-
 -bilder hochladen inserieren
-- banner bild rezisen
 - register bei 3.5mb bild => payload to large error
-- bei urls http anfang check sonst appenden
-- mehrere fahrradbilder verrutschen ? per js machen ?
+
+- bei urls http anfang check sonst appenden MARCEL
+
+
+
 - nur wenn pw felder gesetzt sind passwörter ändern
 - selfprivatuser müssen bei orders die username angezeigt werden
+- bewertung popup 
+- registrierung lat lon + bild
+- bilder hochladen inserat
+- inserat löschen
