@@ -30,16 +30,19 @@
                 if(document.getElementById("em") == null || document.getElementById("em") == undefined){return;}
                 var v = document.getElementById("em").value;
                 if(v == undefined || v == null){return;}
-            
+                var en = true;
                 for(var i = 0; i < smails.length; i++){
                     console.log(smails[i]);
-                    if(smails[i].indexOf(v) !== -1){
+                    if(smails[i].indexOf(v) != -1){
+                        en = false
+                    }
+                }
+
+                if(en){
                         document.getElementById("snm").innerHTML = "<div class='alert alert-danger'>EMAIL NICHT VORHANDEN</div>";
                     }else{
                         document.getElementById("snm").innerHTML = "";
-
                     }
-                }
             }
 
             ck()
