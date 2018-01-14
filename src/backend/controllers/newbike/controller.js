@@ -99,8 +99,7 @@ module.exports = function(app, passport, verificationMail) {
 			geocoder.geocode(req.body.country + " " + req.body.city + " " + req.body.street +" " + req.body.housenumber)
 	  .then(function(res) {
 		if(res == null  || res.length < 0){
-		 
-			console.log("...............LALALALAL ................");
+			res.redirect("/profile");
 		}
 		console.log(res[0].latitude)
 		console.log(res[0].longitude)
