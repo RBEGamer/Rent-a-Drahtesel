@@ -117,7 +117,7 @@ to {
 
 <div class="container grey">
 	<ul class="nav nav-tabs">
-		<li class="nav-link active"><a data-toggle="tab" href="#fahrräder">
+		<li class="nav-link active"><a id="def" data-toggle="tab" href="#fahrraeder">
 				Meine Fahrr&auml;der
 		</a></li>
 		<li class="nav-link"><a data-toggle="tab" href="#bestellungen">
@@ -126,7 +126,7 @@ to {
 	</ul>
 
 	<div class="tab-content">
-		<div id="fahrräder" class="tab-pane fade in active">
+		<div id="fahrraeder" class="tab-pane fade in active">
 			<div class="row no-gutters">
 				<% var counter = 0; %> <% if(bikes!= undefined){ %> <%
 				bikes.forEach(function(m) { %>
@@ -254,38 +254,11 @@ to {
 
 
 <script type="application/javascript">
-	
-	
-	
-	
-	
-        function hide_all(){
-            document.getElementById("meineFahrraeder").style.display = "none";
-            document.getElementById("meineBestellungen").style.display = "none";
-        }
-
-        function show_bikes(){
-            hide_all();
-            document.getElementById("meineFahrraeder").style.display = "block";
-            console.log("show bikes");
-        }
-
-        function show_orders(){
-            hide_all();
-            document.getElementById("meineBestellungen").style.display = "block";
-            console.log("show orders");
-        }
-
-
-
         $( document ).ready(function() {
-            show_bikes();
+		 if (String(window.location).indexOf("#fahrraeder") >= 0 || String(window.location).indexOf("#bestellungen") >= 0) { 
+		 }else{
+			window.location += "#fahrraeder";
+			$('#def').click();
+		 }	
         });
-
-
-    
-
-
-
-
 </script>

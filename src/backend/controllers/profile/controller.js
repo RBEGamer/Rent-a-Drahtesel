@@ -66,6 +66,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.get('/profile', function(req, res) {
 		var id = req.session.passport.user;
 		//JOIN BewertungBenutzer  ON Benutzer.pk_id = BewertungBenutzer.pk_id
+		if(id == undefined){res.redirect('/');}
 		models.findSpecialisation(
 			['Geschaeftsbenutzer', 'Privatbenutzer'], 
 			'Benutzer',

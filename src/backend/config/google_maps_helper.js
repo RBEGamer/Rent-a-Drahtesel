@@ -11,12 +11,12 @@ var options = {
 
 var geocoder = NodeGeocoder(options);
 
-function get_maps_info(_country,_city, _street, _number){
+module.exports = function get_maps_info_adress(_country,_city, _street, _number){
   return get_maps_info(_country + " " + _city + " " + _street + " " + _number)
 }
 
 
-function get_maps_info(_map_combiner){
+module.exports= function get_maps_info(_map_combiner){
 geocoder.geocode(_map_combiner)
   .then(function(res) {
     if(res == null  || res.length > 0){
@@ -28,8 +28,8 @@ geocoder.geocode(_map_combiner)
     console.log(res[0].latitude)
     console.log(res[0].longitude)
     return {
-      "lat": res[0],
-      "lon": res.longitude
+      "lat": res[0].latitude,
+      "lon": res[0].longitude
     }
   })
   .catch(function(err) {
@@ -37,4 +37,6 @@ geocoder.geocode(_map_combiner)
   });
 }
 
-console.log(get_maps_info("Deutschland", "Aachen", "Krugenofen" , "15"))
+//console.log(get_maps_info_adress("Deutschland", "Aachen", "Krugenofen" , "15"))
+
+

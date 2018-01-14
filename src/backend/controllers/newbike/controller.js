@@ -1,3 +1,5 @@
+//import { request } from 'http';
+
 var mysqlpool = require('../../config/database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
@@ -5,6 +7,8 @@ var dbconfig = require('../../config/database');
 var cred = require('../../config/credentials');
 var sanitizer = require('sanitizer');
 var MobileDetect = require('mobile-detect');
+var gmh = require('../../config/google_maps_helper');
+
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/new', function(req, res) {
@@ -14,7 +18,7 @@ module.exports = function(app, passport, verificationMail) {
 			isLoggedIn : req.isAuthenticated()
 		});
 	});
-	
+	//BILD COORD
 	app.post('/bike/new', function(req, res) {
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
@@ -58,8 +62,10 @@ module.exports = function(app, passport, verificationMail) {
 			query += "'" + req.body.zip + "'" + ", ";
 			query += "'" + req.body.housenumber + "'" + ", ";
 			//TODO!! lat und lon berechnen
-			var lat = "10";
-			var lon = "10";
+
+			var re = gmh.get_maps_info_adress(eq.body.country,req.body.city,req.body.street,req.body.housenumber)
+			var lat = re.lat;
+			var lon = re.lon;
 			query += lat + ", ";
 			query += lon + ", ";
 			query += req.session.passport.user + ", ";

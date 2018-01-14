@@ -6,8 +6,8 @@ var formvalidator = function()  {
 	
 
 	this.validate = function(req, res, next) {
-		console.log('FORMDATA 4', formdata);
-		console.log(req.body.kind);
+		//console.log('FORMDATA 4', formdata);
+		//console.log(req.body.kind);
 		var valide = true;
 
 		var schema = formdata.forms[req.body.kind].elements;

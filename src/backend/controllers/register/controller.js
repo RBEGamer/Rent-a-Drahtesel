@@ -100,8 +100,6 @@ module.exports = function(app, passport, verificationMail) {
 		insertHash,
 		function(req, res, next) {
 			//res.json({data: data});
-		
-
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
@@ -113,9 +111,6 @@ module.exports = function(app, passport, verificationMail) {
 						"Hallo Rent-A-Bike Benutzer, <br> Du hast dich bereit mit dieser Email-Adresse registriert. Dein Passwort kannst du hier zurücksetzten: <a href='"+bsip+"reset'>Reset Passwort</a> <br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
 						req.body['email']
 					);
-
-
-
 				}
 				res.redirect('/register');
 			} else {
