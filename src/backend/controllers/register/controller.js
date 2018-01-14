@@ -92,6 +92,7 @@ module.exports = function(app, passport, verificationMail) {
 	var hashPassword = modelmiddelware.hashValue('pw');
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
 	console.log("FORMDATA 3", formdata);
+
 	app.post('/register', 
 		formvalidator.validate, 
 		benutzerExists,
@@ -99,13 +100,22 @@ module.exports = function(app, passport, verificationMail) {
 		insertHash,
 		function(req, res, next) {
 			//res.json({data: data});
-			console.log(req.body);
+		
+
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
 				app.locals.formdata.olddata.passwortwdh = "";
 				if(res.locals.findOne.found) {
-					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet!"};
+					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet! Wir haben dir eine email fuer den Passwort reset gesendet"};
+
+					verificationMail.sendMailMSG(
+						"Hallo Rent-A-Bike Benutzer, <br> Du hast dich bereit mit dieser Email-Adresse registriert. Dein Passwort kannst du hier zurücksetzten: <a href='"+bsip+"reset'>Reset Passwort</a> <br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
+						req.body['email']
+					);
+
+
+
 				}
 				res.redirect('/register');
 			} else {
@@ -116,7 +126,7 @@ module.exports = function(app, passport, verificationMail) {
 						"Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"register/verification/" + data.lastID + "/" + req.body.verification_hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
 						req.body['email']
 					);
-					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Befolgen Sie den Anweisungen sofort. Schalten Sie nicht die Polizei ein. Die Email wird sich um 0:00 selber löschen.');
+					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Bitte befolge die Anweisungen, um deinen Account zu aktivieren.');
 					res.redirect('/login');
 				});
 			}
