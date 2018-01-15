@@ -26,7 +26,14 @@
                         <% } %>
                     <div class="white margin padding">
                         <h1 class="display-4"><%= userdata.Firmenname %></h1>
-                        <div class="starRating" size="40" starMax="5" value="<%= userdata.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+                        
+            			<% if(isLoggedIn){ %>
+            				<button id="start">
+                        		<div class="starRating" size="40" starMax="5" value="<%= userdata.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+            				</button>
+    					<% }else{ %>
+    						<div class="starRating" size="40" starMax="5" value="<%= userdata.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+    					<% } %>
                         <span>E-mail: <%= userdata.email %></span><br />
                         <% if(userdata.phone != null){ %>
                         <span>Telefon: <%= userdata.phone %></span>
@@ -34,10 +41,19 @@
                     </div>
                 </div>
             </div>
-
         </div>
 
-        
+ 	<div id="popup" class="overlayHidden">
+		<form method="post" action="rate">
+			<h1>Bewertung</h1>
+			<input name="pk_id" type="hidden" value='<%= userdata.pk_ID %>'>
+			<textarea required name="bewertungstext" rows="10" cols="170" placeholder="Bitte hinterlassen Sie einen kurzen Kommentar."></textarea>
+			<label>Bewertung: </label>
+			<input required name="bewertungsnr" type="number" min="0" max="5" step="0.5" default="5">
+	 		<input id="bewerten" type="submit" class="btn btn-secondary btn-block height" value="Bewerten"/>
+		</form>
+	 		<input id="schliessen" type="submit" class="btn btn-secondary btn-block height" value="Abbrechen"/>
+	</div>
         
         <div class="row no-gutters">
             <div class="col-12">
@@ -135,5 +151,22 @@
            map: map
          });
        }
-</script>
+        
+        var startBtn = document.getElementById('start'),
+        BewertungBtn = document.getElementById('bewerten'),
+        SchliessenBtn = document.getElementById('schliessen');
+        var popup = document.getElementById('popup');
+
+        startBtn.addEventListener('click',zeigeFenster);
+        BewertungBtn.addEventListener('click',schliesseFenster);
+        SchliessenBtn.addEventListener('click',schliesseFenster);
+
+        function zeigeFenster() { 
+            popup.className = 'overlay';
+        }
+
+        function schliesseFenster(){
+            popup.className = 'overlayHidden';
+        }
+	</script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>

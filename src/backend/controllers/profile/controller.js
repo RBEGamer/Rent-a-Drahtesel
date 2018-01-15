@@ -11,7 +11,7 @@ module.exports = function(app, passport, verificationMail) {
 		var privat = true;
 		var user = req.params.id;
 		var route = "privatkunde";
-		var query = "SELECT `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname"
+		var query = "SELECT b.pk_ID, `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname"
 	//	console.log("Params: " + JSON.stringify(req.params))
 	//	console.log("User: " + user);
 		mysqlpool.getConnection(function(err, connection) {
@@ -28,7 +28,7 @@ module.exports = function(app, passport, verificationMail) {
 				}
 				if(rows[0].anz == 0){
 					route = "geschaeftskunde";
-					query = "SELECT `picture`,`Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
+					query = "SELECT b.pk_ID, `picture`,`Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
 	}
 				connection.query(query, function(err, rows) {
 					if (err) {
@@ -290,5 +290,28 @@ module.exports = function(app, passport, verificationMail) {
 		});*/
 		
 	});
+	
+	app.post('/profile/rate', function(req, res) {
+		mysqlpool.getConnection(function(err, connection) {
+	    	if (err) {
+				console.log("connection failed");
+				return;
+			}else{
+				var query = "INSERT INTO BewertungBenutzer (pk_ID, Rater, Rating, Description) VALUES ("
+						+ sanitizer.sanitize(req.body.pk_id) + ", " + sanitizer.sanitize(req.session.passport.user) + ", " 
+						+ sanitizer.sanitize(req.body.bewertungsnr * 2) + ", '" + sanitizer.sanitize(req.body.bewertungstext) + "')";
+				connection.query(query, function(err, rows1) {
+					if (err) {
+						console.log("query failed: " + query);
+						return;
+					}else{
+						console.log("done!");
+						res.redirect('/profile/' + req.body.pk_id);
+					}
+				});
+			}
+	    });
+	});
+
 
 }
