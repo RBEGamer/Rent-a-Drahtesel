@@ -1,3 +1,19 @@
+.overlayHidden {
+  display: none;
+}
+ 
+.overlay { 
+  width: 80em;
+  background: #fffbf0; 
+  border: 1px solid #e7c157;
+  position: absolute;
+  top: 20%;
+  right: 10%;
+  margin: auto;
+  padding: 1em;
+  z-index: 10;
+}
+
 body {
     margin: auto;
     background-color: #f2f2f2;
