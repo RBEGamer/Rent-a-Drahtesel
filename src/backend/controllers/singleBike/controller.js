@@ -30,7 +30,7 @@ module.exports = function(app, passport, verificationMail) {
 			if (rows1.length) {
 				privat_benutzer = true;
 			}
-			connection.query("select biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+			connection.query("select pk_id, biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 				if (err) {
 					console.log("get singlebike db failed 2")
 					return;
@@ -128,6 +128,28 @@ module.exports = function(app, passport, verificationMail) {
 			res.redirect('/profile');
 		});
 	});
+	
+app.post('/bike/rate', function(req, res) {
+	mysqlpool.getConnection(function(err, connection) {
+    	if (err) {
+			console.log("connection failed");
+			return;
+		}else{
+			var query = "INSERT INTO BewertungFahrrad (pk_ID, Rater, Rating, Description) VALUES ("
+					+ sanitizer.sanitize(req.body.pk_id) + ", " + sanitizer.sanitize(req.session.passport.user) + ", " 
+					+ sanitizer.sanitize(req.body.bewertungsnr * 2) + ", '" + sanitizer.sanitize(req.body.bewertungstext) + "')";
+			connection.query(query, function(err, rows1) {
+				if (err) {
+					console.log("query failed: " + query);
+					return;
+				}else{
+					console.log("done!");
+					res.redirect('/bike/' + req.body.pk_id);
+				}
+			});
+		}
+    });
+});
 
 
 	app.post('/bike/delete', function(req, res) {

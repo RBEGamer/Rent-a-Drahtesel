@@ -7,9 +7,10 @@
 
     <div class="row">
         <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-        <div class="col-2 col-md"><p class="text-center"><%= bike.name %></p></div>
+        <div class="col-2 col-md"><p class="text-center"><%= bike.name %> (<%= bike_id %>)</p></div>
         <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
     </div>
+    <% if(isLoggedIn){ %>
     <div class="row no-gutters">
         <div class="col-12">
             <div class="middle">
@@ -19,15 +20,25 @@
             </div>
         </div>
     </div>
-    
+    <% }else{ %>
+    <div class="row no-gutters">
+        <div class="col-12">
+            <div class="middle">
+                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="70"></div>
+            </div>
+        </div>
+    </div>
+    <% } %>
 	<div id="popup" class="overlayHidden">
-		<form>
+		<form method="post" action="rate">
 			<h1>Bewertung</h1>
+			<input name="pk_id" type="hidden" value='<%= bike_id %>'>
 			<textarea required name="bewertungstext" rows="10" cols="170" placeholder="Bitte hinterlassen Sie einen kurzen Kommentar."></textarea>
 			<label>Bewertung: </label>
-			<input required type="number" min="0" max="5" step="0.5" default="5">
-	 		<input id="schliessen" type="submit" class="btn btn-secondary btn-block height" value="Bewerten"/>
+			<input required name="bewertungsnr" type="number" min="0" max="5" step="0.5" default="5">
+	 		<input id="bewerten" type="submit" class="btn btn-secondary btn-block height" value="Bewerten"/>
 		</form>
+	 		<input id="schliessen" type="submit" class="btn btn-secondary btn-block height" value="Abbrechen"/>
 	</div>
 
        <div class="row no-gutters">
@@ -472,39 +483,26 @@ dia_load_img();
 
 
 
-
-
-
-
-
 $( document ).ready(function() {
     dia_init();
     create_calendar();
 });
 
-
-
 var startBtn = document.getElementById('start'),
-BewertungBtn = document.getElementById('anmeldung'),
+BewertungBtn = document.getElementById('bewerten'),
 SchliessenBtn = document.getElementById('schliessen');
 var popup = document.getElementById('popup');
 
 startBtn.addEventListener('click',zeigeFenster);
-//BewertungBtn.addEventListener('click',schliesseFenster);
-SchliessenBtn.addEventListener('click',bewerten);
+BewertungBtn.addEventListener('click',schliesseFenster);
+SchliessenBtn.addEventListener('click',schliesseFenster);
 
 function zeigeFenster() { 
-	console.log("hier");
     popup.className = 'overlay';
 }
 
 function schliesseFenster(){
     popup.className = 'overlayHidden';
-}
-
-function bewerten(){
-    popup.className = 'overlayHidden';
-    // TODO: SQL abschicken
 }
     </script>
 
