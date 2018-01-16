@@ -102,17 +102,17 @@ function Models(){
 			query += " JOIN ";
 
 			if(model !=  null) {
-				query += "`"+model+"`";
+				query += model;
 				query += " ON ";
-				query += "`"+modelname + "`.`" + target + "`";
-				query += "=";
-				query += "`"+model+"`" + "." + "`"+destination+"`";
+				query += modelname + "." + target;
+				query += " = ";
+				query += model + "." + destination;
 			} else {
-				query += "`"+joins[i].targetmodel+"`";
+				query += joins[i].targetmodel;
 				query += " ON ";
-				query += "`"+joins[i].destinationmodel +"`"+ "." + "`"+destination+"`";
-				query += "=";
-				query += "`"+joins[i].targetmodel+"`" + "." + "`"+target+"`";
+				query += joins[i].destinationmodel + "." + destination;
+				query += " = ";
+				query += joins[i].targetmodel + "." + target;
 			}
 			query += " ";
 		}
@@ -126,13 +126,13 @@ function Models(){
 			var tmpCols = _models[modelname].subModels[i];
 			//console.log(_models[modelname].parent[i]);
 			var submodelname = _models[modelname].hierarchie[i];
-			var query = "INSERT INTO `" + submodelname + "` ";
+			var query = "INSERT INTO " + submodelname + " ";
 			query += "(";
 			for(var j = 0; j < tmpCols.length; j++) {
 				var field = tmpCols[j].Field;
 				//console.log(tmpCols[j].Field + ": " + tmpCols[j].Key + ", " + tmpCols[j].Extra);
 				if((data[field] != null && data[field] != "") || (tmpCols[j].Extra != 'auto_increment' && tmpCols[j].Key === 'PRI')) {
-					query += "`"+field+"`";
+					query += field;
 					query += ", ";
 				}
 			}
@@ -145,7 +145,7 @@ function Models(){
 			for(var j = 0; j < tmpCols.length; j++) {
 				var field = tmpCols[j].Field;
 				if(data[field] != null  && data[field] != "") {
-					query += "'"+self.getValue(submodelname, field, data[field]) + "'";
+					query += self.getValue(submodelname, field, data[field]);
 					query += ", ";
 				}
 
@@ -164,11 +164,11 @@ function Models(){
 	}
 
 	this.getUpdateQuery = function(modelname, data, where) {
-		var query = "UPDATE `" + modelname + "` SET ";
+		var query = "UPDATE " + modelname + " SET ";
 		Object.keys(data).forEach(function(key, index) {
-			query += "`"+key+"`";
-			query += "=";
-			query += "'"+ self.getValue(modelname, key, data[key]) + "'";
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, data[key]);
 			query += ", ";
 			
 		});
@@ -176,9 +176,9 @@ function Models(){
 		query += " WHERE ";
 		
 		Object.keys(where).forEach(function(key, index) {
-			query += "`"+key + "`";
+			query += key;
 			query += " = ";
-			query += "'"+self.getValue(modelname, key, where[key])+"'";
+			query += self.getValue(modelname, key, where[key]);
 			query += " AND ";
 		});
 		query = query.slice(0, -5);
@@ -192,40 +192,32 @@ function Models(){
 		var query = "SELECT ";
 		console.log("joins: ", joins);
 		for(var i = 0; i < selects.length; i++) {
-			if(selects[i] == "*"){
-				query +=  selects[i];
-			}else if(selects[i].indexOf("AS") > -1) {
-				query +=  selects[i];
-			}else if(selects[i].indexOf("(") > -1) {
-				query +=  selects[i];
-			}else{
-			query +=  "`"+selects[i]+"`";
-			}
+			query +=  selects[i];
 			query += ", ";
 		}
 		query = query.slice(0, -2);
 		query += " FROM ";
-		query += "`"+hierarchie[0]+"`";
+		query += hierarchie[0];
 
 		query += this.generateJoins(modelname, joins);
 		
 
 		for(var i = 1; i < hierarchie.length; i++) {
 			query += " JOIN ";
-			query += "`"+hierarchie[i]+"`";
+			query += hierarchie[i];
 			query += " ON ";
-			query += "`"+hierarchie[0]+"`" + "." + "`"+primaryKeys[0]+"`";
+			query += hierarchie[0] + "." + primaryKeys[0];
 			query += " = ";
-			query += "`"+hierarchie[i]+"`" + "." + "`"+primaryKeys[i]+"`";
+			query += hierarchie[i] + "." + primaryKeys[i];
 		}
 		console.log("data", data);
 		if(Object.keys(data).length === 0) return query;
 		query += " WHERE ";
 
 		Object.keys(data).forEach(function(key, index) {
-			query += "`"+fields[key]+"`" + "." + "`"+key+"`";
+			query += fields[key] + "." + key;
 			query += " = ";
-			query += "'" +self.getValue(fields[key], key, data[key]) +"'";
+			query += self.getValue(fields[key], key, data[key]);
 			query += " AND ";
 		});
 
@@ -307,11 +299,12 @@ function Models(){
 	}
 
 	this.findOne = function(modelname, data, callback) {
-		var query = "SELECT * FROM `" + modelname + "` WHERE ";
+		var query = "SELECT * FROM " + modelname + " WHERE ";
 		Object.keys(data).forEach(function(key,index) {
-			query += "`"+key+"`";
-			query += "=";
-			query += "'"+self.getValue(modelname, key, data[key])+"'";
+			console.log(self.getValue(modelname, key, data[key]));
+			query += key;
+			query += " = ";
+			query += self.getValue(modelname, key, data[key]);
 			query += " ";
 		});
 		this.dbconnection(query, function(rows) {
@@ -367,7 +360,7 @@ function Models(){
 		});
 
 		/*this.getValue(modelname, 'verified', 1);
-		this.dbconnection("UPDATE `Benutzer` SET `verified`= 1 WHERE `pk_ID` = 57", function(rows) {
+		this.dbconnection("UPDATE Benutzer SET verified`= 1 WHERE `pk_ID = 57", function(rows) {
 			callback(rows);
 		});*/
 
@@ -389,7 +382,7 @@ function Models(){
 
 		this.Waterfall(path, 
 			function(parent, ready) {
-				var query = "SHOW COLUMNS FROM `" + parent + "`";
+				var query = "SHOW COLUMNS FROM " + parent + "";
 				self.dbconnection(query, function(rows) {
 					target.push(rows);
 					ready();

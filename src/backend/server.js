@@ -24,7 +24,8 @@ var fileUpload = require('express-fileupload');
 var bsip = require('./config/base_ip.js')
 console.log(bsip);
 // connect to our database
-require('./config/passport')(passport, verificationMail); // pass passport for configuration
+require('./config/passport')(passport, verificationMail); // pass passport for
+															// configuration
 
 Object.keys(formdata.models).forEach(function(key, index) {
   console.log('server - models key: ', key);
@@ -52,9 +53,9 @@ console.log("path already exists");
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({
-	extended: true
+	extended: true, parameterLimit: 5000000, limit: "1000mb"
 }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: "1000mb"}));
 
 
 app.engine('ejs', engine);
@@ -69,7 +70,7 @@ app.use(session({
  } )); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(flash({})); // use connect-flash for flash messages stored in session
 
 app.use(express.static(path.join(__dirname, 'public')));
 

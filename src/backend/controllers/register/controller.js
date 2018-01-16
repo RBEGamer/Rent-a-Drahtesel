@@ -11,7 +11,7 @@ var formvalidator = require('../../config/formvalidator.js');
 var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
 var bsip = require('../../config/base_ip.js');
-
+var google_maps_helper = require('../../config/google_maps_helper');
 
 
 module.exports = function(app, passport, verificationMail) {
@@ -57,13 +57,13 @@ module.exports = function(app, passport, verificationMail) {
 		
 
 		var m =  app.locals.formdata;
-		console.log("FORMDATA 1" , formdata);
+		
 		var data = (m ? m.olddata  : {});
 		var start = (m ? m.start : "");
 		var invalid = (m ? m.invalid : false);
 		var error = (m ? m.error : null);
 		app.locals.formdata = null;
-		console.log("FORMDATA 2", formdata);
+
 		res.render(__dirname +'/register.ejs', { 
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
@@ -91,8 +91,7 @@ module.exports = function(app, passport, verificationMail) {
 	var benutzerExists = modelmiddelware.itemExists('Benutzer', ['email']);
 	var hashPassword = modelmiddelware.hashValue('pw');
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
-	console.log("FORMDATA 3", formdata);
-
+	
 	app.post('/register', 
 		formvalidator.validate, 
 		benutzerExists,
@@ -100,17 +99,13 @@ module.exports = function(app, passport, verificationMail) {
 		insertHash,
 		function(req, res, next) {
 			//res.json({data: data});
+			console.log("register body: ", req.body);
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
 				app.locals.formdata.olddata.passwortwdh = "";
 				if(res.locals.findOne.found) {
-					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet! Wir haben dir eine email fuer den Passwort reset gesendet"};
-
-					verificationMail.sendMailMSG(
-						"Hallo Rent-A-Bike Benutzer, <br> Du hast dich bereit mit dieser Email-Adresse registriert. Dein Passwort kannst du hier zurücksetzten: <a href='"+bsip+"reset'>Reset Passwort</a> <br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
-						req.body['email']
-					);
+					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet!"};
 				}
 				res.redirect('/register');
 			} else {
@@ -121,7 +116,7 @@ module.exports = function(app, passport, verificationMail) {
 						"Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"register/verification/" + data.lastID + "/" + req.body.verification_hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
 						req.body['email']
 					);
-					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Bitte befolge die Anweisungen, um deinen Account zu aktivieren.');
+					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Befolgen Sie den Anweisungen sofort. Schalten Sie nicht die Polizei ein. Die Email wird sich um 0:00 selber löschen.');
 					res.redirect('/login');
 				});
 			}
@@ -140,6 +135,7 @@ module.exports = function(app, passport, verificationMail) {
 		var id = parseInt(req.params.id);
         var hash = req.params.hash;
         var loginMessage = '';
+        console.log("REGISTER Verification: ", id);
         models.findOne('Benutzer', {pk_ID: id}, function(cols) {
         	if(cols) {
 
