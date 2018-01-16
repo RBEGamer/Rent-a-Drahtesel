@@ -11,7 +11,7 @@ var formvalidator = require('../../config/formvalidator.js');
 var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
 var bsip = require('../../config/base_ip.js');
-
+var google_maps_helper = require('../../config/google_maps_helper');
 
 
 module.exports = function(app, passport, verificationMail) {
@@ -57,13 +57,13 @@ module.exports = function(app, passport, verificationMail) {
 		
 
 		var m =  app.locals.formdata;
-		console.log("FORMDATA 1" , formdata);
+		
 		var data = (m ? m.olddata  : {});
 		var start = (m ? m.start : "");
 		var invalid = (m ? m.invalid : false);
 		var error = (m ? m.error : null);
 		app.locals.formdata = null;
-		console.log("FORMDATA 2", formdata);
+
 		res.render(__dirname +'/register.ejs', { 
 			layoutPath: '../../views/',
 			isLoggedIn: req.isAuthenticated(),
@@ -91,7 +91,7 @@ module.exports = function(app, passport, verificationMail) {
 	var benutzerExists = modelmiddelware.itemExists('Benutzer', ['email']);
 	var hashPassword = modelmiddelware.hashValue('pw');
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
-	console.log("FORMDATA 3", formdata);
+	
 	app.post('/register', 
 		formvalidator.validate, 
 		benutzerExists,
@@ -99,7 +99,7 @@ module.exports = function(app, passport, verificationMail) {
 		insertHash,
 		function(req, res, next) {
 			//res.json({data: data});
-			console.log(req.body);
+			console.log("register body: ", req.body);
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
@@ -135,6 +135,7 @@ module.exports = function(app, passport, verificationMail) {
 		var id = parseInt(req.params.id);
         var hash = req.params.hash;
         var loginMessage = '';
+        console.log("REGISTER Verification: ", id);
         models.findOne('Benutzer', {pk_ID: id}, function(cols) {
         	if(cols) {
 

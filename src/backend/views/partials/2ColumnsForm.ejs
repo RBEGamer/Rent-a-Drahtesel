@@ -22,6 +22,7 @@
         ">
             <input name="kind" type="hidden" value=<%= key %>>
             <input name="model" type="hidden" value=<%= forms[key].model %>>
+
             <% for(var i = 0; i < forms[key].elements.length; i+=2) { %> 
                 <% var name = forms[key].elements[i].name; %>
                 <% var value = "" %>
@@ -41,16 +42,12 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
                         <input class="form-control height" 
-                        <% var isFile = false; %>
                         <% Object.keys(forms[key].elements[i].input).forEach(function(key1, index1) { %>
-                            <% if(forms[key].elements[i].input[key1] === 'file') { isFile = true;} %>
+
                             <%= key1 %> = "<%= forms[key].elements[i].input[key1] %>"
                         <% }); %>
-                         <% if(!isFile) { %> name = "<%= forms[key].elements[i].name %>" value = "<%= value %>" <% } %>>
-                         <% if(isFile) { %>
-                            <input name="<%= forms[key].elements[i].name %>" type="hidden" value=<%= value %>>
-                         <% } %>
-
+                          name = "<%= forms[key].elements[i].name %>" value = "<%= value %>">
+                        
                     </div>
                 </div>
                 
@@ -72,16 +69,11 @@
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
                         <input class="form-control height" 
-                        <% isFile = false; %>
+                        
                         <% Object.keys(forms[key].elements[i+1].input).forEach(function(key1, index1) { %>
-                            <% if(forms[key].elements[i+1].input[key1] === 'file') { isFile = true;} %>
                             <%= key1 %> = "<%= forms[key].elements[i+1].input[key1] %>"
                         <% }); %>
-                        <% if(!isFile) { %>name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>"<% } %>>
-                        <% if(isFile) { %>
-                            <input name="<%= forms[key].elements[i+1].name %>" type="hidden" value=<%= value %>>
-                        <% } %>
-
+                       name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>">
                     </div>
                 </div>
                 <% } %>
@@ -92,7 +84,35 @@
                 </div> 
             <% } %>    
 
-    
+        <% for(var i = 0; i < forms[key].files.length; i++) { %>
+             <div class="row no-gutters">
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key].files[i].text %></span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input upload="<%= forms[key].files[i].name %>" type="text" class="form-control height" value="">
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <label class="btn btn-secondary">
+                            Browse <input type="file" target="<%= forms[key].files[i].name %>" hidden>
+                            <input type="hidden" name="<%= forms[key].files[i].name %>" value="" />
+                        </label>
+
+                        
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2"></div>
+                <div class="col-12 col-md-12 col-lg-2"></div>
+            </div>
+
+
+        <% } %>
        
 
         <div class="row no-gutters">
@@ -106,12 +126,10 @@
             <div class="col-6 col-md-3 col-lg-2"></div>
             <div class="col-6 col-md-3 col-lg-2">
                 <div class="margin height">
-                    <button type="submit" class="btn btn-secondary btn-block height"><%= mode %></button>
+                    <button type="submit" class="btn btn-secondary btn-block height" id="<%= key %>_submit"><%= mode %></button>
                 </div>
             </div>
             <div class="col-12 col-md-12 col-lg-2"></div>
         </div>
     </form>
 <% }); %>
-
-<div id="debug"></div>

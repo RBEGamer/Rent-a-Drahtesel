@@ -301,6 +301,7 @@ function Models(){
 	this.findOne = function(modelname, data, callback) {
 		var query = "SELECT * FROM `" + modelname + "` WHERE ";
 		Object.keys(data).forEach(function(key,index) {
+			console.log(self.getValue(modelname, key, data[key]));
 			query += key;
 			query += " = ";
 			query += self.getValue(modelname, key, data[key]);

@@ -13,13 +13,20 @@ var Formgenerator = function() {
 			var pos = formnames[i];
 			forms[pos] = {};
 			forms[pos].elements = [];
+			forms[pos].files = [];
 			for(var j = 0; j < m.elements.length; j++) {
 				var p = m.elements[j];
 				e[p].name = p;
-				forms[pos].elements.push(e[p]);
+				if(e[p].input.type === 'file') {
+					forms[pos].files.push(e[p]);
+				} else {
+					forms[pos].elements.push(e[p]);
+				}
+
 			}
 			forms[pos].model = m.model;
 		}
+		console.log("formgenerator: ", forms);
 		return forms;
 	}
 }

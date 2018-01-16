@@ -24,6 +24,7 @@
     "express-session": "^1.11.3",
     "fs": "0.0.1-security",
     "fullcalendar": "^3.8.0",
+    "geocoder": "^0.2.3",
     "img2data": "^1.0.3",
     "ip": "^1.1.5",
     "mkdirp": "^0.5.1",
