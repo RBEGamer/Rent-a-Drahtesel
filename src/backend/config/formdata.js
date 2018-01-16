@@ -39,15 +39,14 @@ module.exports = {
         'editprivate' : {
             'elements':
             [
-                'city', 'country','housenumber', 'zip', 'pw', 'street', 'passwortwdh', 'phone', 'picture'
+                 'Vorname', 'Name','country', 'city', 'zip', 'housenumber', 'street', 'pw', 'phone', 'passwortwdh', 'picture'
             ],
             'model': 'Privatbenutzer'
         },
         'editcommercial' : {
             'elements':
             [
-                'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
-
+                'Firmenname', 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
             ],
             'model': 'Geschaeftsbenutzer'
         },
