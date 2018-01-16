@@ -1,10 +1,13 @@
-    <% layout(layoutPath + 'layout') -%>
+<% script('/newbike/script.js') -%> 
+<% layout(layoutPath + 'layout') -%>
+
+
 
     <head>
         <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
  </head>
 
-    <form method="post" action="/bike/new">
+    <form id="bikepostform" method="post" action="/bike/new">
 
         <div class="row">
             <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
@@ -54,7 +57,7 @@
                     <div class="margin padding">
                         &emsp;
                         <input type="checkbox" name="porter" class="form-check-input position-static">
-                        <span class="text">Gep√§cktr√§ger</span><br />
+                        <span class="text">Gep‰cktr‰ger</span><br />
                         &emsp;
                         <input type="checkbox" name="childseat" class="form-check-input position-static">
                         <span class="text">Kindersitz</span>
@@ -118,7 +121,7 @@
                 <div class="col-12 col-md-12 col-lg-2"></div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height text">
-                        <span>Stra√üe*</span>
+                        <span>Straﬂe*</span>
                     </div>
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
@@ -160,27 +163,9 @@
             <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
         </div>
 
-            <div class="row no-gutters">
+            <div class="row no-gutters" id="images">
 
-                <div class="col-12">
-                    <div class="white margin">
-                        <div class="padding middle">
-                            <span>
-                                <span>Bild1.png</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <div class="white margin">
-                        <div class="padding middle">
-                            <span>
-                                <span>Bildtoll2.jpg</span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                
 
             </div>
 
@@ -198,14 +183,13 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <button type="submit" class="btn btn-secondary btn-block height">Browse...</button>
+                        <label class="btn btn-secondary" >
+                            Hinzuf¸gen <input type="file" target="images" id="addimagebutton" hidden>
+                        </label>
+
                     </div>
                 </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height">
-                        <button type="submit" class="btn btn-secondary btn-block height">Hinzuf√ºgen</button>
-                    </div>
-                </div>
+                
                 <div class="col-12 col-md-12 col-lg-2"></div>
             </div>
 
@@ -290,3 +274,4 @@ data: eventData
         });
         
             </script>
+            <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyCkMWSqlk6gTahbTNfaPaTqBsiGWtT_PRg"></script>

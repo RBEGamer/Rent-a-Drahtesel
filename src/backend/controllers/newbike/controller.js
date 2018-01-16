@@ -1,5 +1,3 @@
-//import { request } from 'http';
-
 var mysqlpool = require('../../config/database.js');
 var mysql = require('mysql');
 var bcrypt = require('bcrypt-nodejs');
@@ -7,41 +5,6 @@ var dbconfig = require('../../config/database');
 var cred = require('../../config/credentials');
 var sanitizer = require('sanitizer');
 var MobileDetect = require('mobile-detect');
-var gmh = require('../../config/google_maps_helper');
-
-var NodeGeocoder = require('node-geocoder');
-var options = {
-	provider: 'google',
-	httpAdapter: 'https',
-	apiKey: cred.google_map_api,
-	formatter: null
-  };
-
-var geocoder = NodeGeocoder(options);
-
-
-async function get_maps_info(_map_combiner){
-	geocoder.geocode(_map_combiner)
-	  .then(function(res) {
-		if(res == null  || res.length > 0){
-		  return{
-			"lat":-1,
-			"lon":-1
-		  }
-		}
-		console.log(res[0].latitude)
-		console.log(res[0].longitude)
-		return {
-		  "lat": res[0].latitude,
-		  "lon": res[0].longitude
-		}
-	  })
-	  .catch(function(err) {
-		console.log(err);
-	  });
-	}
-
-
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/new', function(req, res) {
@@ -51,7 +14,9 @@ module.exports = function(app, passport, verificationMail) {
 			isLoggedIn : req.isAuthenticated()
 		});
 	});
-	//BILD COORD
+
+	app
+	
 	app.post('/bike/new', function(req, res) {
 		mysqlpool.getConnection(function(err, connection) {
 			if (err) {
@@ -94,38 +59,27 @@ module.exports = function(app, passport, verificationMail) {
 			query += "'" + req.body.street + "'" + ", ";
 			query += "'" + req.body.zip + "'" + ", ";
 			query += "'" + req.body.housenumber + "'" + ", ";
-			//TODO!! lat und lon berechnen
-
-			geocoder.geocode(req.body.country + " " + req.body.city + " " + req.body.street +" " + req.body.housenumber)
-	  .then(function(res) {
-		if(res == null  || res.length < 0){
-			res.redirect("/profile");
-		}
-		console.log(res[0].latitude)
-		console.log(res[0].longitude)
-		
-
-		query += res[0].latitude + ", ";
-		query += res[0].longitude + ", ";
-		query += req.session.passport.user + ", ";
-		query += "'" + req.body.name + "'" + ")";
-		console.log("childseat: " + req.body.childseat);
-		console.log(query);
-		connection.query(query, function(err, rows) {
-			if (err) {
-				console.log("insert bike db failed")
-				return;
-			}
-		});
-		connection.release();
-
-	  })
-	  .catch(function(err) {
-		console.log(err);
-	  });
-
-
+			
+			var lat = "'" + req.body.lat + "'";
+			var lon = "'" + req.body.lon + "'";
+			query += lat + ", ";
+			query += lon + ", ";
+			query += req.session.passport.user + ", ";
+			query += "'" + req.body.name + "'" + ")";
+			console.log("childseat: " + req.body.childseat);
+			console.log(query);
+			connection.query(query, function(err, rows) {
+				if (err) {
+					console.log("insert bike db failed")
+					return;
+				}
+			});
+			connection.release();
 		});
 		res.redirect("/profile");
+	});
+
+	app.get('/newbike/script.js', function(req, res, next) {
+		res.sendfile(__dirname+'/_script.js');
 	});
 }
