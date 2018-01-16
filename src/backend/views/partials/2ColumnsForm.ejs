@@ -99,9 +99,14 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
+                        <% var name = forms[key].files[i].name; %> 
+                        <% var value = ""; %>
+                         <% if(data != null && data[name]  != null) { %>
+                        <%  value = data[name] %>
+                        <% } %>
                         <label class="btn btn-secondary">
                             Browse <input type="file" target="<%= forms[key].files[i].name %>" hidden>
-                            <input type="hidden" name="<%= forms[key].files[i].name %>" value="" />
+                            <input type="hidden" name="<%= forms[key].files[i].name %>" value="<%= data[name] %>" />
                         </label>
 
                         
