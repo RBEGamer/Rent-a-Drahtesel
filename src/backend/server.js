@@ -173,9 +173,7 @@ app_proxy.use('/', proxy({
 
 
 /*-----------------------------------------------------------*/
-app_proxy.listen(3000, () => {
-console.log('Listening on: http://localhost:3000');
-});
+
 
 
 
@@ -184,11 +182,12 @@ console.log('Listening on: http://localhost:3000');
 
 app_fileserver.listen(3001,function(){
     console.log("Working on port 3001");
+    app_proxy.listen(3000, () => {
+      console.log('Listening on: http://localhost:3000');
+      app.listen(port);
+console.log('The magic happens on port ' + port);
+      });
 });
 
 
 
-
-
-app.listen(port);
-console.log('The magic happens on port ' + port);
