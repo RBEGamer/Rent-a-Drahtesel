@@ -53,6 +53,7 @@ function Models(){
 		var results = [];
 		var functions = [];
 		Object.keys(queryObject).forEach(function(key, index) {
+			console.log("iterate over: ", key);
 			functions.push(queryObject[key]);
 		});
 		this.Waterfall(functions, 
@@ -68,6 +69,7 @@ function Models(){
 				Object.keys(queryObject).forEach(function(key, index) {
 					output[key] =results[index];
 				});
+				console.log("output from models: ", output);
 				callback(output);
 			}
 		);

@@ -46,9 +46,9 @@
                 <div class="margin">
                     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                         <div class="carousel-inner">
-                           
+                            <% console.log("aus der view: ", pictures); %>
                             <div class="carousel-item active">
-                                <img height="300px" width="100%"  id="diashow_img" class="img-responsive" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==" alt="Second slide">
+                                <img height="300px" width="100%" class="img-responsive" src="<%= pictures[0].Picture %>" alt="Second slide">
                             </div>
            
                         </div>

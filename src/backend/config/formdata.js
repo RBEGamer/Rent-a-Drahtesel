@@ -80,6 +80,9 @@ module.exports = {
         },
         'Bestellung' : {
             table: 'Bestellung'
+        },
+        'Bild' : {
+            table: 'Bild'
         }
 
     }

@@ -2,7 +2,10 @@ var base64 = require('./img_convert');
 
 module.exports = function(type, value) {
 	console.log(type, value);
-	if(type.indexOf('int') !== -1)
+	if(type.indexOf('tiny') !== -1) {
+		return (value=== 'on' ? 1 : 0);
+	}
+	else if(type.indexOf('int') !== -1)
 		return value;
 	else if(type.indexOf('char'))
 		return "'" + value + "'";

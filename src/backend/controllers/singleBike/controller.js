@@ -75,21 +75,21 @@ module.exports = function(app, passport, verificationMail) {
 					pictures = rows;
 					console.log(pictures);
 					res.render(__dirname +'/singlebike.ejs', { 
-					bezeichnung: 'trekkingbike', 
-					title: 'singlebike',
-					helper: require('../../views/helpers/helper'),
-					layoutPath: '../../views/',
-					bike: bikes[0],
-					pictures: pictures,
-					isLoggedIn: req.isAuthenticated() & privat_benutzer,
-					maps_key: cred.credentials.google_map_api,
-					bike_desc: txt,
-					booked_days: bkd,
-					bike_id: sanitizer.sanitize(req.params.id),
-					ratings:rows3,
-					user:rows4[0],
-					userid: userid
-				});
+						bezeichnung: 'trekkingbike', 
+						title: 'singlebike',
+						helper: require('../../views/helpers/helper'),
+						layoutPath: '../../views/',
+						bike: bikes[0],
+						pictures: pictures,
+						isLoggedIn: req.isAuthenticated() & privat_benutzer,
+						maps_key: cred.credentials.google_map_api,
+						bike_desc: txt,
+						booked_days: bkd,
+						bike_id: sanitizer.sanitize(req.params.id),
+						ratings:rows3,
+						user:rows4[0],
+						userid: userid
+					});
 			});
 		});
 	});
