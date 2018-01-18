@@ -186,9 +186,8 @@ app_proxy.use('/', proxy({
     app_proxy.listen(3000, () => {
       console.log('Listening on: http://localhost:3000');
       app.listen(port);
-console.log('The magic happens on port ' + port);
-      });
-});
+		console.log('The magic happens on port ' + port);
+    });
 
 
 
