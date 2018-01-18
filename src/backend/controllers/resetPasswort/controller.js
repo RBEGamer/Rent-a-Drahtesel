@@ -83,7 +83,7 @@ module.exports = function(app, passport, verificationMail) {
 		   if (rows.length == 1) {
 			req.flash('loginMessage', 'MAIL SEND');
 			var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465");
-			var pw = randomstring.generate(7);
+			var pw = randomstring.generate(10);
 			var pw_hash = bcrypt.hashSync(pw, null, null)
 			console.log("NEW USER PW:" + pw + " HASH:" + pw_hash);
 			connection.query("UPDATE `Benutzer` SET `pw`=? WHERE `email`= ? LIMIT 1", [sanitizer.sanitize(pw_hash),sanitizer.sanitize(req.body.mail)], function(err, rows) {
