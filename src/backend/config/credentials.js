@@ -25,7 +25,8 @@ var credentials = {
 var config = {
   "image_upload_tmp_path": "./tmp/uploaded_images",
   "image_conversion_path": "./tmp/converted_images",
-  "port":3000
+  "port":3002,
+  "port_activation_email": 3000
 }
 
 

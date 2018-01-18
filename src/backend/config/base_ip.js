@@ -1,6 +1,6 @@
 var ip = require("ip");
 var config  = require('./credentials.js');
-var port     = process.env.PORT || config.config.port;
+var port     = process.env.PORT || config.config.port_activation_email;
 
 var base_url = "http://";
 base_url += String(ip.address());
