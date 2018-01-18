@@ -140,7 +140,7 @@ module.exports = function(app, passport, verificationMail) {
         	if(cols) {
 
         		if(cols[0].verification_hash === hash) {
-        			models.update('Benutzer', {verified: '1'}, {pk_ID: id}, function(rows) {
+        			models.update('Benutzer', {verified: 1}, {pk_ID: id}, function(rows) {
         				//console.log(rows.model.Benutzer);
         				//res.json({data: rows});
         				req.flash('loginMessage', 'Sie können sich nun einloggen.');

@@ -172,8 +172,13 @@ function Models(){
 			query += " = ";
 			query += self.getValue(modelname, key, data[key]);
 			query += ", ";
-			
+			console.log(self.getValue(modelname, key, data[key]));
 		});
+		
+		console.log("modelname", modelname);
+		console.log("data", data);
+		console.log("where", where);
+		console.log("update query", query);
 		query = query.slice(0, -2);
 		query += " WHERE ";
 		
@@ -322,6 +327,9 @@ function Models(){
 
 	this.update = function(modelname, data, where, callback) {
 
+		console.log(data);
+
+		console.log(where);
 		var fields = _models[modelname].fields;
 		var hierarchie = _models[modelname].hierarchie;
 		var submodels = {};
@@ -336,6 +344,7 @@ function Models(){
 			}
 
 		});
+		console.log(submodels);
 
 		Object.keys(submodels).forEach(function(key, index) {
 			if(Object.keys(submodels[key]).length > 0) {
@@ -344,6 +353,8 @@ function Models(){
 			}
 		});
 
+
+		console.log(queries);
 		this.Waterfall(queries, 
 			function(query, ready) {
 				self.dbconnection(query, function(rows) {

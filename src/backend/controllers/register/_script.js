@@ -21,7 +21,7 @@ $(document).ready(function () {
                     obj.append("<input type='hidden' name='lon' value='" + longitude + "' />");
                     $('form').unbind('submit');
                     $('#' + mode).submit();
-                    return false;
+                    return true;
                 } 
             });
     });
