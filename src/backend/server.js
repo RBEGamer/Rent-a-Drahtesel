@@ -104,7 +104,7 @@ require('./controllers/')(app, passport, verificationMail);
 
 
 
-app_fileserver.use(bodyParser.json());
+/*app_fileserver.use(bodyParser.json());
 app_fileserver.use(express.static('uploads'));
 
 var storage	=	multer.diskStorage({
@@ -137,7 +137,7 @@ app_fileserver.post('/photo',function(req,res){
 		}
 		res.json({output: photos});
 	});
-});
+});*/
 
 
 
@@ -147,7 +147,7 @@ app_fileserver.post('/photo',function(req,res){
 
 
 app_proxy.use('/_api', proxy({
-  target: 'http://localhost:3001', 
+  target: 'http://marcelochsendorf.com:3003', 
   changeOrigin: true,
   pathRewrite: {
       '^/_api' : '/'
@@ -181,8 +181,8 @@ app_proxy.use('/', proxy({
 
 
 
-app_fileserver.listen(3001,function(){
-    console.log("Working on port 3001");
+/*app_fileserver.listen(3001,function(){
+    console.log("Working on port 3001");*/
     app_proxy.listen(3000, () => {
       console.log('Listening on: http://localhost:3000');
       app.listen(port);
