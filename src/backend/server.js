@@ -128,6 +128,7 @@ app_fileserver.post('/photo',function(req,res){
 		console.log(req.files);
 		var photos = [];
 		for(var i = 0; i < req.body.imagecounter; i++) {
+      if(req.body[i].filename == null || req.body[i].filename == undefined){err = true;break;}
 			var photo = req.files[i].filename;
 			photos.push(photo);
 		}
