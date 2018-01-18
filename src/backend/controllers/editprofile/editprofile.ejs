@@ -1,10 +1,47 @@
 <% layout(layoutPath + 'layout') -%>
 <div class="row no-gutters">
-    <div class="col-12">
-        <div class="white margin padding middle">
-            <h1 class="display-4">Bearbeiten (<%= model %>)</h1>
-        </div>
-    </div>
+	<div class="col-12">
+		<div class="white margin padding middle">
+			<h1 class="display-4">Bearbeiten (<%= model %>)</h1>
+		</div>
+	</div>
 </div>
 
 <% include ../../views/partials/2ColumnsForm %>
+
+
+
+<hr
+	style="width: 100%; color: black; height: 1px; background-color: black;" />
+
+<input id="start" type="button" class="btn btn-default" value="Profil loeschen">
+
+<div id="popup" class="overlayHidden">
+	<form method="post" action="delete">
+		<p>Sind Sie sicher, dass Sie Ihr Profil löschen wollen?</p>
+		<input id="sicher" type="submit"
+			class="btn btn-secondary btn-block height" value="Ja" />
+	</form>
+	<input id="schliessen" type="submit"
+		class="btn btn-secondary btn-block height" value="Nein" />
+</div>
+
+
+<script>
+	var startBtn = document.getElementById('start'), BewertungBtn = document
+			.getElementById('sicher'), SchliessenBtn = document
+			.getElementById('schliessen');
+	var popup = document.getElementById('popup');
+
+	startBtn.addEventListener('click', zeigeFenster);
+	BewertungBtn.addEventListener('click', schliesseFenster);
+	SchliessenBtn.addEventListener('click', schliesseFenster);
+
+	function zeigeFenster() {
+		popup.className = 'overlay';
+	}
+
+	function schliesseFenster() {
+		popup.className = 'overlayHidden';
+	}
+</script>
