@@ -79,22 +79,24 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 
+
 var task = cron.schedule('59 59 23 * * *', function(){
-    console.log('run deletion cronjon');
-  db.getConnection(function(err,connection){
-    if (err) {
-      console.log("-- DELETION CRONJOB FAILED -- SQL POOL")
-      return;
-    }
-  connection.query("DELETE FROM `Benutzer` WHERE `verified`='0' AND `creation_date`=DATE_SUB(NOW(), INTERVAL 1 DAY)",function(err,rows){
-    if(err) {
-        console.log("-- DELETION CRONJOB FAILED --")
-    }
-      connection.release();
-      console.log('-- CRON OK --');
-      });
-  });
+  console.log('run deletion cronjon');
+db.getConnection(function(err,connection){
+  if (err) {
+    console.log("-- DELETION CRONJOB FAILED -- SQL POOL")
+    return;
+  }
+connection.query("UPDATE `Benutzer` SET verification_hash`=NULL,`housenumber`='-1',`country`='default',`city`='default',`zip`='00000',`phone`='+',`street`='default',`picture`=NULL,`lat`=NULL,`lon`=NULL,`deleted`='1' WHERE `verified`='0' AND `creation_date`=DATE_SUB(NOW(), INTERVAL 1 DAY)",function(err,rows){
+  if(err) {
+      console.log("-- DELETION CRONJOB FAILED --")
+  }
+    connection.release();
+    console.log('-- CRON OK --');
+    });
 });
+});
+
 
 
 
