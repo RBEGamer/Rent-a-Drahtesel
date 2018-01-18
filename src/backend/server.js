@@ -18,10 +18,13 @@ var mkdirp = require('mkdirp');
 var models = require('./config/models');
 var formdata = require('./config/formdata');
 var fileUpload = require('express-fileupload');
+var bsip = require('./config/base_ip.js');
+var multer	=	require('multer');
+var app_fileserver=	express();
+const proxy = require('http-proxy-middleware');
+const app_proxy = express();
 
 
-
-var bsip = require('./config/base_ip.js')
 console.log(bsip);
 // connect to our database
 require('./config/passport')(passport, verificationMail); // pass passport for
@@ -96,5 +99,96 @@ var task = cron.schedule('59 59 23 * * *', function(){
 
 
 require('./controllers/')(app, passport, verificationMail);
+
+
+
+
+
+app_fileserver.use(bodyParser.json());
+app_fileserver.use(express.static('uploads'));
+
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, Date.now() + file.originalname);
+  }
+});
+
+
+app_fileserver.get('/',function(req,res){
+      res.sendFile(__dirname + "/index.html");
+});
+
+app_fileserver.post('/photo',function(req,res){
+	var upload = multer({ storage : storage }).array('userPhoto', req.body.imagecounter);
+	upload(req,res,function(err) {
+		console.log(req.body);
+		console.log(req.files);
+		var photos = [];
+		for(var i = 0; i < req.body.imagecounter; i++) {
+			var photo = req.files[i].filename;
+			photos.push(photo);
+		}
+		if(err) {
+			return res.end("Error uploading file.");
+		}
+		res.json({output: photos});
+	});
+});
+
+
+
+
+
+
+
+
+app_proxy.use('/_api', proxy({
+  target: 'http://localhost:3001', 
+  changeOrigin: true,
+  pathRewrite: {
+      '^/_api' : '/'
+  }
+}));
+
+
+app_proxy.use('/', proxy({
+  target: 'http://localhost:3002', 
+  changeOrigin: true,
+  pathRewrite: {
+      '^/app' : '/'
+  }
+}));
+
+
+
+
+
+
+
+
+
+
+
+/*-----------------------------------------------------------*/
+app_proxy.listen(3000, () => {
+console.log('Listening on: http://localhost:3000');
+});
+
+
+
+
+
+
+app_fileserver.listen(3001,function(){
+    console.log("Working on port 3001");
+});
+
+
+
+
+
 app.listen(port);
 console.log('The magic happens on port ' + port);
