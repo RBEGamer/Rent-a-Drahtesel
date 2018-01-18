@@ -150,11 +150,11 @@ function gen_table(_divid, _data, _rentdate){
                     </div>
                     <div class="row no-gutters">
                             <div class="col-12 middle">
-                    <form method="post" action="/bike/delete">
-                        <input type="hidden" name="user_id" value="<%= userid %>" />
-                        <input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
-                        <input type="submit" value="Loeschen" />
-                    </div>
+                    <form method="post" action="/deleteBike">
+                        <div class="col-12 middle">
+							<input type="hidden" name="id" value="<%= m.pk_ID %>" />
+							<input type="submit" value="Loeschen" />
+						</div>
                     </form>
                 </div>
                 </div>

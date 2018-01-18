@@ -308,10 +308,26 @@ module.exports = function(app, passport, verificationMail) {
 						console.log("done!");
 						res.redirect('/profile/' + req.body.pk_id);
 					}
-				});
+				}); 
 			}
 	    });
 	});
 
-
+	app.post('/deleteBike', function(req, res, next) {
+		mysqlpool.getConnection(function(err, connection) {
+			if (err) {
+				console.log(err);
+				return;
+			}
+			var query = "delete from Fahrrad where pk_id = " + sanitizer.sanitize(req.body.id);
+			connection.query(query, function(err, rows) {
+				if (err) {
+					console.log("delete failed: " + query)
+					return;
+				}
+			});
+			connection.release();
+			res.redirect('/profile');
+		});
+	});
 }

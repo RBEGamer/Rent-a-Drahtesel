@@ -164,12 +164,11 @@ to {
 						</div>
 						<div class="row no-gutters">
 							<div class="col-12 middle">
-								<form method="post" action="/bike/delete">
-									<input type="hidden" name="user_id" value="<%= userid %>" /> <input
-										type="hidden" name="inserat_id" value="<%= m.pk_ID %>" /> <input
-										type="submit" value="Loeschen" />
+								<form method="post" action="/deleteBike">
+								 <input type="hidden" name="id" value="<%= m.pk_ID %>" />
+								 <input type="submit" value="L&ouml;schen" />
 							</div>
-							</form>
+							</form> 
 						</div>
 					</div>
 				</div>
