@@ -53,13 +53,13 @@ function Models(){
 		var results = [];
 		var functions = [];
 		Object.keys(queryObject).forEach(function(key, index) {
-			console.log("iterate over: ", key);
+			//console.log("iterate over: ", key);
 			functions.push(queryObject[key]);
 		});
 		this.Waterfall(functions, 
 			function(f, ready) {
 				f(function(rows) {
-					console.log(rows);
+					//console.log(rows);
 					results.push(rows);
 					ready();
 				});
@@ -69,7 +69,7 @@ function Models(){
 				Object.keys(queryObject).forEach(function(key, index) {
 					output[key] =results[index];
 				});
-				console.log("output from models: ", output);
+			//	console.log("output from models: ", output);
 				callback(output);
 			}
 		);
@@ -90,7 +90,7 @@ function Models(){
 
 	this.generateJoins = function(modelname, joins) {
 		var query = "";
-		console.log("generateJoins", joins);
+		//console.log("generateJoins", joins);
 		if(joins === undefined) return query;
 
 		for(var i = 0; i < joins.length; i++) {
@@ -118,7 +118,7 @@ function Models(){
 			}
 			query += " ";
 		}
-		console.log("GENERATED JOINS: ", query);
+		//console.log("GENERATED JOINS: ", query);
 		return query;
 	}
 
@@ -160,7 +160,7 @@ function Models(){
 			}
 			query = query.slice(0, -2);
 			query += ")";
-			console.log(query);
+	//		console.log(query);
 			callback({query: query, parent: _models[modelname].parent[i]});
 		}
 	}
@@ -172,13 +172,13 @@ function Models(){
 			query += " = ";
 			query += self.getValue(modelname, key, data[key]);
 			query += ", ";
-			console.log(self.getValue(modelname, key, data[key]));
+		//	console.log(self.getValue(modelname, key, data[key]));
 		});
 		
-		console.log("modelname", modelname);
-		console.log("data", data);
-		console.log("where", where);
-		console.log("update query", query);
+	//	console.log("modelname", modelname);
+	//	console.log("data", data);
+	//	console.log("where", where);
+	//	console.log("update query", query);
 		query = query.slice(0, -2);
 		query += " WHERE ";
 		
@@ -197,7 +197,7 @@ function Models(){
 		var hierarchie = _models[modelname].hierarchie;
 		var primaryKeys = _models[modelname].primaryKeys;
 		var query = "SELECT ";
-		console.log("joins: ", joins);
+	//	console.log("joins: ", joins);
 		for(var i = 0; i < selects.length; i++) {
 			query +=  selects[i];
 			query += ", ";
@@ -217,7 +217,7 @@ function Models(){
 			query += " = ";
 			query += hierarchie[i] + "." + primaryKeys[i];
 		}
-		console.log("data", data);
+//		console.log("data", data);
 		if(Object.keys(data).length === 0) return query;
 		query += " WHERE ";
 
@@ -229,7 +229,7 @@ function Models(){
 		});
 
 		query = query.slice(0, -5);
-		console.log(query);
+	//	console.log(query);
 		return query;
 
 	}
@@ -271,7 +271,7 @@ function Models(){
 	this.findComplete = function(modelname, selects, data, joins, callback) {
 		//SELECT email, city, Vorname FROM benutzer JOIN privatbenutzer ON benutzer.pk_ID = privatbenutzer.pk_ID  WHERE city = 'Aachen' AND Name = 'Arndt';
 		var query = this.getFindCompleteQuery(modelname, selects, joins, data);
-		console.log(query);
+	//	console.log(query);
 
 		this.dbconnection(query, function(rows) {
 			callback(rows);
@@ -308,7 +308,7 @@ function Models(){
 	this.findOne = function(modelname, data, callback) {
 		var query = "SELECT * FROM " + modelname + " WHERE ";
 		Object.keys(data).forEach(function(key,index) {
-			console.log(self.getValue(modelname, key, data[key]));
+		//	console.log(self.getValue(modelname, key, data[key]));
 			query += key;
 			query += " = ";
 			query += self.getValue(modelname, key, data[key]);
@@ -327,9 +327,9 @@ function Models(){
 
 	this.update = function(modelname, data, where, callback) {
 
-		console.log(data);
+	//	console.log(data);
 
-		console.log(where);
+	//	console.log(where);
 		var fields = _models[modelname].fields;
 		var hierarchie = _models[modelname].hierarchie;
 		var submodels = {};
@@ -344,7 +344,7 @@ function Models(){
 			}
 
 		});
-		console.log(submodels);
+	//	console.log(submodels);
 
 		Object.keys(submodels).forEach(function(key, index) {
 			if(Object.keys(submodels[key]).length > 0) {
@@ -354,7 +354,7 @@ function Models(){
 		});
 
 
-		console.log(queries);
+	//	console.log(queries);
 		this.Waterfall(queries, 
 			function(query, ready) {
 				self.dbconnection(query, function(rows) {
