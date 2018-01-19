@@ -69,7 +69,9 @@
                     </div>
                 </div>
                             
-                <div id="my-calendar"></div>
+                <div id="calhold">
+                    <div id="my-calendar"></div>
+                    </div>
 
                             
                 </div>
@@ -207,6 +209,7 @@
                 
                 <div class="col-12 col-md-3 col-lg-4"></div>
             </div>
+            <div id="form_date"></div>
     </form>
 
     <div class="col-6 col-md-3 col-lg-2">
@@ -240,30 +243,135 @@ var dtstring = id.split("_")[3];//extrect the datestring
  create_calendar();
 }
 
+var booked_days = 0;
+var eventData = [];
+  //CREAT A DATASET FROM WITH PUSH COMMANDS WITH THE FIXED DAYS
+
+
+
+function myDateFunction(id) {
+  console.log(eventData);
+if(!id.includes("calendar")){alert("err");return;}
+console.log(id.split("_")[3]); //#3 is date
+var dtstring = id.split("_")[3];//extrect the datestring
+
+var is_fixed = false;
+var remove_id = -1;
+var is_in  = false;
+for(var i = 0; i < eventData.length; i++){
+   if(eventData[i].fixed == undefined || eventData[i].date == undefined){
+       alert("Es ist ein allgemeiner Fehler aufgetreten. Bitte lade die Seite erneut.");
+       break;
+   }
+   //CHECK IF THE DATE IS A FROM OTHER RESERVED 
+  if(eventData[i].date == dtstring && eventData[i].fixed == true){
+      is_fixed = true;
+      break;
+  }
+  //CHECK If is a DAY TO ReMOVE
+  if(eventData[i].date == dtstring  && eventData[i].fixed == false){
+      remove_id = i;
+      break;
+  }
+  if(eventData[i].date == dtstring  && eventData[i].fixed == false){
+      is_in = true;
+
+      break;
+  }
+}
+
+if(is_fixed){alert("Dieses Datum wurde bereit von einem anderen Kunden reserviert.Bitte waehle ein anderes.");return;}
+//REMOVE ENTRY
+if(remove_id != -1){
+  console.log("REMOVE ENTRY");
+  var eventData_old = eventData;
+  eventData = [];
+  for(var j = 0; j < eventData_old.length; j++){
+      if(j != i){
+          eventData.push(eventData_old[j]);
+      }else{
+          console.log("SKIP:" + eventData_old[j]);
+      }
+  }
+  console.log(eventData);
+  //HACKY WORKAROUND
+  $("#calhold").empty()
+  $("#calhold").append("<div id='my-calendar'></div>");
+  create_calendar();
+   return;
+}
+//ADD NEW ENTRY
+if(!is_in){
+
+  var seldate = new Date(dtstring);
+  var tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() - 1);
+  if( tomorrow >seldate){
+      alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
+      return;
+  }
+   console.log("ADD");
+eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
+}
+//HACKY WORKAROUND
+$("#calhold").empty()
+$("#calhold").append("<div id='my-calendar'></div>");
+create_calendar();
+}
+
 
 function create_calendar(){
-    //GET CURRENT DATE
-    var today = new Date();
-    var dd = today.getDate();
-    var mm = today.getMonth()+1; //January is 0!
-    var yyyy = today.getFullYear();
+  //GET CURRENT DATE
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
 
-  $("#my-calendar").zabuto_calendar({
-  year: yyyy,
-  month: mm,
-  day: dd,
-  show_previous: true,
-  cell_border: true,
-  today: true,
-  show_days: false,
-  weekstartson: 0,
-  nav_icon: {
-    prev: 'zur&uuml;ck',
-    next: 'weiter'
-  },
-  action: function() { myDateFunction(this.id); },
+$("#my-calendar").zabuto_calendar({
+year: yyyy,
+month: mm,
+day: dd,
+show_previous: true,
+cell_border: true,
+today: true,
+show_days: false,
+weekstartson: 0,
+nav_icon: {
+  prev: 'zur&uuml;ck',
+  next: 'weiter'
+},
+action: function() { myDateFunction(this.id); },
 data: eventData
 });
+
+
+
+
+//CREATES A CUSTOM FORM INPUT WITH THE BOOKES DAYS
+//push only the not fixex data into the form = not fixed = user booked
+var ev_form = [];
+for(var i = 0; i < eventData.length; i++){
+  if(eventData[i].date != undefined && eventData[i].fixed != undefined && eventData[i].fixed == false){
+  ev_form.push(eventData[i]);
+  }
+}
+booked_days = ev_form.length;
+
+
+var std1 = new Date();
+var end = new Date();
+
+for (let index = 0; index < booked_days.length; index++) {
+    const element = booked_days[index];
+    
+    var d = new Date(element.date);
+    if(d <= std1){std1 = d;}
+    if(d >= end){end = d;}
+    
+}
+console.log("START: " + std1 + " END:" +end);
+
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+std1+"'/><input type='hidden' name='end_date' value='"+end+"'/>";
 }
 
         $( document ).ready(function() {
