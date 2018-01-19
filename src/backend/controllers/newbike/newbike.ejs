@@ -72,6 +72,7 @@
                 <div id="calhold">
                     <div id="my-calendar"></div>
                     </div>
+                    <div id="date_range"></div>
 
                             
                 </div>
@@ -372,6 +373,7 @@ for (let index = 0; index < booked_days.length; index++) {
 console.log("START: " + std1 + " END:" +end);
 
 document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+std1+"'/><input type='hidden' name='end_date' value='"+end+"'/>";
+document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + std1 + " <br>bis zum <br>" + end + "";
 }
 
         $( document ).ready(function() {
