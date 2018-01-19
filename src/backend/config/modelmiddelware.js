@@ -31,6 +31,14 @@ function isLoggedIn() {
 	}
 }
 
+
+function checkUpdate() {
+	return function(req, res, next) {
+		console.log(req.body);
+		next();
+	}
+}
+
 function hashValue(column) {
 	return function(req, res, next) {
 		var unhashed = req.body[column];

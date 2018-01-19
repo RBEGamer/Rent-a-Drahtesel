@@ -25,10 +25,9 @@ module.exports = function(app, passport, verificationMail) {
 				'Benutzer', [ "*" ], {
 					pk_ID : id
 				}, function(user) {
-
+					var disabled = [];
 					var form = "";
 					if (user.model === "Privatbenutzer") {
-						form = "editprivate";
 
 					}
 
@@ -36,7 +35,10 @@ module.exports = function(app, passport, verificationMail) {
 						form = "editcommercial";
 
 					var forms = formgenerator.generate([ form ]);
-
+					if(user.model === "Privatbenutzer" && user.data.name_changed === 1) {
+						disabled.push('Name');
+					}
+					forms[form].disabled = disabled;
 					var m = app.locals.formdata
 					var error = (m ? m.error : null);
 					var data = (m ? m.olddata : user.data);
@@ -58,8 +60,7 @@ module.exports = function(app, passport, verificationMail) {
 				});
 	});
 
-	app.post('/editprofile', formvalidator.validate, modelmiddelware
-			.hashValue('pw'), function(req, res, next) {
+	app.post('/editprofile', formvalidator.validate, modelmiddelware.hashValue('pw'), function(req, res, next) {
 		console.log('kommt an!');
 		console.log(res.locals);
 		if (res.locals.invalid) {
@@ -68,7 +69,13 @@ module.exports = function(app, passport, verificationMail) {
 			return;
 		} else {
 
-			if (req.body.Nachname != null || req.body.Vorname != null) {
+			models.findSpecialisation([ 'Privatbenutzer', 'Geschaeftsbenutzer' ],'Benutzer', [ "*" ], {pk_ID : id}, function(user) {
+				console.log(req.body);
+				console.log(user.data);
+				res.redirect('/profile');
+			});
+
+			/*if (req.body.Nachname != null || req.body.Vorname != null) {
 				req.body.name_changed = 1;
 			}
 
@@ -79,7 +86,7 @@ module.exports = function(app, passport, verificationMail) {
 			}, function(rows) {
 				//res.json(rows);
 				res.redirect('/profile');
-			});
+			});*/
 
 		}
 	});
