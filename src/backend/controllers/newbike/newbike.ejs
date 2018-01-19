@@ -384,8 +384,16 @@ for (let index = 0; index < booked_days.length; index++) {
 if(eventData.length >1){
 console.log("START: " + eventData[0].date + " END:" +eventData[1].date);
 
-document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+getFormattedDate(eventData[0].date)+"'/><input type='hidden' name='end_date' value='"+getFormattedDate(eventData[1].date)+"'/>";
-document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + getFormattedDate(eventData[0].date) + " <br>bis zum <br>" + getFormattedDate(eventData[1].date) + "";
+
+var d1 = "2010-10-30T00:00:00+05:30".slice(0, 10).split('-');   
+var t1 = d1[0] +'-'+ d1[1] +'-'+ d1[2]; // 10/30/2010
+
+
+var d2 = "2010-10-30T00:00:00+05:30".slice(0, 10).split('-');   
+var t2 = d2[0] +'-'+ d2[1] +'-'+ d2[2]; // 10/30/2010
+
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+t1+"'/><input type='hidden' name='end_date' value='"+t2+"'/>";
+document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + t1 + " <br>bis zum <br>" + t2 + "";
 
 }
 //document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+booked_days[0]+"'/><input type='hidden' name='end_date' value='"+ooked_days[1]+"'/>";
