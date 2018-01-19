@@ -48,7 +48,7 @@
                         <div class="carousel-inner">
                             <% console.log("aus der view: ", pictures); %>
                             <div class="carousel-item active">
-                                <img height="300px" width="100%" class="img-responsive" src="http://bilder.bild.de/fotos/bams-47445590/Bild/1.bild.svg" alt="Second slide">
+                                <img id="diashow_img" height="300px" width="100%" class="img-responsive" src="http://bilder.bild.de/fotos/bams-47445590/Bild/1.bild.svg" alt="Second slide">
                             </div>
            
                         </div>
@@ -433,7 +433,7 @@ var dia_index = -1;
 
 
 <% pictures.forEach(function(pic) { %>
-    dia_images.push("<%= pic.picture.toString('utf8') %>");
+    dia_images.push("/uploads/<%= pic.picture.toString('utf8') %>".replace(/ /gi,"%20"));
 <% }); %>
 
 
