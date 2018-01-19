@@ -26,12 +26,24 @@ to {
 			return;
 		}
 		var dt = _data.split(',');
-		var table = "<table>";
+		if(dt.lenght <= 0){return;}
+
+
+
+		var dts = "";
+
 		for (var j = 0; j < dt.length; j++) {
-			var dtd = new Date(dt[j]);
-			table += "<tr><td>" + dtd.getDay() + "." + (dtd.getMonth() + 1)
-					+ "." + dtd.getFullYear() + "</td></tr>";
+			dts += " "+ dt[j]+" ";
 		}
+
+		var table = "<table>";
+		//for (var j = 0; j < dt.length; j++) {
+			var dtd = new Date(dt[0]);
+			var dtd = new Date(dt[dt.lenght-1]);
+			table += "<tr><td>< href='#' title='"+dts+"' >" + dtd.getDay() + "." + (dtd.getMonth() + 1)
+					+ "." + dtd.getFullYear() + " - " + dtd1.getDay() + "." + (dtd1.getMonth() + 1)
+					+ "." + dtd1.getFullYear() + "</a></td></tr>";
+		//}
 		table += "</table>";
 		document.getElementById(_divid).innerHTML = table;
 	}
