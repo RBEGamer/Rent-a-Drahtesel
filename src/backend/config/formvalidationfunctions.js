@@ -41,7 +41,7 @@ var ValidationFunctions = function() {
 	}
 
 	this.isNumeric = function(data) {
-
+		if(data == "" || data == '' || data == null){return {value: true}};
 		if(parseFloat(data.value) == data.value)
 			return {value: true};
 		return {value: false, error: "Eintrag muss eine Zahl sein."};
