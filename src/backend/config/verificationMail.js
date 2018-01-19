@@ -13,7 +13,7 @@ module.exports = function() {
     this.verificate = function(req, res, next) {
         var id = parseInt(req.params.id);
         var hash = req.params.hash;
-        console.log(req.params);
+       // console.log(req.params);
         var selectionQuery = "SELECT * FROM Benutzer WHERE pk_ID=?";
 
         mysqlpool.getConnection(function(err,connection){
@@ -50,7 +50,7 @@ module.exports = function() {
         var id = user.pk_ID;
         var hash = this.getHash(4);
         var updateQuery = "UPDATE `Benutzer` SET `verification_hash` = ? WHERE `pk_ID` = ?";
-        console.log(updateQuery);
+       // console.log(updateQuery);
 
          var transp = nodemailer.createTransport("smtps://rent.a.drahtesel%40gmail.com:"+encodeURIComponent('softwarea8') + "@smtp.gmail.com:465");
          mysqlpool.getConnection(function(err,connection){
@@ -68,7 +68,7 @@ module.exports = function() {
                 if(err) {
                     console.log(err);
                 }
-                console.log(response);
+              //  console.log(response);
             });
         });
 
@@ -97,7 +97,7 @@ module.exports = function() {
                 if(err) {
                     console.log(err);
                 }
-                console.log(response);
+         //       console.log(response);
             });
 
           connection.release()

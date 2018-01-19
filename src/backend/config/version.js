@@ -9,7 +9,7 @@ fs.readFile('./version.txt', 'utf8', function (err,data) {
     version = err
   }
   version = data;
-  console.log(data);
+//  console.log(data);
 });
 }
 

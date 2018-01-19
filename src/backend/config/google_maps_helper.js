@@ -24,8 +24,8 @@ geocoder.geocode(_map_combiner)
         "lon":-1
       }
     }
-    console.log(res[0].latitude)
-    console.log(res[0].longitude)
+    //console.log(res[0].latitude)
+    //console.log(res[0].longitude)
     return {
       "lat": res[0].latitude,
       "lon": res[0].longitude
