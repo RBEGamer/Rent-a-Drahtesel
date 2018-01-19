@@ -1,10 +1,51 @@
 var express  = require('express');
 var engine = require('./node_modules/ejs-locals');
 var session  = require('express-session');
-var cookieParser = require('cookie-parser');
+
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
+var multer  =   require('multer');
 var app      = express();
+app.use(bodyParser.json());
+
+var storage =   multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+    callback(null, file.fieldname + '-' + Date.now());
+  }
+});
+
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser.urlencoded({
+	extended: true, parameterLimit: 50, limit: "1000mb"
+}));
+app.use(bodyParser.json({limit: "1000mb"}));
+
+
+
+
+app.get('/uploader',function(req,res){
+  res.sendFile(__dirname + "/index.html");
+});
+
+app.post('/api/photo',function(req,res){
+upload(req,res,function(err) {
+    console.log(req.body);
+    console.log(req.files);
+    if(err) {
+        return res.end("Error uploading file.");
+    }
+    res.end("File is uploaded");
+});
+});
+
+
+
+
+var upload = multer({ storage : storage }).array('userPhoto',2);
 var config  = require('./config/credentials.js');
 var port     = process.env.PORT || config.config.port;
 var VerificationMail = require('./config/verificationMail');
