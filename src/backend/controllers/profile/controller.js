@@ -5,13 +5,15 @@ var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
 var models = require('../../config/models');
+var wait = require('wait.for');
+var waitUntil = require('wait-until');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/profile/:id', function(req, res) {
 		var privat = true;
 		var user = req.params.id;
 		var route = "privatkunde";
-		var query = "SELECT b.pk_ID, `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname"
+		var query = "SELECT b.pk_ID, `picture`,`Vorname`, `Name`, `phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM Benutzer AS b JOIN Privatbenutzer AS p ON b.pk_id = p.pk_id LEFT JOIN BewertungBenutzer AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY Vorname";
 	//	console.log("Params: " + JSON.stringify(req.params))
 	//	console.log("User: " + user);
 		mysqlpool.getConnection(function(err, connection) {
@@ -20,7 +22,7 @@ module.exports = function(app, passport, verificationMail) {
 				res.redirect('/');//TODO ADD FLASH MESSAGE
 				return;
 			}
-			connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + sanitizer.sanitize(user), function(err, rows) {
+		 	connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + sanitizer.sanitize(user), function(err, rows) {
 				if (err) {
 					console.log("get userrole db failed")
 					res.redirect('/');//TODO ADD FLASH MESSAGE
@@ -28,8 +30,8 @@ module.exports = function(app, passport, verificationMail) {
 				}
 				if(rows[0].anz == 0){
 					route = "geschaeftskunde";
-					query = "SELECT b.pk_ID, `picture`,`Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
-	}
+					query = "SELECT b.pk_ID, `picture`,`Banner`, `WebUrl`, `FacebookUrl`, `TwitterUrl`, `InstagramUrl`,`Firmenname`,`phone`, `email`, `city`, `street`, `lat`, `lon`, `housenumber`, `zip`, avg(rating) AS Rating FROM `Benutzer` AS b JOIN `Geschaeftsbenutzer` AS p ON b.pk_id = p.pk_id LEFT JOIN `BewertungBenutzer` AS bb ON b.pk_id = bb.pk_id WHERE b.pk_id = " + sanitizer.sanitize(user) + " GROUP BY `Firmenname`";
+				}
 				connection.query(query, function(err, rows) {
 					if (err) {
 						console.log("get user db failed")
@@ -37,17 +39,55 @@ module.exports = function(app, passport, verificationMail) {
 						return;
 					}
 					//console.log(rows);
-					userdata = rows[0];
+					var userdata = rows[0];
 					//	console.log(sanitizer.sanitize(user))
-					connection.query("SELECT * FROM `BewertungBenutzer`  LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungBenutzer`.`pk_ID` WHERE `Benutzer`.`pk_ID` = '" + sanitizer.sanitize(user) +"'", function(err, rows4) {
+					connection.query("SELECT * FROM `BewertungBenutzer` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `BewertungBenutzer`.`pk_ID` WHERE `Benutzer`.`pk_ID` = '" + sanitizer.sanitize(user) +"'", function(err, rows4) {
 						if (err) {
 							console.log("get user db failed 3");
 							res.redirect('/');//TODO ADD FLASH MESSAGE
 							return;
 						}
-			//	console.log(rows4)
-						console.log("PROFILE", userdata);
-							res.render(__dirname + '/' + route + '.ejs',
+
+						var ready = false;
+						var i = 0;
+						rows4.forEach(function(n){
+							var q = "SELECT CONCAT(Vorname, ' ', name) as Name from Privatbenutzer where pk_id = " + sanitizer.sanitize(n.Rater);
+							console.log(q);
+							connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + sanitizer.sanitize(n.Rater), function(err, rows) {
+								if (err) {
+									console.log("get userrole db rater failed: " + n.Rater);
+									return;
+								}
+								console.log("test");
+								if(rows[0].anz == 0){
+									q = "SELECT Firmenname as Name from Geschaeftsbenutzer where pk_id = " + n.Rater;
+								}
+								console.log("h");
+								connection.query(q, function(err, rater) {
+									if (err) {
+										console.log("get user db failed");
+										return;
+									}
+									console.log(rater[0].Name);
+									n.ratername = rater[0].Name;
+
+									i++;
+									if(i === rows4.length){
+										ready = true;
+									}
+								});
+							});
+						});
+						
+						console.log("hier");
+						waitUntil()
+					    .interval(500)
+					    .times(10)
+					    .condition(function() {
+					        return ready;
+					    })
+					    .done(function(result) {
+					        res.render(__dirname + '/' + route + '.ejs',
 							{
 								helper : require('../../views/helpers/helper'),
 								layoutPath : '../../views/',
@@ -56,6 +96,10 @@ module.exports = function(app, passport, verificationMail) {
 								maps_key: cred.credentials.google_map_api,
 								ratings: rows4
 							});
+					    });
+						console.log("da");
+						//console.log("PROFILE", userdata);
+							
 						});
 				});
 			});
@@ -119,6 +163,7 @@ module.exports = function(app, passport, verificationMail) {
 						['*'],
 						{pk_ID: id},
 						function(rater) {
+							console.log("Rater: " + rater);
 							if(rater.model === "Geschaeftsbenutzer"){
 								var raterdata = function(callback){ models.findComplete('Geschaeftsbenutzer', ["*"], {pk_ID: bestellung.rater}, [], callback);};
 								var quo = {
@@ -133,7 +178,7 @@ module.exports = function(app, passport, verificationMail) {
 										raterdata: raterdata
 									}
 								models.queryFunctions(quo, function(res) {
-									bestellung.ratername = res.raterdata.Vorname + res.raterdata.Name;
+									bestellung.ratername = res.raterdata.Vorname + ' ' + res.raterdata.Name;
 								});
 							}
 						}
