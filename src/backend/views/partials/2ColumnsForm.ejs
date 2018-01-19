@@ -47,15 +47,7 @@
                             <%= key1 %> = "<%= forms[key].elements[i].input[key1] %>"
                         <% }); %>
                           name = "<%= forms[key].elements[i].name %>" value = "<%= value %>"
-                          <% var name = forms[key].elements[i].name; %>
-                          <% var disabled = forms[key].disabled; %>
-                          <% var IsDisabled = (disabled.indexOf(name) > -1); %>
-                          <% console.log("name: ", name); %>
-                          <% console.log("disabled: ", disabled); %>
-                          <% console.log("isDisabled: ", IsDisabled); %>
-                          <% if(IsDisabled) { %>
-                            <%= disabled %>
-                          <% } %>
+                          
                           >
                         
                     </div>
@@ -84,15 +76,7 @@
                             <%= key1 %> = "<%= forms[key].elements[i+1].input[key1] %>"
                         <% }); %>
                        name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>"
-                        <% var name = forms[key].elements[i+1].name; %>
-                        <% var disabled = forms[key].disabled; %>
-                        <% var IsDisabled = (disabled.indexOf(name) > -1); %>
-                        <% console.log("name: ", name); %>
-                        <% console.log("disabled: ", disabled); %>
-                        <% console.log("isDisabled: ", IsDisabled); %>
-                        <% if(IsDisabled) { %>
-                            <%= "disabled" %>
-                        <% } %>
+                       
                        >
                     </div>
                 </div>
