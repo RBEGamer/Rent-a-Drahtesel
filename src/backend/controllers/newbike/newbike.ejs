@@ -231,7 +231,17 @@ var eventData = [];
 //eventData.push({"date":"","badge":false,"title":"RESERVIERT", "fixed":true}) 
 
 
+function getFormattedDate(date) {
+  var year = date.getFullYear();
 
+  var month = (1 + date.getMonth()).toString();
+  month = month.length > 1 ? month : '0' + month;
+
+  var day = date.getDate().toString();
+  day = day.length > 1 ? day : '0' + day;
+  
+  return year + '-' + month + '-' + day;
+}
 function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
@@ -374,8 +384,8 @@ for (let index = 0; index < booked_days.length; index++) {
 if(eventData.length >1){
 console.log("START: " + eventData[0].date + " END:" +eventData[1].date);
 
-document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+eventData[0].date+"'/><input type='hidden' name='end_date' value='"+eventData[1].date+"'/>";
-document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + eventData[0].date + " <br>bis zum <br>" + eventData[1].date + "";
+document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+getFormattedDate(eventData[0].date)+"'/><input type='hidden' name='end_date' value='"+getFormattedDate(eventData[1].date)+"'/>";
+document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + getFormattedDate(eventData[0].date) + " <br>bis zum <br>" + getFormattedDate(eventData[1].date) + "";
 
 }
 //document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+booked_days[0]+"'/><input type='hidden' name='end_date' value='"+ooked_days[1]+"'/>";
