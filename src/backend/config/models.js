@@ -58,6 +58,7 @@ function Models(){
 		});
 		this.Waterfall(functions, 
 			function(f, ready) {
+				console.log(f);
 				f(function(rows) {
 					//console.log(rows);
 					results.push(rows);
@@ -123,6 +124,9 @@ function Models(){
 	}
 
 	this.getInsertionQuery = function(modelname, data, callback) {
+
+		console.log("modelname: ", modelname);
+		console.log("data: ", data);
 
 		for(var i = 0; i < _models[modelname].subModels.length; i++) {
 			var tmpCols = _models[modelname].subModels[i];
@@ -240,6 +244,7 @@ function Models(){
 		var queries = [];
 		var lastID = -1;
 		var allRows = [];
+		console.log("InsertIntoModel: ", data);
 		this.getInsertionQuery(modelname, data, function(query) {
 			queries.push(query);
 		});

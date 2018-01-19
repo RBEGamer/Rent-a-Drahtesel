@@ -1,13 +1,15 @@
 $(document).ready(function () {
-    var mode = $('#starter').attr('class');
-    $(mode).submit(function(e) {
-            e.preventDefault();
+    var mode = "registerprivat";
+    loadMode();
+
+    function sendFiles(e) {
+         e.preventDefault();
             console.log("kommt an!");   
             var geocoder = new google.maps.Geocoder();
-            var street = $("input[name='street']").val();
-            var city = $("input[name='city']").val();
-            var country = $("input[name='country'").val();
-            var housenumber = $("input[name='housenumber']").val();
+            var street = $("#" + mode + " input[name='street']").val();
+            var city = $("#" + mode + " input[name='city']").val();
+            var country = $("#" + mode + " input[name='country'").val();
+            var housenumber = $("#" + mode + " input[name='housenumber']").val();
             var obj = $(this);
             var adress = country + " " + city + " " + street + " " + housenumber;
             console.log(adress);
@@ -21,27 +23,17 @@ $(document).ready(function () {
                     obj.append("<input type='hidden' name='lon' value='" + longitude + "' />");
                     $('form').unbind('submit');
                     $('#' + mode).submit();
-                    return true;
+                    return false;
                 } 
             });
-    });
+    }
+
+    $('#registerprivat').submit(sendFiles);
    
 
     var datafields = [];
 
-    
-    if(mode == "")  {
-        console.log("geht in loadmode");
-        mode = 'registerprivat';
-        loadMode();
-    } else {
-        $('#' + mode).show();
-        if(mode === 'registercommercial') {
-            $('#chkProfile').prop('checked', true);
-        } else {
-            $('#chkProfile').prop('checked', false);
-        }
-    }
+
 
     function loadMode() {
         $('form').each(function() {
@@ -54,6 +46,7 @@ $(document).ready(function () {
         });
         $('#errorField').empty();
         $('#' + mode).show();
+
     }
     
 
@@ -61,8 +54,12 @@ $(document).ready(function () {
         
         if($(this).prop('checked')) {
             mode = 'registercommercial';
+            $('#registerprivat').unbind('submit');
+            $('#registercommercial').submit(sendFiles);
         } else {
             mode = 'registerprivat';
+            $('#registercommercial').unbind('submit');
+            $('#registerprivat').submit(sendFiles);
         }
         loadMode();
     });

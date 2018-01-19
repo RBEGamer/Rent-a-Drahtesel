@@ -12,10 +12,10 @@ app.use(bodyParser.json());
 
 var storage =   multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, './uploads');
+    callback(null, './public/uploads');
   },
   filename: function (req, file, callback) {
-    callback(null, file.fieldname + '-' + Date.now());
+    callback(null, Date.now() + file.originalname);
   }
 });
 

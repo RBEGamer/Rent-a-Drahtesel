@@ -23,30 +23,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.get('/register/debug', function(req, res) {
 
 
-		var id = req.session.passport.user;
-		models.findSpecialisation(
-			['Privatbenutzer', 'Geschaeftsbenutzer'], 
-			'Benutzer',
-			['*'],
-			{pk_ID: id},
-			function(user) {
-
-				var queries = [
-					function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, callback);},
-			 		function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, callback);}
-				];
-				models.queryFunctions(queries, function(results) {
-					res.json({results: results, user: user});
-				});
-
-			}
-		);
-		/*function show2() {console.log("show2")};
-		function show3() {console.log("show3")};
-		var functions = [show2, show3];
-		for(var i = 0; i < functions.length; i++) {
-			functions[i]();
-		}*/
+	
 
 	
 
@@ -59,7 +36,7 @@ module.exports = function(app, passport, verificationMail) {
 		var m =  app.locals.formdata;
 		
 		var data = (m ? m.olddata  : {});
-		var start = (m ? m.start : "");
+		var start = (m ? m.start : "registerprivat");
 		var invalid = (m ? m.invalid : false);
 		var error = (m ? m.error : null);
 		app.locals.formdata = null;
