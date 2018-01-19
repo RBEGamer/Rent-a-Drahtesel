@@ -121,7 +121,7 @@
                         <div id="calhold">
                         <div id="my-calendar"></div>
                         </div>
-
+                        <span>BUCHBARED DATUM: <%= bike.start_date %> bis <%= bike.end_date %></span>
                 </div>
             </div>
         </div>
@@ -271,6 +271,8 @@
     <% }); %>
 
   
+    var start_date = new Date.parse("<%= bike.start_date %>");
+    var end_date = new Date.parse("<%= bike.end_date %>");
 
   function myDateFunction(id) {
     console.log(eventData);
@@ -333,6 +335,11 @@ var is_in  = false;
         alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
         return;
     }
+
+    if(seldate < start_date || seldate > end_date){
+        alert("Das gewählte Datum kann nicht bebucht werden da der Benutzer das Bike nicht zu rVermietung freigibt.");
+    }
+
      console.log("ADD");
  eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
  }
@@ -345,7 +352,7 @@ var is_in  = false;
 
 function create_calendar(){
     //GET CURRENT DATE
-    var today = new Date();
+    var today = start_date;
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
@@ -354,7 +361,8 @@ function create_calendar(){
   year: yyyy,
   month: mm,
   day: dd,
-  show_previous: true,
+  show_previous: false,
+
   cell_border: true,
   today: true,
   show_days: false,

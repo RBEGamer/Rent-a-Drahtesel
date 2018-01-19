@@ -12,7 +12,9 @@
                     var lat = results[0].geometry.location.lat();
                     var lon = results[0].geometry.location.lng();
                     callback(lat, lon);
-                } 
+                }else{
+                    alert("Die eingegebene Adresse ist leider nicht gueltig. Bitte ueberpruefe diese noch einmal");
+                }
             });
 
         }

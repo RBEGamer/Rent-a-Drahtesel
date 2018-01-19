@@ -31,8 +31,12 @@ module.exports = function(app, passport, verificationMail) {
 			if (rows1.length) {
 				privat_benutzer = true;
 			}
+<<<<<<< HEAD
 			console.log("params: " + req.params.id);
 			connection.query("select pk_id, start_date, end_date, biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+=======
+			connection.query("select pk_id, biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name, start_date, end_date FROM Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+>>>>>>> branch 'Alpha1' of https://github.com/RBEGamer/swe_praktikum_ws1718.git
 				if (err) {
 					console.log(err);
 					console.log("get singlebike db failed 2");
