@@ -48,20 +48,6 @@ module.exports = function(app, passport, verificationMail) {
 					var error = (m ? m.error : null);
 					var data = (m ? m.olddata : user.data);
 
-					/*if(user.model === "Privatbenutzer" && user.data.name_changed === 1) {
-						if(error === null) {
-							error = {};
-							error.Name = {
-								text: "Name",
-								error: "Name wurde schon geändert"
-							}; 
-						} else {
-							error.Name = {
-								text: "Name",
-								error: "Name wurde schon geändert"
-							}; 
-						}
-					}*/
 
 					app.locals.formdata = null;
 					data["pw"] = "";
@@ -96,10 +82,15 @@ module.exports = function(app, passport, verificationMail) {
 			models.findSpecialisation([ 'Privatbenutzer', 'Geschaeftsbenutzer' ],'Benutzer', [ "*" ], {pk_ID : id}, function(user) {
 				console.log(req.body);
 				console.log(user.data);
-				if(user.model === 'Privatbenutzer') {
-
+				if(user.data.Name != req.body.Name) {
+					req.body.name_changed = 1;		
 				}
-				res.json({json: user});
+
+				models.update(req.body.model, req.body, {pk_ID: user.data.pk_ID}, function(rows) {
+
+					res.redirect('/profile');
+				});
+				
 			});
 
 		
