@@ -271,7 +271,9 @@
     <% }); %>
 
   
-
+    var start_date = new Date.parse("<%= bike.start_date %>");
+    var end_date = new Date.parse("<%= bike.end_date %>");
+    
   function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
@@ -355,7 +357,7 @@ function create_calendar(){
   month: mm,
   day: dd,
   show_previous: true,
-  
+
   cell_border: true,
   today: true,
   show_days: false,

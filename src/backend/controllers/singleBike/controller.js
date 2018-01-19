@@ -30,7 +30,7 @@ module.exports = function(app, passport, verificationMail) {
 			if (rows1.length) {
 				privat_benutzer = true;
 			}
-			connection.query("select pk_id, biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+			connection.query("select pk_id, biketype, size, price, description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name, start_date, end_date FROM Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 				if (err) {
 					console.log("get singlebike db failed 2")
 					return;
