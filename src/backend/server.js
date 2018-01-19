@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var morgan = require('morgan');
 var multer  =   require('multer');
 var app      = express();
+
 app.use(bodyParser.json());
 
 var storage =   multer.diskStorage({
@@ -32,20 +33,29 @@ app.get('/uploader',function(req,res){
 });
 
 app.post('/api/photo',function(req,res){
-upload(req,res,function(err) {
+  upload(req,res,function(err) {
     console.log(req.body);
     console.log(req.files);
-    if(err) {
-        return res.end("Error uploading file.");
+    var photos = [];
+    for(var i = 0; i < req.body.imagecounter; i++) {
+      var photo = req.files[i].filename;
+      photos.push(photo);
     }
-    res.end("File is uploaded");
+    if(err) {
+      return res.end("Error uploading file.");
+    }
+    res.json({output: photos});
+  });
 });
-});
 
 
 
 
-var upload = multer({ storage : storage }).array('userPhoto',2);
+var upload = multer({ storage : storage }).array('userPhoto',5);
+
+
+
+
 var config  = require('./config/credentials.js');
 var port     = process.env.PORT || config.config.port;
 var VerificationMail = require('./config/verificationMail');

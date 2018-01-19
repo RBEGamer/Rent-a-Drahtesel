@@ -33,7 +33,7 @@ module.exports = function(app, passport, verificationMail) {
 			
 
 			var querieObject = {};
-			for(var i = 0; i < req.body.image.length && i < 5; i++) {
+			for(var i = 0; i < req.body.imagecounter && i < 5; i++) {
 				querieObject[i] = bildQueries[i];
 			}
 			models.queryFunctions(querieObject, function(results) {
