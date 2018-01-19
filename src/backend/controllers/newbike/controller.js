@@ -51,7 +51,7 @@ module.exports = function(app, passport, verificationMail) {
 				queryObject[i] = queryFunctions[i];
 			}
 			models.queryFunctions(queryObject, function(results) {
-				res.redirect('/profile');
+				res.json({redirect: '/profile'});
 			});
 		});
 		/*mysqlpool.getConnection(function(err, connection) {
