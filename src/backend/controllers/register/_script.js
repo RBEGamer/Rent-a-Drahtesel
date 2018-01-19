@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var mode = $('#starter').attr('class');
-    $('form').submit(function(e) {
+    $(mode).submit(function(e) {
             e.preventDefault();
             console.log("kommt an!");   
             var geocoder = new google.maps.Geocoder();

@@ -56,7 +56,7 @@ console.log("path already exists");
 app.use(morgan('dev')); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.urlencoded({
-	extended: true, parameterLimit: 5000000, limit: "1000mb"
+	extended: true, parameterLimit: 50, limit: "1000mb"
 }));
 app.use(bodyParser.json({limit: "1000mb"}));
 
