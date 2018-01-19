@@ -26,7 +26,7 @@ module.exports = function() {
             console.log(err);
             var foundVerificationHash = rows[0].verification_hash;
             if(hash == foundVerificationHash) {
-                req.flash('loginMessage', 'Your Account has been activated. You can login from now on.');
+                req.flash('loginMessage', 'Dein Account wurde aktiviert.');
                 var updateQuery = "UPDATE Benutzer SET verified=1 WHERE pk_ID=?";
                 connection.query(updateQuery, [sanitizer.sanitize(id)]);
             }else {

@@ -93,7 +93,7 @@ module.exports = function(app, passport, verificationMail) {
 						"Hallo Rent-A-Bike Benutzer, <br> Bitte klicke innerhalb von 24h <a href='"+bsip+"register/verification/" + data.lastID + "/" + req.body.verification_hash + "'>Activate</a> um deinen Rent-A-Bike Account zu aktivieren.<br> Bitte Antworte nicht auf diese E-Mail. <br> Viele Gruesse dein Rent-A-Bike Team.",
 						req.body['email']
 					);
-					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt. Befolgen Sie den Anweisungen sofort. Schalten Sie nicht die Polizei ein. Die Email wird sich um 0:00 selber löschen.');
+					req.flash('loginMessage', 'Wir haben eine Email an ' + req.body['email'] + ' geschickt.');
 					res.redirect('/login');
 				});
 			}
