@@ -48,7 +48,7 @@
                         <div class="carousel-inner">
                             <% console.log("aus der view: ", pictures); %>
                             <div class="carousel-item active">
-                                <img height="300px" width="100%" class="img-responsive" src="" alt="Second slide">
+                                <img height="300px" width="100%" class="img-responsive" src="http://bilder.bild.de/fotos/bams-47445590/Bild/1.bild.svg" alt="Second slide">
                             </div>
            
                         </div>
@@ -271,8 +271,8 @@
     <% }); %>
 
   
-    var start_date = new Date.parse("<%= bike.start_date %>");
-    var end_date = new Date.parse("<%= bike.end_date %>");
+    var start_date = Date.parse("<%= bike.start_date %>");
+    var end_date = Date.parse("<%= bike.end_date %>");
 
   function myDateFunction(id) {
     console.log(eventData);
