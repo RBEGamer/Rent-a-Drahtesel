@@ -32,7 +32,7 @@ module.exports = {
         'registercommercial' : {
             'elements': 
             [
-                'email', 'Firmenname', 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
+                'email', 'Firmenname', 'street', 'housenumber', 'city', 'zip', 'pw', 'country', 'passwortwdh', 'WebUrl', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner'
             ],
             'model': 'Geschaeftsbenutzer'
         },
