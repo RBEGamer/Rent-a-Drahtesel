@@ -9,10 +9,16 @@ var models = require('../../config/models');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/new', function(req, res) {
-		res.render(__dirname +'/newbike.ejs', { 
-			helper: require('../../views/helpers/helper'),
-			layoutPath: '../../views/',
-			isLoggedIn : req.isAuthenticated()
+
+		var query = "SELECT COUNT(pk_ID_Benutzer) AS anz FROM Fahrrad WHERE pk_ID_Benutzer = " + req.session.passport.user;
+		models.dbconnection(query, function(rows) {
+			console.log(rows);
+			res.render(__dirname +'/newbike.ejs', { 
+				helper: require('../../views/helpers/helper'),
+				layoutPath: '../../views/',
+				isLoggedIn : req.isAuthenticated(),
+				anz : rows
+			});	
 		});
 	});
 
