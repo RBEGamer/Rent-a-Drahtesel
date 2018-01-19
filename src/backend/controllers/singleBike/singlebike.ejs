@@ -121,7 +121,7 @@
                         <div id="calhold">
                         <div id="my-calendar"></div>
                         </div>
-
+                        <span>BUCHBARED DATUM: <%= bike.start_date %> bis <%= bike.end_date %></span>
                 </div>
             </div>
         </div>
@@ -352,7 +352,7 @@ var is_in  = false;
 
 function create_calendar(){
     //GET CURRENT DATE
-    var today = new Date();
+    var today = start_date;
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
@@ -361,7 +361,7 @@ function create_calendar(){
   year: yyyy,
   month: mm,
   day: dd,
-  show_previous: true,
+  show_previous: false,
 
   cell_border: true,
   today: true,
