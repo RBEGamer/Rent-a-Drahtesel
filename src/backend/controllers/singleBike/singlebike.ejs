@@ -273,7 +273,7 @@
   
     var start_date = new Date.parse("<%= bike.start_date %>");
     var end_date = new Date.parse("<%= bike.end_date %>");
-    
+
   function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
@@ -335,6 +335,11 @@ var is_in  = false;
         alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
         return;
     }
+
+    if(seldate < start_date || seldate > end_date){
+        alert("Das gewählte Datum kann nicht bebucht werden da der Benutzer das Bike nicht zu rVermietung freigibt.");
+    }
+
      console.log("ADD");
  eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
  }
