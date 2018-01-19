@@ -50,7 +50,7 @@ module.exports = function(app, passport, verificationMail) {
 
 
 	app.post('/reset', function(req, res) {
-		req.flash('loginMessage', 'Bitte gebe eine gueltige emailadresse an.');
+	//	req.flash('loginMessage', 'Bitte gebe eine gueltige emailadresse an.');
 		if(req.body.mail == null){
 			console.log("MAIL == NULL")
 		res.render(__dirname +'/resetPasswort.ejs', { 
@@ -78,7 +78,7 @@ module.exports = function(app, passport, verificationMail) {
 			return;
             }
 			
-        connection.query("SELECT * FROM `Benutzer` WHERE `verified`='1' AND `email`=? LIMIT 1", [sanitizer.sanitize(req.body.mail)], function(err, rows) {
+        connection.query("SELECT * FROM `Benutzer` WHERE `verified`='1' AND `email`='"+sanitizer.sanitize(req.body.mail)+"' LIMIT 1", function(err, rows) {
 		   console.log(rows);
 		   if (rows.length == 1) {
 			req.flash('loginMessage', 'MAIL SEND');
@@ -86,10 +86,12 @@ module.exports = function(app, passport, verificationMail) {
 			var pw = randomstring.generate(10);
 			var pw_hash = bcrypt.hashSync(pw, null, null)
 			console.log("NEW USER PW:" + pw + " HASH:" + pw_hash);
-			connection.query("UPDATE `Benutzer` SET `pw`=? WHERE `email`= ? LIMIT 1", [sanitizer.sanitize(pw_hash),sanitizer.sanitize(req.body.mail)], function(err, rows) {
+			connection.query("UPDATE `Benutzer` SET `pw`= '?' WHERE `email`= '?' LIMIT 1", [sanitizer.sanitize(pw_hash),sanitizer.sanitize(req.body.mail)], function(err, rows) {
 				req.flash('loginMessage', 'Wir haben eine Email mit einem neuen Passwort an  ' + req.body.mail + ' gesendet. Bitte aendere dies bei deinem naesten Besuch.<br>Bitte Antworte nicht auf diese E-Mail.<br>Viele Gruesse dein Rent-A-Bike Team.');
+				console.log(req.body.mail);
 				verificationMail.sendMailMSG("Hallo,<br> dein neues Passwort lautet : "+ pw + "<br>", req.body.mail);
 				req.flash('loginMessage', 'Eine Email mit deinem neuen Passwort wurde versand!');
+				
 			});
 			
 		   }else{
