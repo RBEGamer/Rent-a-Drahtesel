@@ -77,7 +77,8 @@ module.exports = function(app, passport, verificationMail) {
 			models.update(req.body.model, req.body, {
 				pk_ID : id
 			}, function(rows) {
-				res.json(rows);
+				//res.json(rows);
+				res.redirect('/profile');
 			});
 
 		}
