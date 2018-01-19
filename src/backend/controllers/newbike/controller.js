@@ -28,13 +28,22 @@ module.exports = function(app, passport, verificationMail) {
 			console.log(req.body);
 			console.log(req.body.image);
 
+			var queryStrings = [];
 			for(var i = 0; i < req.body.image.length; i++) {
-				console.log(req.body.image[i]);
-				var pictureFile = req.body.image[i];
-				var tmp = function(callback) {models.insertIntoModel('Bild', {ID_Fahrrad: ID_Fahrrad, Picture: pictureFile}, callback);};
-				queryObject[i] = tmp;
+				queryStrings.push("INSERT INTO Bild (ID_Fahrrad, Picture) VALUES (" + ID_Fahrrad + ", '" + req.body.image[i] + "')");
 			}
+
+			var queryFunctions = [];
+			queryFunctions[0] = function(callback) { models.dbconnection(queryStrings[0], callback);};
+			queryFunctions[1] = function(callback) { models.dbconnection(queryStrings[1], callback);};
+			queryFunctions[2] = function(callback) { models.dbconnection(queryStrings[2], callback);};
+			queryFunctions[3] = function(callback) { models.dbconnection(queryStrings[3], callback);};
+			queryFunctions[4] = function(callback) { models.dbconnection(queryStrings[4], callback);};
 			
+			var queryObject = {};
+			for(var i = 0; i < req.body.image.length && i < 5; i++) {
+				queryObject[i] = queryFunctions[i];
+			}
 			models.queryFunctions(queryObject, function(results) {
 				res.json({results: results});
 			});
