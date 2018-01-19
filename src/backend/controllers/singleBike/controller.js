@@ -55,7 +55,7 @@ module.exports = function(app, passport, verificationMail) {
 
 				bikes = rows;
 				var txt = "";
-				txt = rows[0].description.substring(0,300);
+				txt = rows[0].Description.substring(0,300);
 				connection.query("select picture from Bild where id_fahrrad = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 					if (err) {
 						console.log("get singlebi ke pictures db failed 6")
