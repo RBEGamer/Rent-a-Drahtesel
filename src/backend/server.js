@@ -194,7 +194,7 @@ app_fileserver.post('/photo',function(req,res){
 
 
 app.get('*', function(req, res){
-  res.send('what???', 404);
+  res.send('DIESE SEITE WURDE NICHT GEFUNDEN! 404', 404);
 });
 
 
