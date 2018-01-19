@@ -41,6 +41,7 @@ var ValidationFunctions = function() {
 	}
 
 	this.isNumeric = function(data) {
+		return {value: true};
 		if(data == "" || data == '' || data == null){return {value: true}};
 		if(parseFloat(data.value) == data.value)
 			return {value: true};
