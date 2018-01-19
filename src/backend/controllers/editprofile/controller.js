@@ -28,7 +28,7 @@ module.exports = function(app, passport, verificationMail) {
 					var disabled = [];
 					var form = "";
 					if (user.model === "Privatbenutzer") {
-
+						form = "editprivate";
 					}
 
 					if (user.model === "Geschaeftsbenutzer")
@@ -38,10 +38,31 @@ module.exports = function(app, passport, verificationMail) {
 					if(user.model === "Privatbenutzer" && user.data.name_changed === 1) {
 						disabled.push('Name');
 					}
+
+					if(user.model === "Geschaeftsbenutzer") {
+						disabled.push('Firmenname');
+					}
+
 					forms[form].disabled = disabled;
-					var m = app.locals.formdata
+					var m = app.locals.formdata;
 					var error = (m ? m.error : null);
 					var data = (m ? m.olddata : user.data);
+
+					/*if(user.model === "Privatbenutzer" && user.data.name_changed === 1) {
+						if(error === null) {
+							error = {};
+							error.Name = {
+								text: "Name",
+								error: "Name wurde schon geändert"
+							}; 
+						} else {
+							error.Name = {
+								text: "Name",
+								error: "Name wurde schon geändert"
+							}; 
+						}
+					}*/
+
 					app.locals.formdata = null;
 					data["pw"] = "";
 					data["passwortwdh"] = "";
@@ -63,6 +84,9 @@ module.exports = function(app, passport, verificationMail) {
 	app.post('/editprofile', formvalidator.validate, modelmiddelware.hashValue('pw'), function(req, res, next) {
 		console.log('kommt an!');
 		console.log(res.locals);
+
+
+		var id = req.session.passport.user;
 		if (res.locals.invalid) {
 			app.locals.formdata = res.locals;
 			res.redirect('/editprofile');
@@ -72,21 +96,13 @@ module.exports = function(app, passport, verificationMail) {
 			models.findSpecialisation([ 'Privatbenutzer', 'Geschaeftsbenutzer' ],'Benutzer', [ "*" ], {pk_ID : id}, function(user) {
 				console.log(req.body);
 				console.log(user.data);
-				res.redirect('/profile');
+				if(user.model === 'Privatbenutzer') {
+
+				}
+				res.json({json: user});
 			});
 
-			/*if (req.body.Nachname != null || req.body.Vorname != null) {
-				req.body.name_changed = 1;
-			}
-
-			var id = req.session.passport.user;
-
-			models.update(req.body.model, req.body, {
-				pk_ID : id
-			}, function(rows) {
-				//res.json(rows);
-				res.redirect('/profile');
-			});*/
+		
 
 		}
 	});
