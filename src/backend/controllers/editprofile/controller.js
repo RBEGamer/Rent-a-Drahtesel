@@ -83,7 +83,8 @@ module.exports = function(app, passport, verificationMail) {
 				console.log(req.body);
 				console.log(user.data);
 				if(user.data.Name != req.body.Name) {
-					req.body.name_changed = 1;		
+					req.body.name_changed = 1;
+					console.log("name changed");		
 				}
 
 				models.update(req.body.model, req.body, {pk_ID: user.data.pk_ID}, function(rows) {
