@@ -94,16 +94,12 @@
                        	 	<span><%= row.Preis %>€&emsp;</span>
                      	   	<a href="bike/<%= row.totid %>">ansehen</a>
                     	</div>
-
                 	</div>
-
            	 	</div>
-
               <div class="col-6 col-md-6">
                             <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
             </div>
             </div>
-
             <div class="row no-gutters">
                     <div class="col-2 col-md"></div>
                     <div class="col-10 col-md"><hr style="color: black; height: 1px; background-color:black;" /></div>
@@ -121,7 +117,3 @@
                 </script>
             <% } %>
         </div>
-
-
-        
-        
