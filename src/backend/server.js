@@ -156,45 +156,8 @@ require('./controllers/')(app, passport, verificationMail);
 
 
 
-
-/*app_fileserver.use(bodyParser.json());
-app_fileserver.use(express.static('uploads'));
-
-var storage	=	multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-  filename: function (req, file, callback) {
-    callback(null, Date.now() + file.originalname);
-  }
-});
-
-
-app_fileserver.get('/',function(req,res){
-      res.sendFile(__dirname + "/index.html");
-});
-
-app_fileserver.post('/photo',function(req,res){
-	var upload = multer({ storage : storage }).array('userPhoto', req.body.imagecounter);
-	upload(req,res,function(err) {
-		console.log(req.body);
-		console.log(req.files);
-		var photos = [];
-		for(var i = 0; i < req.body.imagecounter; i++) {
-      if(req.body[i].filename == null || req.body[i].filename == undefined){err = true;break;}
-			var photo = req.files[i].filename;
-			photos.push(photo);
-		}
-		if(err) {
-			return res.end("Error uploading file.");
-		}
-		res.json({output: photos});
-	});
-});*/
-
-
 app.get('*', function(req, res){
-  res.send('DIESE SEITE WURDE NICHT GEFUNDEN! 404', 404);
+    res.redirect("/");
 });
 
 
