@@ -8,7 +8,12 @@ var MobileDetect = require('mobile-detect');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/:id', function(req, res) {
-		
+		try{
+			int.parse(req.params.id);
+		}catch(err){
+			console.log("ok :)");
+			return res.redirect("/");
+		}
 		var bikes =[];
 		var pictures = [];
 		mysqlpool.getConnection(function(err, connection) {
@@ -19,21 +24,26 @@ module.exports = function(app, passport, verificationMail) {
 			//CHEKC IF PRIVATBENUTZER -> wenn nein dann kein mieten möglich
 			var userid = -1;
 			if(req.isAuthenticated()){
-			var userid = req.session.passport.user;
+				var userid = req.session.passport.user;
 			}
 			connection.query("SELECT * FROM `Privatbenutzer` WHERE `pk_ID` = ? LIMIT 1",[sanitizer.sanitize(userid)], function(err, rows1) {
 				if (err) {
 					console.log("get singlebike db failed 1")
 					return;
 				}
-			var privat_benutzer = false;
-			if (rows1.length) {
-				privat_benutzer = true;
-			}
+				var privat_benutzer = false;
+				if (rows1.length) {
+					privat_benutzer = true;
+				}
 			connection.query("select pk_id, start_date, end_date, biketype, size, price, Description, porter, childseat, threeday, sevenday, country, city,street, zip,pk_ID_Benutzer, housenumber, lat, lon, name from Fahrrad where pk_id = " + sanitizer.sanitize(req.params.id), function(err, rows) {
 				if (err) {
 					console.log("get singlebike db failed 2")
 					return;
+				}
+				console.log("anz. rows: " + rows.length);
+				if(rows.length <= 0){
+					console.log("hier!");
+					return res.redirect("/");
 				}
 				connection.query("SELECT * FROM `Benutzer` WHERE `pk_ID` = " + sanitizer.sanitize(rows[0].pk_ID_Benutzer), function(err, rows4) {
 					if (err) {
@@ -154,9 +164,10 @@ app.post('/bike/rate', function(req, res) {
 
 
 	app.post('/bike/delete', function(req, res) {
-		if(req.body.user_id == undefined || req.body.inserat_id == undefined){
+		console.log(req.body.user_id);
+		if(req.body.user_id === undefined || req.body.inserat_id === undefined){
 			console.log("/bike/delte not enogugh arguments")
-			res.redirect('/profile');
+			return res.redirect('/profile');
 		}
 		//<input type="hidden" name="user_id" value="<%= userid %>" />
 		//<input type="hidden" name="inserat_id" value="<%= m.pk_ID %>"/>
