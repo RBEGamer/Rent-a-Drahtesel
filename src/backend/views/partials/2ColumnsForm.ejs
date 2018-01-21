@@ -94,11 +94,11 @@
                            <%  IsDisabled = (disabled.indexOf(name) > -1); %>
                            <% } %>
                            <% if(IsDisabled) { %>
-                             <%= "disabled" %>
+                            title="Dieses Feld kann nicht mehr geändert werden." <%= "disabled" %>
                            <% } %>
                        >
                        <% if(IsDisabled) { %>
-                            <input type="hidden" name="<%=name %>" value="<%= value2 %>"
+                            <input type="hidden" name="<%=name %>" value="<%= value2 %>" />
                        <% } %>
                     </div>
                 </div>
