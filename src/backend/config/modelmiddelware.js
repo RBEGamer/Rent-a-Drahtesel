@@ -31,18 +31,26 @@ function isLoggedIn() {
 	}
 }
 
+function setFormValidation(model, configurationObject) {
+	return function(req, res, next) {
+		var tmpValidationSetting = forms[req.body.kind].elements;
+	}
+}
+
 
 function checkUpdate() {
 	return function(req, res, next) {
 		console.log(req.body);
 		next();
-	}
+	};
 }
 
 function hashValue(column) {
 	return function(req, res, next) {
-		var unhashed = req.body[column];
-		req.body[column] = bcrypt.hashSync(unhashed, null, null);
+		if(req.body[column] != "") {
+			var unhashed = req.body[column];
+			req.body[column] = bcrypt.hashSync(unhashed, null, null);
+		}
 		next();
 	}
 }

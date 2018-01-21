@@ -1,9 +1,10 @@
 $(document).ready(function () {
-    var mode = "registerprivat";
+    var mode = ($('#starter').attr('class') === "" ? "registerprivat" : $('#starter').attr('class')); 
+    console.log(mode);
     loadMode();
 
     function sendFiles(e) {
-         e.preventDefault();
+            e.preventDefault();
             console.log("kommt an!");   
             var geocoder = new google.maps.Geocoder();
             var street = $("#" + mode + " input[name='street']").val();
@@ -14,21 +15,26 @@ $(document).ready(function () {
             var adress = country + " " + city + " " + street + " " + housenumber;
             console.log(adress);
             geocoder.geocode( { 'address': adress}, function(results, status) {
-
+                var latitude = "";
+                var longitude = "";
+                console.log("habe lat und lon berechnet!");
                 if (status == google.maps.GeocoderStatus.OK) {
-                    var latitude = results[0].geometry.location.lat();
-                    var longitude = results[0].geometry.location.lng();
+                    latitude = results[0].geometry.location.lat();
+                    longitude = results[0].geometry.location.lng();
                     console.log(latitude, longitude);
-                    obj.append("<input type='hidden' name='lat' value='" + latitude + "' />");
-                    obj.append("<input type='hidden' name='lon' value='" + longitude + "' />");
-                    $('form').unbind('submit');
-                    $('#' + mode).submit();
-                    return false;
-                } 
+                }
+                //obj.append("<input type='hidden' name='lat' value='" + latitude + "' />");
+                //obj.append("<input type='hidden' name='lon' value='" + longitude + "' />");
+                $('#' + mode + " input[name='lon']").attr("value", longitude);
+                $('#' + mode + " input[name='lat']").attr("value", latitude);
+                $('#' + mode).unbind('submit');
+                $('#' + mode).submit();
+                return true;
+                
             });
     }
 
-    $('#registerprivat').submit(sendFiles);
+    $('#' + mode).submit(sendFiles);
    
 
     var datafields = [];
@@ -36,22 +42,20 @@ $(document).ready(function () {
 
 
     function loadMode() {
+        console.log(mode);
         $('form').each(function() {
-            $(this).hide();
+          if($(this).attr("id") == mode) {
+              $(this).show();
+          } else {
+              $(this).hide();
+          }
         });
-        $('input').each(function() {
-            if($(this).attr('type') != 'hidden') {
-                $(this).attr('value', '');
-            }
-        });
-        $('#errorField').empty();
-        $('#' + mode).show();
-
     }
     
 
     $('#chkProfile').change(function() {
-        
+        console.log("check kommt an!");
+        console.log(mode);
         if($(this).prop('checked')) {
             mode = 'registercommercial';
             $('#registerprivat').unbind('submit');
@@ -61,7 +65,16 @@ $(document).ready(function () {
             $('#registercommercial').unbind('submit');
             $('#registerprivat').submit(sendFiles);
         }
-        loadMode();
+        $('form').each(function() {
+            $(this).hide();
+        });
+        $('#' + mode).show();
+        $('#' + mode).each(function() {
+            if($(this).attr('type') != 'hidden') {
+                $(this).attr('value', '');
+            }
+        });
+        $('#errorField').empty();
     });
 
   

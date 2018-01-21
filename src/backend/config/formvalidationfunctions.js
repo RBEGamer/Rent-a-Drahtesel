@@ -9,6 +9,13 @@ var ValidationFunctions = function() {
 		}
 		return {value: true};
 	}
+
+	this.notUndefined = function(data) {
+		if(data.value === "" || data.value==='' || data.value === null || data.value === undefined) {
+			return {value: false, error: "Da ist ewas schief gelaufen!"};
+		}	
+		return {value: true};
+	}
 	this.isMail = function(data) {
 		var regex = /\S+@\S+\.\S+/;
 		var valide = regex.test(data.value)
@@ -41,8 +48,7 @@ var ValidationFunctions = function() {
 	}
 
 	this.isNumeric = function(data) {
-		return {value: true};
-		if(data == "" || data == '' || data == null){return {value: true}};
+		if(!data.value){return {value: true}};
 		if(parseFloat(data.value) == data.value)
 			return {value: true};
 		return {value: false, error: "Eintrag muss eine Zahl sein."};
@@ -65,7 +71,7 @@ var ValidationFunctions = function() {
 	}
 
 	this.isSame = function(data) {
-		if(data.connected.value === data.value)
+		if(data.connected.value === data.value )
 			return {value: true}
 		return {value: false, error: "Feld muss mit " + data.connected.text + " übereinstimmen!"};
 

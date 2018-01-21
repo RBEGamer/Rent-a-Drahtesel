@@ -29,6 +29,8 @@
                 <% if(data != null && data[name] != null) { %>
                 <%  value = data[name] %>
                 <% } %>
+                
+                <% console.log("wert aus data: ", value); %>
                 <div class="row no-gutters">
                 <div class="col-12 col-md-12 col-lg-2"></div>
                 
@@ -48,17 +50,14 @@
                         <% }); %>
                           name = "<%= forms[key].elements[i].name %>" value = "<%= value %>"
                            <% var name = forms[key].elements[i].name; %>
- -                          <% var disabled = forms[key].disabled; %>
- -                          <% var IsDisabled = false; %>
+                           <% var disabled = forms[key].disabled; %>
+                           <% var IsDisabled = false; %>
                             <% if(disabled) { %>
- -                          <%  IsDisabled = (disabled.indexOf(name) > -1); %>
- -                          <% } %>
- -                          <% console.log("name: ", name); %>
- -                          <% console.log("disabled: ", disabled); %>
- -                          <% console.log("isDisabled: ", IsDisabled); %>
- -                          <% if(IsDisabled) { %>
- -                            <%= "disabled" %>
- -                          <% } %>
+                           <%  IsDisabled = (disabled.indexOf(name) > -1); %>
+                           <% } %>
+                           <% if(IsDisabled) { %>
+                             <%= "disabled" %>
+                           <% } %>
                           >
                         
                     </div>
@@ -72,6 +71,7 @@
                 <% if(data != null && data[name2] != null) { %>
                 <%  value2 = data[name2] %>
                 <% } %>
+                <% console.log(value2); %>
              
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height text">
@@ -88,18 +88,18 @@
                         <% }); %>
                        name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>"
                         <% var name = forms[key].elements[i+1].name; %>
- -                          <% var disabled = forms[key].disabled; %>
+                          <% var disabled = forms[key].disabled; %>
                             <% var IsDisabled = false; %>
                             <% if(disabled) { %>
- -                          <%  IsDisabled = (disabled.indexOf(name) > -1); %>
- -                          <% } %>
-                            <% console.log("name: ", name); %>
- -                          <% console.log("disabled: ", disabled); %>
- -                          <% console.log("isDisabled: ", IsDisabled); %>
- -                          <% if(IsDisabled) { %>
- -                            <%= "disabled" %>
- -                          <% } %>
+                           <%  IsDisabled = (disabled.indexOf(name) > -1); %>
+                           <% } %>
+                           <% if(IsDisabled) { %>
+                             <%= "disabled" %>
+                           <% } %>
                        >
+                       <% if(IsDisabled) { %>
+                            <input type="hidden" name="<%=name %>" value="<%= value2 %>"
+                       <% } %>
                     </div>
                 </div>
                 <% } %>

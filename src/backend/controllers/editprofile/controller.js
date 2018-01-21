@@ -11,6 +11,7 @@ var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
 var formdata = require('../../config/formdata');
 var c = require('../../config/countries');
+var formhelper = require('../../config/formhelper');
 
 module.exports = function(app, passport, verificationMail) {
 
@@ -67,7 +68,20 @@ module.exports = function(app, passport, verificationMail) {
 				});
 	});
 
-	app.post('/editprofile', formvalidator.validate, modelmiddelware.hashValue('pw'), function(req, res, next) {
+	app.post('/editprofile',
+			function(req, res, next) {
+				req.body.formvalidatorschema = formdata.forms[req.body.kind].elements;
+				var tmpelements = formdata.formelements;
+				tmpelements = formhelper.addInhibitor(tmpelements, 'passwortwdh', 'isSame', ['notUndefined']);
+				tmpelements = formhelper.deleteValidationFunction(tmpelements, 'passwortwdh', 'notOptional');
+				tmpelements = formhelper.deleteValidationFunction(tmpelements, 'pw', 'notOptional');
+				req.body.elements = tmpelements;
+				next();
+
+			},
+			formvalidator.validate, 
+			modelmiddelware.hashValue('pw'), 
+			function(req, res, next) {
 		console.log('kommt an!');
 		console.log(res.locals);
 
@@ -85,6 +99,9 @@ module.exports = function(app, passport, verificationMail) {
 				if(user.data.Name != req.body.Name) {
 					req.body.name_changed = 1;
 					console.log("name changed");		
+				}
+				if(req.body.pw === "") {
+					req.body.pw = user.data.pw;
 				}
 
 				models.update(req.body.model, req.body, {pk_ID: user.data.pk_ID}, function(rows) {

@@ -12,7 +12,8 @@ var models = require('../../config/models');
 var modelmiddelware = require('../../config/modelmiddelware');
 var bsip = require('../../config/base_ip.js');
 var google_maps_helper = require('../../config/google_maps_helper');
-
+var formdata = require('../../config/formdata');
+var formhelper = require('../../config/formhelper.js');
 
 module.exports = function(app, passport, verificationMail) {
 
@@ -36,7 +37,7 @@ module.exports = function(app, passport, verificationMail) {
 		var m =  app.locals.formdata;
 		
 		var data = (m ? m.olddata  : {});
-		var start = (m ? m.start : "registerprivat");
+		var start = (m ? m.start : "");
 		var invalid = (m ? m.invalid : false);
 		var error = (m ? m.error : null);
 		app.locals.formdata = null;
@@ -70,6 +71,11 @@ module.exports = function(app, passport, verificationMail) {
 	var insertHash = modelmiddelware.updateReqBody(['verified', 'verification_hash'], ['0', verificationMail.getHash(4)]);
 	
 	app.post('/register', 
+		function(req, res, next) {
+			req.body.formvalidatorschema = formdata.forms[req.body.kind].elements;
+			req.body.elements = formdata.formelements;
+			next();
+		},
 		formvalidator.validate, 
 		benutzerExists,
 		hashPassword,
