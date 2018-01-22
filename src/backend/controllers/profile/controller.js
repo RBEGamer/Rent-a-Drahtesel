@@ -161,10 +161,11 @@ module.exports = function(app, passport, verificationMail) {
 				if(user.model === "Geschaeftsbenutzer") route = "selfgeschaeftskunde";
 				models.queryFunctions(querieObject, function(results) {
 					var i = 0;
-					for(var j = 0; j < results.own_bestellungen.length; j++){
+					var bestellungen = [];
+					results.own_bestellungen.forEach(function(bestellung){
 						mysqlpool.getConnection(function(err, connection) {
-							console.log(results.own_bestellungen[j]);
-							var query = "Select pk_ID_Benutzer from Fahrrad where pk_ID = " + results.own_bestellungen[j].pk_ID_Fahrrad;
+							console.log(bestellung);
+							var query = "Select pk_ID_Benutzer from Fahrrad where pk_ID = " + bestellung.pk_ID_Fahrrad;
 							connection.query(query, function(err, userid) {
 								if(err){
 									console.log("query failed 1");
@@ -183,15 +184,20 @@ module.exports = function(app, passport, verificationMail) {
 										if(err){
 											console.log("query failed 3: " + query)
 										}
-										results.own_bestellungen[0].besitzername = name[0].name;
-										results.own_bestellungen[0].besitzerid = userid[0].pk_ID_Benutzer;
+										bestellung.besitzername = name[0].name;
+										bestellung.besitzerid = userid[0].pk_ID_Benutzer;
 										i++;
-										console.log(results.own_bestellungen[0].besitzername);
+										console.log(bestellung.besitzername);
+										console.log(bestellung);
 										console.log("i: " + i);
+										bestellungen.push(bestellung);
+										console.log(bestellungen);
 									});
 								});
 							});
 						});
+					});
+
 						
 						
 						/*
@@ -221,13 +227,12 @@ module.exports = function(app, passport, verificationMail) {
 						}
 						*/
 						
-					}
 					
 					waitUntil()
 				    .interval(400)
 				    .times(10)
 				    .condition(function() {
-				        return i >= own_bestellungen.length;
+				        return i >= results.own_bestellungen.length;
 				    })
 				    .done(function(result) {
 				        
@@ -245,9 +250,9 @@ module.exports = function(app, passport, verificationMail) {
 							bikes: results.bikes,
 							userid: sanitizer.sanitize(user),
 							bookings: results.bestellungen,
-							own_bookings: results.own_bestellungen,
+							own_bookings: bestellungen,
 							own_rating: results.own_rating[0],
-							userid: sanitizer.sanitize(id),
+							userid: sanitizer.sanitize(id)
 						}
 					);
 				    	
