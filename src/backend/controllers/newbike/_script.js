@@ -53,7 +53,7 @@
                 },
 
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
                     $("#status").empty().text("success");
                     
                     var upperform = $('#bikeupperform').serialize();
@@ -65,6 +65,8 @@
                     }
                     getLatLon(function(lat, lon) {
                         forms += "&Lat=" + lat + "&Lon=" + lon;
+                        console.log(forms);
+                        alert(counter);
                         $.ajax({
                             type: "POST",
                             url: "/bike/new",
@@ -87,6 +89,7 @@
 
         $('#upload').click(function() {
             $("#imagecounter").attr("value", counter);
+            $("#bikeupperform").append('<input type="hidden" name="imagecounter" value="' + counter + '"/>');
             $('#uploadForm').submit();
         });  
 

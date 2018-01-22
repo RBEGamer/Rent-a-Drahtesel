@@ -33,11 +33,10 @@ var ValidationFunctions = function() {
 		console.log("formvalidationdunctions- is unique: ", findData);
 		models.findOne(data.data.model, findData, function(rows) {
 			console.log(rows);
-			/*if(rows.length > 0) return {value: false, error: "Diese Email Adresse ist schon registriert!"};
+			if(rows.length > 0) return {value: false, error: "Diese Email Adresse ist schon registriert!"};
 			return {value: true};
 		});*/
 		return {value: true};
-
 	}
 	this.isInArray = function(data) {
 		if(data.data.array.indexOf(data.value) >= 0) {

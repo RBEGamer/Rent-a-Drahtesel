@@ -44,7 +44,7 @@ $(document).ready(function () {
     function loadMode() {
         console.log(mode);
         $('form').each(function() {
-          if($(this).attr("id") == mode) {
+          if($(this).attr("id").indexOf(mode) > -1) {
               $(this).show();
           } else {
               $(this).hide();
@@ -68,7 +68,11 @@ $(document).ready(function () {
         $('form').each(function() {
             $(this).hide();
         });
-        $('#' + mode).show();
+        $('form').each(function() {
+            if($(this).attr("id").indexOf(mode) > -1) {
+                $(this).show();
+            }
+        });
         $('#' + mode).each(function() {
             if($(this).attr('type') != 'hidden') {
                 $(this).attr('value', '');
@@ -77,7 +81,9 @@ $(document).ready(function () {
         $('#errorField').empty();
     });
 
-  
+    $('#' + mode + "_upload").click(function() {
+        $('#' + mode).submit();
+    });
 
  
  

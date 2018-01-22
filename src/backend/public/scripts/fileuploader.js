@@ -1,11 +1,11 @@
-File.prototype.convertToBase64 = function(callback){
+/*File.prototype.convertToBase64 = function(callback){
         var reader = new FileReader();
         reader.onloadend = function (e) {
             callback(e.target.result, e.target.error);
         };   
         reader.readAsDataURL(this);
-	};
- 	$('input').each(function() {
+	};*/
+ 	/*$('input').each(function() {
  		if($(this).attr('type') === 'file') {
  			$(this).on('change',function()	{
  				var selectedFile = this.files[0];
@@ -20,4 +20,28 @@ File.prototype.convertToBase64 = function(callback){
         });
       });
  		}
- 	});
+   });*/
+   
+
+   $('input').each(function() {
+    if($(this).attr('type') === 'file') {
+      $(this).on('change', function() {
+        var parentFormID = $(this).attr('parentFormID');
+        var target = $(this).attr('target');
+        var targetform = $(this).attr('targetform');
+        alert(parentFormID);
+        $('#' +parentFormID).ajaxSubmit({
+          error: function(xhr) {
+            console.log('Error: ', xhr.statur);
+          },
+          success: function(response) {
+            //var inputfield = '<input type="hidden" name="' + target + '" value="' + response.output[0] + '" />';
+            //$("#" + targetform).append(inputfield);
+
+            $('#'+ targetform + ' input[name="' + target + '"]').val(response.output[0]);
+
+          }
+        });
+      });
+    }
+   });
