@@ -145,7 +145,7 @@
                         <div id="calhold">
                         <div id="my-calendar"></div>
                         </div>
-                        <div class="center"><span>BUCHBARER DATUMSBEREICH:<br> <b><div id="date_start_t"></div></b> bis <b><div id="date_end_t"></div></b></span></div>
+                        <div class="center"><span>Dieses Fahrrad ist buchbar vom:<br> <b><div id="date_start_t"></div></b> bis <b><div id="date_end_t"></div></b></span></div>
 
 
 
@@ -298,7 +298,7 @@
   
     var start_date = Date.parse("<%= bike.start_date %>");
     var end_date = Date.parse("<%= bike.end_date %>");
-
+  //  console.log(start_date.getMonth())
   function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
