@@ -158,9 +158,9 @@ require('./controllers/')(app, passport, verificationMail);
 
 
 
-app.get('*', function(req, res){
-    res.redirect("/");
-});
+//app.get('*', function(req, res){
+  //  res.redirect("/");
+//});
 
 
 
