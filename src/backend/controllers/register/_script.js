@@ -1,6 +1,6 @@
 $(document).ready(function () {
     var mode = ($('#starter').attr('class') === "" ? "registerprivat" : $('#starter').attr('class')); 
-    console.log(mode);
+    $('#registercommercial_submit').hide();
     loadMode();
 
     /*function sendFiles(e) {
@@ -66,12 +66,16 @@ $(document).ready(function () {
         console.log(mode);
         if($(this).prop('checked')) {
             mode = 'registercommercial';
+            $('#registerprivat_submit').hide();
+            $('#registercommercial_submit').show();
             $('#registerprivat').unbind('submit');
-            $('#registercommercial').submit(sendFiles);
+         //   $('#registercommercial').submit(sendFiles);
         } else {
             mode = 'registerprivat';
+            $('#registerprivat_submit').show();
+            $('#registercommercial_submit').hide();
             $('#registercommercial').unbind('submit');
-            $('#registerprivat').submit(sendFiles);
+           // $('#registerprivat').submit(sendFiles);
         }
         $('form').each(function() {
             $(this).hide();
@@ -97,11 +101,26 @@ $(document).ready(function () {
         var housenumber = $("#" + mode + " input[name='housenumber']").val();
         var obj = $(this);
         var adress = country + " " + city + " " + street + " " + housenumber;
-        var latitude = "50";
-        var longitude = "6";
-        $('#' + mode + " input[name='lon']").attr("value", longitude);
-        $('#' + mode + " input[name='lat']").attr("value", latitude);
-        $('#' + mode).submit();
+        geocoder.geocode( { 'address': adress}, function(results, status) {
+            var latitude = "";
+            var longitude = "";
+            console.log("habe lat und lon berechnet!");
+            if (status == google.maps.GeocoderStatus.OK) {
+                latitude = results[0].geometry.location.lat();
+                longitude = results[0].geometry.location.lng();
+                console.log(latitude, longitude);
+            }
+            //obj.append("<input type='hidden' name='lat' value='" + latitude + "' />");
+            //obj.append("<input type='hidden' name='lon' value='" + longitude + "' />");
+            $('#' + mode + " input[name='lon']").attr("value", longitude);
+            $('#' + mode + " input[name='lat']").attr("value", latitude);
+
+            $('#' + mode).submit();
+      
+          
+  
+        });
+     
     });
 
  
