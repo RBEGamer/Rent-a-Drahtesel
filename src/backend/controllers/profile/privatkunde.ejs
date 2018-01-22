@@ -94,6 +94,10 @@
 </div>
 
 <div class="row no-gutters">
+
+     	<% if(ratings.length === 0){ %>
+     		<p>Es sind noch keine Bewertungen vorhanden.</p>
+     	<% } %>
 	<% if(ratings!= undefined){ %> <% ratings.forEach(function(n) { %>
 	<div class="col-12">
 		<div class="white margin">

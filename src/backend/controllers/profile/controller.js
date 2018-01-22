@@ -50,6 +50,9 @@ module.exports = function(app, passport, verificationMail) {
 
 						var ready = false;
 						var i = 0;
+						if(rows4.length === 0){
+							ready = true;
+						}
 						rows4.forEach(function(n){
 							var q = "SELECT CONCAT(Vorname, ' ', name) as Name from Privatbenutzer where pk_id = " + sanitizer.sanitize(n.Rater);
 							console.log(q);
