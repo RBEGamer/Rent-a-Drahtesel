@@ -3,17 +3,25 @@ $(document).ready(function () {
     console.log(mode);
     loadMode();
 
-    function sendFiles(e) {
+    /*function sendFiles(e) {
             e.preventDefault();
             console.log("kommt an bei sendfiles!");   
             var geocoder = new google.maps.Geocoder();
+            console.log(geocoder);
             var street = $("#" + mode + " input[name='street']").val();
             var city = $("#" + mode + " input[name='city']").val();
             var country = $("#" + mode + " input[name='country'").val();
             var housenumber = $("#" + mode + " input[name='housenumber']").val();
             var obj = $(this);
             var adress = country + " " + city + " " + street + " " + housenumber;
-            console.log(adress);
+            var latitude = "50";
+            var longitude = "6";
+            $('#' + mode + " input[name='lon']").attr("value", longitude);
+            $('#' + mode + " input[name='lat']").attr("value", latitude);
+            $('#' + mode).unbind('submit');
+            $('#' + mode).submit();
+            return true;
+            /*console.log(adress);
             geocoder.geocode( { 'address': adress}, function(results, status) {
                 var latitude = "";
                 var longitude = "";
@@ -29,12 +37,12 @@ $(document).ready(function () {
                 $('#' + mode + " input[name='lat']").attr("value", latitude);
                 $('#' + mode).unbind('submit');
                 $('#' + mode).submit();
-                return false;
+                return true;
                 
-            });
-    }
+            }
+    
 
-    $('#' + mode).submit(sendFiles);
+    $('#' + mode).submit(sendFiles);*/
    
 
     var datafields = [];
@@ -82,7 +90,17 @@ $(document).ready(function () {
     });
 
     $('#' + mode + "_upload").click(function() {
-        console.log("kommt in upload mode!");
+        var geocoder = new google.maps.Geocoder();
+        var street = $("#" + mode + " input[name='street']").val();
+        var city = $("#" + mode + " input[name='city']").val();
+        var country = $("#" + mode + " input[name='country'").val();
+        var housenumber = $("#" + mode + " input[name='housenumber']").val();
+        var obj = $(this);
+        var adress = country + " " + city + " " + street + " " + housenumber;
+        var latitude = "50";
+        var longitude = "6";
+        $('#' + mode + " input[name='lon']").attr("value", longitude);
+        $('#' + mode + " input[name='lat']").attr("value", latitude);
         $('#' + mode).submit();
     });
 

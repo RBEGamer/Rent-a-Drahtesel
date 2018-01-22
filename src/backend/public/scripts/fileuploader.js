@@ -37,7 +37,7 @@
           success: function(response) {
             //var inputfield = '<input type="hidden" name="' + target + '" value="' + response.output[0] + '" />';
             //$("#" + targetform).append(inputfield);
-
+            console.log(response);
             $('#'+ targetform + ' input[name="' + target + '"]').val(response.output[0]);
 
           }
