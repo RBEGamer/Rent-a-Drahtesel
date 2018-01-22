@@ -528,23 +528,25 @@ $( document ).ready(function() {
     dia_init();
     create_calendar();
 });
+	var startBtn = document.getElementById('start'),
+	BewertungBtn = document.getElementById('bewerten'),
+	SchliessenBtn = document.getElementById('schliessen');
+	var popup = document.getElementById('popup');
 
-var startBtn = document.getElementById('start'),
-BewertungBtn = document.getElementById('bewerten'),
-SchliessenBtn = document.getElementById('schliessen');
-var popup = document.getElementById('popup');
+	if(startBtn != null){
+	startBtn.addEventListener('click',zeigeFenster);
+	BewertungBtn.addEventListener('click',schliesseFenster);
+	SchliessenBtn.addEventListener('click',schliesseFenster);
+	}
+	function zeigeFenster() { 
+	    popup.className = 'overlay';
+	}
 
-startBtn.addEventListener('click',zeigeFenster);
-BewertungBtn.addEventListener('click',schliesseFenster);
-SchliessenBtn.addEventListener('click',schliesseFenster);
+	function schliesseFenster(){
+	    popup.className = 'overlayHidden';
+	}
 
-function zeigeFenster() { 
-    popup.className = 'overlay';
-}
 
-function schliesseFenster(){
-    popup.className = 'overlayHidden';
-}
     </script>
 
   

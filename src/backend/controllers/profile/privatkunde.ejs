@@ -142,10 +142,11 @@
         BewertungBtn = document.getElementById('bewerten'),
         SchliessenBtn = document.getElementById('schliessen');
         var popup = document.getElementById('popup');
-
-        startBtn.addEventListener('click',zeigeFenster);
-        BewertungBtn.addEventListener('click',schliesseFenster);
-        SchliessenBtn.addEventListener('click',schliesseFenster);
+		if(popup != null){
+	        startBtn.addEventListener('click',zeigeFenster);
+	        BewertungBtn.addEventListener('click',schliesseFenster);
+	        SchliessenBtn.addEventListener('click',schliesseFenster);
+		}
 
         function zeigeFenster() { 
             popup.className = 'overlay';
