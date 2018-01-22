@@ -1,0 +1,148 @@
+<div class="row" id="errorField">
+    <% if(error != null)   { %>
+        <div class='column-md-6'></div>
+        <% Object.keys(error).forEach(function(key, index) { %>
+            <div class='column-md-9 white margin padding'>
+                <b><%= error[key].text %></b> : <%= error[key].error %>
+            </div>
+        <% }); %>
+            
+    <% } %>
+</div>
+
+
+<% Object.keys(forms).forEach(function(key,index) { %>
+<div>
+    <form id="postform" method="post"  action="/<%=target %>" style="display: 
+        <% if(key === start) { %>
+            block;
+        <% } else { %>
+            none;
+        <% } %>
+        ">
+            <input name="kind" type="hidden" value=<%= key %>>
+            <input name="model" type="hidden" value=<%= forms[key].model %>>
+
+            <% for(var i = 0; i < forms[key].elements.length; i+=2) { %> 
+                <% var name = forms[key].elements[i].name; %>
+                <% var value = "" %>
+                <% if(data != null && data[name] != null) { %>
+                <%  value = data[name] %>
+                <% } %>
+                
+                <div class="row no-gutters">
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key].elements[i].text %></span>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input class="form-control height" 
+                        <% Object.keys(forms[key].elements[i].input).forEach(function(key1, index1) { %>
+
+                            <%= key1 %> = "<%= forms[key].elements[i].input[key1] %>"
+                        <% }); %>
+                          name = "<%= forms[key].elements[i].name %>" value = "<%= value %>"
+                           <% var name = forms[key].elements[i].name; %>
+                           <% var disabled = forms[key].disabled; %>
+                           <% var IsDisabled = false; %>
+                            <% if(disabled) { %>
+                           <%  IsDisabled = (disabled.indexOf(name) > -1); %>
+                           <% } %>
+                           <% if(IsDisabled) { %>
+                             <%= "disabled" %>
+                           <% } %>
+                          >
+                        
+                    </div>
+                </div>
+                
+
+
+                <% if(i+1 < forms[key].elements.length) { %>
+                <% var name2 = forms[key].elements[i+1].name; %>
+                <% var value2 = "" %>
+                <% if(data != null && data[name2] != null) { %>
+                <%  value2 = data[name2] %>
+                <% } %>
+                <% console.log(value2); %>
+             
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key].elements[i+1].text %></span>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input class="form-control height" 
+                        
+                        <% Object.keys(forms[key].elements[i+1].input).forEach(function(key1, index1) { %>
+                            <%= key1 %> = "<%= forms[key].elements[i+1].input[key1] %>"
+                        <% }); %>
+                       name = "<%= forms[key].elements[i+1].name %>" value = "<%= value2 %>"
+                        <% var name = forms[key].elements[i+1].name; %>
+                          <% var disabled = forms[key].disabled; %>
+                            <% var IsDisabled = false; %>
+                            <% if(disabled) { %>
+                           <%  IsDisabled = (disabled.indexOf(name) > -1); %>
+                           <% } %>
+                           <% if(IsDisabled) { %>
+                            title="Dieses Feld kann nicht mehr geändert werden." <%= "disabled" %>
+                           <% } %>
+                       >
+                       <% if(IsDisabled) { %>
+                            <input type="hidden" name="<%=name %>" value="<%= value2 %>" />
+                       <% } %>
+                    </div>
+                </div>
+                <% } %>
+              
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                </div> 
+            <% } %>
+            <% for(var i = 0; i < forms[key].files.length; i++) { %> 
+                <% var name = forms[key].files[i].name; %>
+                <% var value = "" %>
+                <% if(data != null && data[name] != null) { %>
+                    <%  value = data[name]; %>
+                <% } %>
+                <input type="hidden" name="<%= name %>" value="<%= value %>" />
+            <% } %>
+        </form>
+        
+     <% for(var i = 0; i < forms[key].files.length; i++) { %>
+            <form id="<%= key %>_uploadform_<%= i %>" enctype="multipart/form-data" action="/api/photo" method="post">
+                <input type="hidden" name="imagecounter" value="1"/>
+                <label class="btn btn-secondary">
+                    Browse <input type="file"  parentFormID="<%= key %>_uploadform_<%= i %>" target="<%= forms[key].files[i].name %>" targetform="<%= key %>" name="userPhoto" hidden>
+                </label>
+            </form>        
+    <% } %>
+       
+   
+       
+    <div id="submit"> 
+        <div class="row no-gutters">
+            <div class="col-12 col-md-12 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height textklein">
+                    <span>*Pflichtfeld</span>
+                </div>
+            </div>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2"></div>
+            <div class="col-6 col-md-3 col-lg-2">
+                <div class="margin height">
+                    <button class="btn btn-secondary btn-block height" id="upload"><%= mode %></button>
+                </div>
+            </div>
+            <div class="col-12 col-md-12 col-lg-2"></div>
+        </div>
+    </div> 
+<% }); %>

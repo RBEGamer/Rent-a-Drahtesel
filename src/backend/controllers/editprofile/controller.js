@@ -135,4 +135,8 @@ module.exports = function(app, passport, verificationMail) {
 		});
 	});
 
+	app.get('/editprofile/script.js', function(req, res, next) {
+		res.sendfile(__dirname+'/_script.js');
+	});
+
 }
