@@ -9,9 +9,12 @@ var MobileDetect = require('mobile-detect');
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/:id', function(req, res) {
 		try{
-			int.parse(req.params.id);
+			var a = parseInt(req.params.id);
+			if(!(a >= 0)){
+				throw 42;
+			}
 		}catch(err){
-			console.log("ok :)");
+			console.log("ok :) " + req.params.id);
 			return res.redirect("/");
 		}
 		var bikes =[];
