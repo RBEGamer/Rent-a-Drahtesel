@@ -101,7 +101,7 @@
                         <% if(user.picture == undefined ||user.picture == ""){ %>
                     <img class="bildklein margin" src="/images/leer.png" alt="" height="50" />  
                     <% }else{ %>
-                        <img class="bildklein margin" src="<%= user.picture %>" alt="" height="50" />  
+                        <img class="bildklein margin" src="/uploads/<%= user.picture %>" alt="" height="50" />  
                         <% } %>
                     <div class="white margin padding middle">
                             
@@ -237,7 +237,7 @@
                                     <% if(n.picture == undefined || n.picture == ""){ %>
                                 <img src="/images/leer.png" alt="" height="25">
                                 <% }else{ %>
-                                <img src="<%= n.picture %>" alt="" height="25">
+                                <img src="/uploads/<%= n.picture %>" alt="" height="25">
                                 <% } %>
                                 <strong>&nbsp;
                                     
@@ -567,7 +567,7 @@ var dia_index = -1;
 
 
 <% pictures.forEach(function(pic) { %>
-    dia_images.push("/uploads/<%= pic.picture.toString('utf8') %>".replace(/ /gi,"%20"));
+    dia_images.push("/uploads/<%= pic.picture %>".replace(/ /gi,"%20"));
 <% }); %>
 
 
