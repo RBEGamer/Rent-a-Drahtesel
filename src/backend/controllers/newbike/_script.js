@@ -87,9 +87,74 @@
             return false;
         });
 
+        function validate(callback) {
+            var error = {};
+            var name = $('input[name="Name"').val();
+            var description = $('input[name="Description"').val();
+            var start_date = $('input[name="start_date"').val();
+            var end_date = $('input[name="end_date"').val();
+            var prize = $('input[name="prize"').val();
+            var threeday = $('input[name="Threeday"').val();
+            var sevenday = $('input[name="Sevenday"').val();
+
+            if(start_date === "" || end_date === "") {
+                error.date = {text: "Kalender: ", error: "Wähle ein Start- und ein Enddatum aus!"};
+            }
+
+            if(name.length === "") {
+                error.name = {text: "Name: ", error: "Muss ausgefüllt werden."};
+            }
+            if(description.length > 300)
+            {
+                error.description = {text: "Beschreibung: ", error: "Beschreibung ist zu lang."};
+            }
+            if(description === "") {
+                error.description = {text: "Beschreibung: ", error: "Muss ausgefüllt sein."};
+            }
+
+            if(threeday = "" || !isNumeric(threeday) || threeday < 0 || threeday > 100) {
+                error.threeday = {text: "3 Tages Rabatt: ", error: "Zahl muss zwischen 0 und 100 liegen."};
+            }
+
+            if(sevenday = "" || !isNumeric(sevenday) || sevenday < 0 || sevenday > 100) {
+                error.sevenday = {text: "7 Tages Rabatt: ", error: "Zahl muss zwischen 0 und 100 liegen."};
+            }
+
+            if(prize < 0 || !isNumeric(prize)) {
+                error.prize = {text: "Preis: ", error: "Preis muss eine Zahl größer 0 sein!"};
+            }
+
+            getLatLon(function(lat, lon) {
+                if(!lat || !lon) {
+                    error.locals = {text: "Stadt, Straße, Land, Hausnummer: ", error: "Wir konnten keine Ortsangabe aus diesen Daten ermitteln!"};
+                }
+
+                callback({error: error, value: (Object.keys(error).legnth === 0)});
+            });
+        }
+
+        function showValidations(error) {
+            console.log(error);
+        }
+
+        function isNumeric(value) {
+            
+            if(parseFloat(value) == value)
+                return true;
+            return false;
+    
+        }
+
         $('#upload').click(function() {
             $("#imagecounter").attr("value", counter);
             $("#bikeupperform").append('<input type="hidden" name="imagecounter" value="' + counter + '"/>');
+            validate(function(value) {
+                if(value.value) {
+                    $('#uploadForm').submit();
+                } else {
+                    showValidations(value.error);
+                }
+            });
             $('#uploadForm').submit();
         });  
 

@@ -16,8 +16,10 @@ module.exports = function(app, passport, verificationMail) {
 
 		var query = "SELECT COUNT(pk_ID_Benutzer) AS anz FROM Fahrrad WHERE pk_ID_Benutzer = " + req.session.passport.user;
 		
-		var validations = app.locals.validations;
+		var m = app.locals.validations;
+		var error = (!m ? null : app.locals.validations.error);
 
+		
 		
 		
 		models.dbconnection(query, function(rows) {
@@ -27,7 +29,7 @@ module.exports = function(app, passport, verificationMail) {
 				layoutPath: '../../views/',
 				isLoggedIn : req.isAuthenticated(),
 				anz : rows,
-				error: validations.error
+				error: error
 			});	
 		});
 	});
@@ -65,7 +67,7 @@ module.exports = function(app, passport, verificationMail) {
 				error.Country = {value: false, error: "Land muss in der Liste sein!", text: "Land"};
 			}
 
-			if(req.body.imagecounter < 1) {
+			if(req.body.imagecounter[0] < 1) {
 				error.Picture = {value: false, error: "Es muss mindestens eine Bild hochgeladen werden!", text: "Bilder"};
 			}
 
