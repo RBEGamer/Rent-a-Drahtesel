@@ -82,7 +82,7 @@ module.exports = function(app, passport, verificationMail) {
 						console.log("hier");
 						waitUntil()
 					    .interval(500)
-					    .times(10)
+					    .times(100)
 					    .condition(function() {
 					        return ready;
 					    })

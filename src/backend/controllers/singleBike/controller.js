@@ -151,7 +151,7 @@ app.post('/bike/rate', function(req, res) {
 		}else{
 			var query = "INSERT INTO BewertungFahrrad (pk_ID, Rater, Rating, Description) VALUES ("
 					+ sanitizer.sanitize(req.body.pk_id) + ", " + sanitizer.sanitize(req.session.passport.user) + ", " 
-					+ sanitizer.sanitize(req.body.bewertungsnr * 2) + ", " + sanitizer.sanitize(req.body.bewertungstext) + ")";
+					+ sanitizer.sanitize(req.body.bewertungsnr * 2) + ", '" + sanitizer.sanitize(req.body.bewertungstext) + "')";
 			connection.query(query, function(err, rows1) {
 				if (err) {
 					console.log("query failed: " + query);
