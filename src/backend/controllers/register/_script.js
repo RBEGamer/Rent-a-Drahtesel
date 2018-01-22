@@ -5,7 +5,7 @@ $(document).ready(function () {
 
     function sendFiles(e) {
             e.preventDefault();
-            console.log("kommt an!");   
+            console.log("kommt an bei sendfiles!");   
             var geocoder = new google.maps.Geocoder();
             var street = $("#" + mode + " input[name='street']").val();
             var city = $("#" + mode + " input[name='city']").val();
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 $('#' + mode + " input[name='lat']").attr("value", latitude);
                 $('#' + mode).unbind('submit');
                 $('#' + mode).submit();
-                return true;
+                return false;
                 
             });
     }
@@ -82,6 +82,7 @@ $(document).ready(function () {
     });
 
     $('#' + mode + "_upload").click(function() {
+        console.log("kommt in upload mode!");
         $('#' + mode).submit();
     });
 

@@ -103,6 +103,10 @@ body {
     padding: 10px;
 }
 
+.marginleft{
+    margin-left: 100px;
+}
+
 .height {
     height: 38px;
 }
