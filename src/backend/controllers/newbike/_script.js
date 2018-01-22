@@ -103,7 +103,7 @@
             console.log(prize);
             console.log(threeday);
             console.log(sevenday);
-            if(counter === 0) {
+            if(counter < 2) {
                 error.picture = {text: "Bilder: ", error: "Es muss mindestens ein Bild hochgeladen werden!"};
             }
 
