@@ -145,13 +145,13 @@
 
         function showValidations(error) {
             console.log("SHOWVALIDATIONS: ", error);
+            $("#errors").empty();
             $("#errors").append("<div class='column-md-6'></div>");
             for(var key in error) {
-                console.log(key);
-                    $("errors").append("<div class='column-md-9 white margin padding'>");
-                    $("errors").append("<b>" + error[key].text + "</b>: " + error[key].error);
-                    $("errors").append("</div>");
+                console.log(error[key].text + ": " + error[key].error);
+                    $("#errors").append("<div class='column-md-9 white margin padding'><b>" + error[key].text + "</b> " + error[key].error + "</div>");
             }
+            $("#errors").append("</div>");
         }
 
         function isNumeric(value) {
