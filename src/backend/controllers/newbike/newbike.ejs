@@ -7,6 +7,9 @@
         <button type="submit" class="btn btn-default">Zurück zum Profil</button>
     </form>
 <% }  else { %>
+    <div id="errors" class="row">
+            
+    </div>
 
     <head>
         <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
@@ -410,7 +413,7 @@ data: eventData
 
         $( document ).ready(function() {
             reset_date();
-            
+            document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+""+"'/><input type='hidden' name='end_date' value='"+""+"'/>";
         });
         
             </script>
