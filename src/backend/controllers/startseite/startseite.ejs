@@ -78,7 +78,7 @@
         <% bikes.forEach(function(row) { %>
             <div class="row no-gutters">
                 <div class="col-auto">
-                    <div class="margin">
+                    <div class="margin hoch">
                         <% if(row.Bild != null){ %>
                             <img class="img-responsive bild" src="/uploads/<%= row.Bild.toString('utf8') %>" alt="">
                         <% }else{ %>
@@ -87,8 +87,8 @@
                     </div>
                 </div>
                 <div class="col">
-                    <div class="margin height2">
-                        <div class="whitebox padding">
+                    <div class="margin">
+                        <div class="whitebox padding hoch">
                             <h6><%= row.Name %></h6>
                        	    <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                        	 	<span><%= row.Preis %>€&emsp;</span>
@@ -97,7 +97,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
-                    <div class="margin">
+                    <div class="margin hoch">
                         <img class="hundert" height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
                     </div>
                 </div>
