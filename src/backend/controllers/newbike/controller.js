@@ -13,6 +13,16 @@ var formvalidationfunctions = require('../../config/formvalidationfunctions');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/new', function(req, res) {
+		
+		if(!req.isAuthenticated()){
+			res.redirect("/");
+			return;
+		}
+
+		if(!req.session.passport.user){
+			res.redirect("/");	
+			return;
+		}
 
 		var query = "SELECT COUNT(pk_ID_Benutzer) AS anz FROM Fahrrad WHERE pk_ID_Benutzer = " + req.session.passport.user;
 		
@@ -37,6 +47,18 @@ module.exports = function(app, passport, verificationMail) {
 	
 	app.post('/bike/new', 
 		function(req, res) {
+
+			if(!req.isAuthenticated()){
+				res.redirect("/");
+				return;
+			}
+
+			if(!req.session.passport.user){
+				res.redirect("/");	
+				return;
+			}
+
+
 			console.log(req.body);
 			console.log(req.files);
 				var id = req.session.passport.user;
