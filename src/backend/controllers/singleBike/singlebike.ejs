@@ -262,7 +262,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-<script src="/js/zabuto_calendar.min.js"></script>
+<script src="/js/zabuto_calendar_mod.min.js"></script>
 
 
     
@@ -404,7 +404,7 @@ function create_calendar(){
 
 
  
-//formattedDate_end = moment(getDaysInMonth(mm,yyyy)).format('YYYY-MM-DD');
+
 gen_data.push({"year":yyyy,"month":mm});
 var ignore = false;
 var int_mon = [];
@@ -417,25 +417,45 @@ var daylist_end = [];
 var st = true;
 var en = false;
 //TODO END
-for(var i = 0;i < getDaysInMonth(mm-1,yyyy).length; i++){
-    const element = moment(getDaysInMonth(mm-1,yyyy)[i]).format('YYYY-MM-DD');
-    const element_day = moment(getDaysInMonth(mm-1,yyyy)[i]).format('DD');
 
-    if(st && element_day != moment(start_date).format('DD')){
+
+
+for(var year =yyyy-1;year < yyyy+2;year++){
+   // console.log(year);
+
+
+
+    for(var month = 1; month < 13; month ++){
+
+for(var i = 0;i < getDaysInMonth(month-1,year).length; i++){
+    const element = moment(getDaysInMonth(month-1,year)[i]).format('YYYY-MM-DD');
+
+    if(st && element != moment(today).format('YYYY-MM-DD')){
         daylist_start.push(element);
         //console.log("FALSE" + element)
-    }else  if(st && element_day == moment(start_date).format('DD')){
+    }else  if(st && element == moment(today).format('YYYY-MM-DD')){
        st = false;
     }
 
-    if(en && element_day != moment(end_date).format('DD')){
+    if(en && element != moment(end_date).format('YYYY-MM-DD')){
         daylist_end.push(element);
         console.log("FALSE" + element)
-    }else  if(!en && element_day == moment(end_date).format('DD')){
+    }else  if(!en && element == moment(end_date).format('YYYY-MM-DD')){
        en = true;
     }
     
 }
+
+
+
+
+
+
+    }
+}
+
+
+
 
 
 
@@ -450,6 +470,10 @@ for(var i = 0; i < daylist_end.length; i++){
     const element = daylist_end[i];
     eventData.push({"date":element,"badge":false,"title":"GEBLOCKT", "fixed":true})
 }
+
+
+
+
 
 
 
