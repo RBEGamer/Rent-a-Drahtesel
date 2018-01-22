@@ -92,7 +92,7 @@
             var description = $('textarea[name="Description"').val();
             var start_date = $('input[name="start_date"').val();
             var end_date = $('input[name="end_date"').val();
-            var prize = $('input[name="price"').val();
+            var prize = $('input[name="Price"').val();
             var threeday = $('input[name="Threeday"').val();
             var sevenday = $('input[name="Sevenday"').val();
             var zip = $('input[name="Zip"').val();
