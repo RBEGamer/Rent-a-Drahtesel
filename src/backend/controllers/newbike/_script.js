@@ -139,7 +139,7 @@
                     error.locals = {text: "Stadt, Straße, Land, Hausnummer: ", error: "Wir konnten keine Ortsangabe aus diesen Daten ermitteln!"};
                 }
                 console.log("ERROR: ", error);
-                callback({error: error, value: (Object.keys(error).legnth === 0)});
+                callback({error: error, value: (Object.keys(error).length === 0)});
             });
         }
 

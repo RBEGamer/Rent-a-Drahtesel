@@ -15,7 +15,7 @@
         <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
  </head>
 
-    <form id="bikeupperform" method="post" action="/bike/new">
+    <form id="bikeupperform" name="myform" method="post" action="/bike/new">
 
         <div class="row">
             <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
@@ -176,7 +176,7 @@
         </div>
     </form>
 
-    <form id="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post">
+    <form id="uploadForm" name="uploadForm" enctype="multipart/form-data" action="/api/photo" method="post">
 
         <input type="hidden" id="imagecounter" name="imagecounter" value="0"/>
         <div id="images">
