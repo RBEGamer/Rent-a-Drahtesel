@@ -2,6 +2,24 @@
 
      <head>
             <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
+
+
+            <style>
+            
+            
+            body {
+    margin: 0;
+    padding: 0;
+    text-align: center; /* !!! */
+}
+
+.centered {
+    margin: 0 auto;
+    text-align: left;
+    width: 800px;
+}
+            
+            </style>
      </head>
 
 
@@ -48,7 +66,7 @@
                         <div class="carousel-inner">
                             <% console.log("aus der view: ", pictures); %>
                             <div class="carousel-item active">
-                                <img id="diashow_img" height="300px" width="100%" class="img-responsive" src="http://bilder.bild.de/fotos/bams-47445590/Bild/1.bild.svg" alt="Second slide">
+                                <img id="diashow_img" height="300px" width="100%" class="img-responsive" src="eVznzZrgRoo5JgqmILAQAIAADwVagBAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAIACYAgAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAACghqqqKrNu3TqTmZlpRo4caQYOHGh69" alt="Second slide">
                             </div>
            
                         </div>
@@ -121,7 +139,10 @@
                         <div id="calhold">
                         <div id="my-calendar"></div>
                         </div>
-                        <span>BUCHBARER DATUMSBEREICH:<br> <%= bike.start_date %> bis <%= bike.end_date %></span>
+                        <div class="center"><span>BUCHBARER DATUMSBEREICH:<br> <b><div id="date_start_t"></div></b> bis <b><div id="date_end_t"></div></b></span></div>
+
+
+
                 </div>
             </div>
         </div>
@@ -257,7 +278,6 @@
        }
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=<%= maps_key %>&callback=initMap"></script>
-
 
 
 
@@ -468,7 +488,7 @@ function dia_load_img(){
     if(dia_index < 0){
     document.getElementById('diashow_img')
     .setAttribute(
-        'src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+        'src', 'eVznzZrgRoo5JgqmILAQAIAADwVagBAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAIACYAgAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAACghqqqKrNu3TqTmZlpRo4caQYOHGh69'
     );
     console.log("load default")
     }else{
@@ -491,6 +511,14 @@ dia_load_img();
 
 
 $( document ).ready(function() {
+
+     if(document.getElementById("date_start_t") == null || document.getElementById("date_end_t") == null){
+        alert("Es ist ein Fehler auf der Seite aufgetreten. Bitte lade die Seite erneut.");
+    }
+                        document.getElementById("date_start_t").innerHTML = moment("<%= bike.start_date %>").format('DD.MM.YYYY');
+                        document.getElementById("date_end_t").innerHTML = moment("<%= bike.end_date %>").format('DD.MM.YYYY');
+
+
     dia_init();
     create_calendar();
 });
