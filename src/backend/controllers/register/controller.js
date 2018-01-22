@@ -83,13 +83,22 @@ module.exports = function(app, passport, verificationMail) {
 		function(req, res, next) {
 			//res.json({data: data});
 			console.log("register body: ", req.body);
+
+			if(res.locals.findOne.found) {
+				if(!res.locals.error) {
+					res.locals.error = {};
+				}
+				res.locals.error.email = {text: 'Email*', error: "Hallo Rent-A-Bike Benutzer, <br> Du bist bereits registriert.  <a href='"+bsip+"reset/'>Hier</a> kannst du dein Passwort zurücksetzen."};
+				verificationMail.sendMailMSG(
+					"Hallo Rent-A-Bike Benutzer, <br> Du bist bereits registriert.  <a href='"+bsip+"reset/'>Hier</a> kannst du dein Passwort zurücksetzen.",
+					req.body['email']
+				);
+				res.locals.invalid = true;
+			}
 			if(res.locals.invalid) {
 				app.locals.formdata = res.locals;
 				app.locals.formdata.olddata.pw = "";
 				app.locals.formdata.olddata.passwortwdh = "";
-				if(res.locals.findOne.found) {
-					app.locals.formdata.error.email = {text: "Email*", error: "Diese Emailadresse wird bereits verwendet!"};
-				}
 				res.redirect('/register');
 			} else {
 				

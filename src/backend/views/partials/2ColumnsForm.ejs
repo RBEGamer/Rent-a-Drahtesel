@@ -30,7 +30,6 @@
                 <%  value = data[name] %>
                 <% } %>
                 
-                <% console.log("wert aus data: ", value); %>
                 <div class="row no-gutters">
                 <div class="col-12 col-md-12 col-lg-2"></div>
                 
@@ -103,49 +102,32 @@
                     </div>
                 </div>
                 <% } %>
-                
-
-
+              
                 <div class="col-12 col-md-12 col-lg-2"></div>
                 </div> 
-            <% } %>    
-
-        <% for(var i = 0; i < forms[key].files.length; i++) { %>
-             <div class="row no-gutters">
-                <div class="col-12 col-md-12 col-lg-2"></div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height text">
-                        <span><%= forms[key].files[i].text %></span>
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height">
-                        <input upload="<%= forms[key].files[i].name %>" type="text" class="form-control height" value="">
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2">
-                    <div class="margin height">
-                        <% var name = forms[key].files[i].name; %> 
-                        <% var value = ""; %>
-                         <% if(data != null && data[name]  != null) { %>
-                        <%  value = data[name] %>
-                        <% } %>
-                        <label class="btn btn-secondary">
-                            Browse <input type="file" target="<%= forms[key].files[i].name %>" hidden>
-                            <input type="hidden" name="<%= forms[key].files[i].name %>" value="<%= data[name] %>" />
-                        </label>
-
-                        
-                    </div>
-                </div>
-                <div class="col-6 col-md-3 col-lg-2"></div>
-                <div class="col-12 col-md-12 col-lg-2"></div>
-            </div>
-
-
-        <% } %>
+            <% } %>
+            <% for(var i = 0; i < forms[key].files.length; i++) { %> 
+                <% var name = forms[key].files[i].name; %>
+                <% var value = "" %>
+                <% if(data != null && data[name] != null) { %>
+                    <%  value = data[name]; %>
+                <% } %>
+                <input type="hidden" name="<%= name %>" value="<%= value %>" />
+            <% } %>
+        </form>
+        
+     <% for(var i = 0; i < forms[key].files.length; i++) { %>
+            <form id="<%= key %>_uploadform_<%= i %>" enctype="multipart/form-data" action="/api/photo" method="post">
+                <input type="hidden" name="imagecounter" value="1"/>
+                <label class="btn btn-secondary">
+                    Browse <input type="file"  parentFormID="<%= key %>_uploadform_<%= i %>" target="<%= forms[key].files[i].name %>" targetform="<%= key %>" name="userPhoto" hidden>
+                </label>
+            </form>        
+    <% } %>
        
-
+   
+       
+    <form id="<%= key %>_submit">
         <div class="row no-gutters">
             <div class="col-12 col-md-12 col-lg-2"></div>
             <div class="col-6 col-md-3 col-lg-2">
@@ -157,7 +139,7 @@
             <div class="col-6 col-md-3 col-lg-2"></div>
             <div class="col-6 col-md-3 col-lg-2">
                 <div class="margin height">
-                    <button type="submit" class="btn btn-secondary btn-block height" id="<%= key %>_submit"><%= mode %></button>
+                    <button class="btn btn-secondary btn-block height" id="<%= key %>_upload"><%= mode %></button>
                 </div>
             </div>
             <div class="col-12 col-md-12 col-lg-2"></div>

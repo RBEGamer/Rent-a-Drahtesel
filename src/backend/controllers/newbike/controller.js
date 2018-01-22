@@ -6,53 +6,148 @@ var cred = require('../../config/credentials');
 var sanitizer = require('sanitizer');
 var MobileDetect = require('mobile-detect');
 var models = require('../../config/models');
+var formdata = require('../../config/formdata');
+var formvalidator = require('../../config/formvalidator');
+var c = require('../../config/countries');
+var formvalidationfunctions = require('../../config/formvalidationfunctions');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/new', function(req, res) {
 
 		var query = "SELECT COUNT(pk_ID_Benutzer) AS anz FROM Fahrrad WHERE pk_ID_Benutzer = " + req.session.passport.user;
+		
+		var validations = app.locals.validations;
+
+		
+		
 		models.dbconnection(query, function(rows) {
 			console.log(rows);
 			res.render(__dirname +'/newbike.ejs', { 
 				helper: require('../../views/helpers/helper'),
 				layoutPath: '../../views/',
 				isLoggedIn : req.isAuthenticated(),
-				anz : rows
+				anz : rows,
+				error: validations.error
 			});	
 		});
 	});
 
 	
-	app.post('/bike/new', function(req, res) {
-		console.log(req.body);
-		console.log(req.files);
-		var id = req.session.passport.user;
-		req.body.pk_ID_Benutzer = id;
-		models.insertIntoModel('Fahrrad', req.body, function(result) {
-			var ID_Fahrrad = result.lastID;
-			var queryObject = {};
-			console.log(req.body);
-			console.log(req.body.image);
-
-			var queryStrings = [];
-			for(var i = 0; i < req.body.image.length; i++) {
-				queryStrings.push("INSERT INTO Bild (ID_Fahrrad, Picture) VALUES (" + ID_Fahrrad + ", '" + req.body.image[i] + "')");
-			}
-
-			var queryFunctions = [];
-			queryFunctions[0] = function(callback) { models.dbconnection(queryStrings[0], callback);};
-			queryFunctions[1] = function(callback) { models.dbconnection(queryStrings[1], callback);};
-			queryFunctions[2] = function(callback) { models.dbconnection(queryStrings[2], callback);};
-			queryFunctions[3] = function(callback) { models.dbconnection(queryStrings[3], callback);};
-			queryFunctions[4] = function(callback) { models.dbconnection(queryStrings[4], callback);};
+	app.post('/bike/new', 
+		function(req, res, next) {
+			req.body.formvalidatorschema = formdata.forms.fahrradinserieren.elements;
+			req.body.elements = formdata.formelements;
 			
-			var queryObject = {};
-			for(var i = 0; i < req.body.image.length && i < 5; i++) {
-				queryObject[i] = queryFunctions[i];
+			var valide = true;
+			var error = {};
+			if(!req.body.Lat || !req.body.Lon) {
+
+				valide = false;
+				error.City = {value: false, error: "Da stimmt was nicht!"};
+				error.Country = {value: false, error: "Da stimmt was nicht!"};
+				error.Housenumber = {value: false, error: "Da stimmt was nicht!"};
+				error.Street = {value: false, error: "Da stimmt was nicht!"};
+				error.ZIP = {value: false, error: "Da stimmt was nicht!"};
 			}
-			models.queryFunctions(queryObject, function(results) {
-				res.json({redirect: '/profile'});
-			});
+			if(req.body.Name === "") {
+				error.Name = {value: false, error: "Der Name darf nicht leer sein!", text: "Name: "};
+			}
+
+			if(req.body.Description === "") {
+				error.Description = {value: false, error: "Es muss eine Beschreibung geben!", text: "Beschreibung: "};
+			}
+
+			if(req.body.Description.length > 300) {
+				error.Description = {value: false, error: "Die Beschreibung ist zu lange", text: "Beschreibung"}
+			}
+
+			if(c.countries.indexOf(req.body.Country) < 0) {
+				error.Country = {value: false, error: "Land muss in der Liste sein!", text: "Land"};
+			}
+
+			if(req.body.imagecounter < 1) {
+				error.Picture = {value: false, error: "Es muss mindestens eine Bild hochgeladen werden!", text: "Bilder"};
+			}
+
+			if(!formvalidationfunctions.isNumeric({value: req.body.Price}).value || req.body.Price === "") {
+				error.Price = {value: false, error: "Muss eine Zahl sein!", text: "Preis: "};
+			}
+
+			if(req.body.Price <= 0) {
+				error.Price = {value: false, error: "Preis zu niedrig!", text: "Preis: "};
+			}
+
+			if(req.body.Threeday < 0 || req.body.Threeday > 99 || req.body.Price === "") {
+				error.Threeday = {value: false, error: "Muss zwischen 0 und 100 sein.", text: "Rabatt nach 3 Tagen: "};
+			}
+
+			if(!formvalidationfunctions.isNumeric({value: req.body.Threeday}).value) {
+				error.Threeday = {value: false, error: "Muss eine Zahl sein!", text: "Rabatt nach 3 Tagen: "};
+			}
+
+			if(req.body.Sevenday < 0 || req.body.Sevenday > 99 || req.body.Price === "")  {
+				error.Sevenday = {value: false, error: "Muss zwischen 0 und 100 liegen!", text: "Rabatt nach 7 Tagen: "};
+			}
+
+			if(!formvalidationfunctions.isNumeric({value: req.body.Sevenday}).value) {
+				error.Sevenday = {value: false, error: "Muss eine Zahl sein", text: "Rabatt nach 7 Tagen: "};
+			}
+
+			if(req.body.start_date === null || req.body.start_date === "") {
+				error.StartDate = {value: false, error: "Starttag aussuchen!", text: "Kalender: "};
+			}
+
+			if(req.body.end_date === null || req.body.end_date === "") {
+				error.EndDate = {value: false, error: "", text: "Kalender: "};
+			}
+			
+			res.locals.error = error;
+			res.locals.olddata = req.body;
+			res.locals.invalide = (Object.keys(error).length > 0);
+			next();
+
+		},
+		function(req, res) {
+			console.log(req.body);
+			console.log(req.files);
+
+			if(res.locals.invalide) {
+				var validations = {};
+				validations.error = res.locals.error;
+				validations.olddata = req.body;
+				validations.invalide = res.locals.invalide;
+				app.locals.validations = validations;
+				res.redirect("/bike/new");
+			} else {
+				var id = req.session.passport.user;
+				req.body.pk_ID_Benutzer = id;
+				models.insertIntoModel('Fahrrad', req.body, function(result) {
+					var ID_Fahrrad = result.lastID;
+					var queryObject = {};
+					console.log(req.body);
+					console.log(req.body.image);
+
+					var queryStrings = [];
+					for(var i = 0; i < req.body.image.length; i++) {
+						queryStrings.push("INSERT INTO Bild (ID_Fahrrad, Picture) VALUES (" + ID_Fahrrad + ", '" + req.body.image[i] + "')");
+					}
+
+					var queryFunctions = [];
+					queryFunctions[0] = function(callback) { models.dbconnection(queryStrings[0], callback);};
+					queryFunctions[1] = function(callback) { models.dbconnection(queryStrings[1], callback);};
+					queryFunctions[2] = function(callback) { models.dbconnection(queryStrings[2], callback);};
+					queryFunctions[3] = function(callback) { models.dbconnection(queryStrings[3], callback);};
+					queryFunctions[4] = function(callback) { models.dbconnection(queryStrings[4], callback);};
+					
+					var queryObject = {};
+					for(var i = 0; i < req.body.image.length && i < 5; i++) {
+						queryObject[i] = queryFunctions[i];
+					}
+					models.queryFunctions(queryObject, function(results) {
+						res.json({redirect: '/profile'});
+					});
+				});
+			}
 		});
 		/*mysqlpool.getConnection(function(err, connection) {
 			if (err) {
@@ -114,7 +209,7 @@ module.exports = function(app, passport, verificationMail) {
 			});
 			connection.release();
 		});*/
-	}); 
+	//}); 
 
 	app.get('/newbike/script.js', function(req, res, next) {
 		res.sendfile(__dirname+'/_script.js');

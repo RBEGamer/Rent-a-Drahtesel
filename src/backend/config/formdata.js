@@ -23,8 +23,8 @@ module.exports = {
         'Banner':	{text: 'Banner', input: {type: 'file'}, validation: [{name: 'suffix', data: {valid: ['jpg', 'jpeg', 'png']}}]},
         'Vorname':	{text: 'Vorname*', input: {type: 'text'}, validation: [{name: 'notOptional'}]},
         'Name': {text: 'Nachame*', input: {type: 'text'}, validation: [{name: 'notOptional'}]},
-        'lat': {text: '', input: {type: 'hidden'}, validation: [{name: 'notUndefined', target: ['country', 'city', 'street', 'housenumber']}, {name: 'notOptional'}]},
-        'lon': {text: '', input: {type: 'hidden'}, validation: [{name: 'notUndefined', target: ['country', 'city', 'street', 'housenumber']}, {name: 'notOptional'}]}
+        'lat': {text: '', input: {type: 'hidden'}, validation: [{name: 'notUndefined', target: ['country', 'city', 'street', 'housenumber']}]},
+        'lon': {text: '', input: {type: 'hidden'}, validation: [{name: 'notUndefined', target: ['country', 'city', 'street', 'housenumber']}]}
     },
     forms : {
         'registerprivat' : {

@@ -52,6 +52,7 @@ var formvalidator = function()  {
 								args[key] = validationObjects[key];
 							}
 						});
+						console.log(elements[name].text);
 						if(s != "") {
 							 var result = functions[s](args);
 								if(!result.value) {
