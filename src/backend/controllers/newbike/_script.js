@@ -8,13 +8,12 @@
             var adress = country + " " + city + " " + street + " " + housenumber;
             console.log("address: ", adress);
             geocoder.geocode( { 'address': adress}, function(results, status) {
+                var lat = undefined; var lon = undefined;
                 if (status == google.maps.GeocoderStatus.OK) {
                     var lat = results[0].geometry.location.lat();
                     var lon = results[0].geometry.location.lng();
-                    callback(lat, lon);
-                }else{
-                    alert("Die eingegebene Adresse ist leider nicht gueltig. Bitte ueberpruefe diese noch einmal");
                 }
+                callback(lat, lon);
             });
 
         }
@@ -90,12 +89,22 @@
         function validate(callback) {
             var error = {};
             var name = $('input[name="Name"').val();
-            var description = $('input[name="Description"').val();
+            var description = $('textarea[name="Description"').val();
             var start_date = $('input[name="start_date"').val();
             var end_date = $('input[name="end_date"').val();
-            var prize = $('input[name="prize"').val();
+            var prize = $('input[name="price"').val();
             var threeday = $('input[name="Threeday"').val();
             var sevenday = $('input[name="Sevenday"').val();
+            console.log(name);
+            console.log(description);
+            console.log(start_date);
+            console.log(end_date);
+            console.log(prize);
+            console.log(threeday);
+            console.log(sevenday);
+            if(counter === 0) {
+                error.picture = {text: "Bilder: ", error: "Es muss mindestens ein Bild hochgeladen werden!"};
+            }
 
             if(start_date === "" || end_date === "") {
                 error.date = {text: "Kalender: ", error: "Wähle ein Start- und ein Enddatum aus!"};
@@ -128,7 +137,7 @@
                 if(!lat || !lon) {
                     error.locals = {text: "Stadt, Straße, Land, Hausnummer: ", error: "Wir konnten keine Ortsangabe aus diesen Daten ermitteln!"};
                 }
-
+                console.log("ERROR: ", error);
                 callback({error: error, value: (Object.keys(error).legnth === 0)});
             });
         }
@@ -145,7 +154,7 @@
     
         }
 
-        $('#upload').click(function() {
+        $('#upload').click(function(e) {
             $("#imagecounter").attr("value", counter);
             $("#bikeupperform").append('<input type="hidden" name="imagecounter" value="' + counter + '"/>');
             validate(function(value) {
@@ -155,7 +164,7 @@
                     showValidations(value.error);
                 }
             });
-            $('#uploadForm').submit();
+            
         });  
 
 
