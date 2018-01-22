@@ -5,6 +5,7 @@ var dbconfig = require('../../config/database');
 var sanitizer = require('sanitizer');
 var cred = require('../../config/credentials.js');
 var MobileDetect = require('mobile-detect');
+var waitUntil = require('wait-until');
 
 module.exports = function(app, passport, verificationMail) {
 	app.get('/bike/:id', function(req, res) {
@@ -59,53 +60,101 @@ module.exports = function(app, passport, verificationMail) {
 						console.log("get singlebike db failed 4")
 						return;
 					}
-			//SELECT * FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?
-			connection.query("SELECT `booked_days` FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?",[sanitizer.sanitize(req.params.id)], function(err, rows2) {
-				if (err) {
-					console.log("get singlebike db failed 5")
-					return;
-				}
-
-				bikes = rows;
-				var txt = "";
-				txt = rows[0].Description.substring(0,300);
-				connection.query("select picture from Bild where id_fahrrad = " + sanitizer.sanitize(req.params.id), function(err, rows) {
-					if (err) {
-						console.log("get singlebi ke pictures db failed 6")
-						return;
-					}
-					//CONVERTS THE BOOKED DAY FROM DB TO A STRING ARRAY FOR EASY PARSE
-					var bkd = [];
-					for(var i = 0; i < rows2.length;i++){
-						if(rows2[i].booked_days ==  ""){continue;}
-						var tmp = rows2[i].booked_days.split(',')
-						for(var j = 0; j < tmp.length; j++){
-							bkd.push(String(tmp[j]))
-						}
-					}
-						console.log(bkd)
-		
 					
-					pictures = rows;
-					console.log(pictures);
-					res.render(__dirname +'/singlebike.ejs', { 
-					bezeichnung: 'trekkingbike', 
-					title: 'singlebike',
-					helper: require('../../views/helpers/helper'),
-					layoutPath: '../../views/',
-					bike: bikes[0],
-					pictures: pictures,
-					isLoggedIn: req.isAuthenticated() & privat_benutzer,
-					maps_key: cred.credentials.google_map_api,
-					bike_desc: txt,
-					booked_days: bkd,
-					bike_id: sanitizer.sanitize(req.params.id),
-					ratings:rows3,
-					user:rows4[0],
-					userid: userid
-				});
-			});
-		});
+					var ready = false;
+					var i = 0;
+					if(rows3.length === 0){
+						ready = true;
+					}
+					rows3.forEach(function(n){
+						var q = "SELECT CONCAT(Vorname, ' ', name) as Name from Privatbenutzer where pk_id = " + sanitizer.sanitize(n.rater);
+						console.log(q);
+						connection.query("Select count(*) as anz FROM Privatbenutzer WHERE pk_ID = " + sanitizer.sanitize(n.rater), function(err, rows) {
+							if (err) {
+								console.log("get userrole db rater failed: " + n.rater);
+								return;
+							}
+							console.log("test");
+							if(rows3[0].anz == 0){
+								q = "SELECT Firmenname as Name from Geschaeftsbenutzer where pk_id = " + n.rater;
+							}
+							console.log("h");
+							connection.query(q, function(err, rater) {
+								if (err) {
+									console.log("get user db failed");
+									return;
+								}
+								console.log(rater[0].Name);
+								n.ratername = rater[0].Name;
+
+								i++;
+								if(i === rows3.length){
+									ready = true;
+								}
+							});
+						});
+					});
+					
+					console.log("hier");
+					waitUntil()
+				    .interval(500)
+				    .times(100)
+				    .condition(function() {
+				        return ready;
+				    })
+				    .done(function(result) {
+						connection.query("SELECT `booked_days` FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?",[sanitizer.sanitize(req.params.id)], function(err, rows2) {
+							if (err) {
+								console.log("get singlebike db failed 5")
+								return;
+							}
+
+							bikes = rows;
+							var txt = "";
+							txt = rows[0].Description.substring(0,300);
+							connection.query("select picture from Bild where id_fahrrad = " + sanitizer.sanitize(req.params.id), function(err, rows) {
+								if (err) {
+									console.log("get singlebi ke pictures db failed 6")
+									return;
+								}
+								//CONVERTS THE BOOKED DAY FROM DB TO A STRING ARRAY FOR EASY PARSE
+								var bkd = [];
+								for(var i = 0; i < rows2.length;i++){
+									if(rows2[i].booked_days ==  ""){continue;}
+									var tmp = rows2[i].booked_days.split(',')
+									for(var j = 0; j < tmp.length; j++){
+										bkd.push(String(tmp[j]))
+									}
+								}
+									console.log(bkd)
+					
+								
+								pictures = rows;
+								console.log(pictures);
+								res.render(__dirname +'/singlebike.ejs', { 
+								bezeichnung: 'trekkingbike', 
+								title: 'singlebike',
+								helper: require('../../views/helpers/helper'),
+								layoutPath: '../../views/',
+								bike: bikes[0],
+								pictures: pictures,
+								isLoggedIn: req.isAuthenticated() & privat_benutzer,
+								maps_key: cred.credentials.google_map_api,
+								bike_desc: txt,
+								booked_days: bkd,
+								bike_id: sanitizer.sanitize(req.params.id),
+								ratings:rows3,
+								user:rows4[0],
+								userid: userid
+							});
+						});
+					});
+				    });
+					console.log("da");
+					
+					
+			//SELECT * FROM `Bestellung` WHERE `pk_ID_Fahrrad`= ?
+
 	});
 				});
 			});

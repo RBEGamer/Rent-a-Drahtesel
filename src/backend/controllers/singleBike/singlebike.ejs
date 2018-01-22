@@ -24,18 +24,20 @@
             </style>
      </head>
 
-
-    <div class="row">
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-        <div class="col-2 col-md"><p class="text-center"><%= bike.name %> (<%= bike_id %>)</p></div>
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    <div class="margin height">
+            <div class="row no-gutters">
+                <div class="col-1 col-md-3"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+                <div class="col-10 col-md-6"><p class="text-center" style="color: grey;"><%= bike.name %> (<%= bike_id %>)</p></div>
+                <div class="col-1 col-md-3"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+            </div>
     </div>
+
     <% if(isLoggedIn){ %>
     <div class="row no-gutters">
         <div class="col-12">
             <div class="middle">
             	<button class="btn btn-default" id="start">
-                	<div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="70"></div>
+                	<div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="50"></div>
             	</button>
             </div>
         </div>
@@ -44,7 +46,7 @@
     <div class="row no-gutters">
         <div class="col-12">
             <div class="middle">
-                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="70"></div>
+                <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="50"></div>
             </div>
         </div>
     </div>
@@ -153,10 +155,12 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-            <div class="col-2 col-md"><p class="text-center">FAHRRAD STANDORT</p></div>
-            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+        <div class="margin height">
+            <div class="row no-gutters">
+                <div class="col-2 col-md-4"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+                <div class="col-8 col-md-4"><p class="text-center" style="color: grey;">FAHRRAD STANDORT</p></div>
+                <div class="col-2 col-md-4"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+            </div>
         </div>
 
         <div class="row no-gutters">
@@ -171,11 +175,14 @@
             </div>
         </div>
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-        <div class="col-2 col-md"><p class="text-center">PREIS</div>
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    <div class="margin height" style="margin-top:20px">
+        <div class="row no-gutters">
+            <div class="col-4 col-md-5"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+            <div class="col-4 col-md-2"><p class="text-center" style="color: grey;">PREIS</p></div>
+            <div class="col-4 col-md-5"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+        </div>
     </div>
+
         <div class="row no-gutters">
             <div class="col-12 col-md-6">
                 <div class="margin height text">
@@ -207,13 +214,13 @@
             </div>
         </div>
 
-    <div class="row" style="margin-top:20px">
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-        <div class="col-2 col-md"><p class="text-center">BEWERTUNGEN</p></div>
-        <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    <div class="margin height" style="margin-top:20px">
+        <div class="row no-gutters">
+            <div class="col-3 col-md-4"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+            <div class="col-6 col-md-4"><p class="text-center" style="color: grey;">BEWERTUNGEN</p></div>
+            <div class="col-3 col-md-4"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+        </div>
     </div>
-
-
      
         <% ratings.forEach(function(n) { %>
            <div class="row no-gutters">
