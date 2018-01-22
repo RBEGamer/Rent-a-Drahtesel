@@ -8,14 +8,14 @@
                     <br>
                     <span>
                     Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,    </span>
-<br />
-<br />
-</div>
+                    <br />
+                    <br />
+                </div>
             </div>
         </div>
         <form action="/" method="post">
             <div class="row no-gutters">
-                <div class="col-12 col-md">
+                <div class="col-12 col-md-3">
                     <div class="margin height">
                         <select name="type" class="form-control height">
                             <option>Typ</option>
@@ -26,10 +26,10 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-md">
+                <div class="col-12 col-md-3">
                     <div class="margin height">
                         <select name="size" class="form-control height">
-                            <option>Fahrrad-Gr&#246;&#223;e</option>
+                            <option>Gr&#246;&#223;e</option>
                             <option value="12">12 Zoll</option>
                             <option value="14">14 Zoll</option>
                             <option value="16">16 Zoll</option>
@@ -40,74 +40,76 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-md">
+                <div class="col-12 col-md-3">
                     <div class="margin height">
                         <select name="preis" name="Preis" class="form-control height">
                             <option>Preis</option>
-                            <option value="3">< 3&euro;&emsp;</option>
-                            <option value="5">< 5&euro;&emsp;</option>
-                            <option value="7.5">< 7.5&euro;&emsp;</option>
-                            <option value="10">< 10&euro;&emsp;</option>
+                            <option value="3">< 3€&emsp;</option>
+                            <option value="5">< 5€&emsp;</option>
+                            <option value="7.5">< 7.5€&emsp;</option>
+                            <option value="10">< 10€&emsp;</option>
                         </select>
                     </div>
                 </div>
-                <div class="col-12 col-md">
+                <div class="col-12 col-md-3">
                     <div class="margin height">
                         <input type="text" name="plz" class="form-control height" placeholder="PLZ">
                     </div>
                 </div>
-                </div>
-                <div class="row">
-                <div class="col-1 col-md">
+                <div class="col-12 col-md-3">
                     <div class="margin height">
                         <button type="submit" class="btn btn-secondary btn-block height">Suchen</button>
                     </div>
                 </div>
-                <div class="col-11 col-md"><span> </span></div>
             </div>
         </form>
-
-
-<br>
-
-        <div class="row">
-            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
-            <div class="col-2 col-md"><p class="text-center">ANGEBOTE</p></div>
-            <div class="col-5 col-md"><hr style="width: 100%; color: black; height: 1px; background-color:black;" /></div>
+    
+        <br>
+        <div class="margin height">
+            <div class="row no-gutters">
+                <div class="col-4 col-md-5"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+                <div class="col-4 col-md-2"><p class="text-center" style="color: grey;">ANGEBOTE</p></div>
+                <div class="col-4 col-md-5"><hr style="width: 100%; color: grey; height: 1px; background-color:grey;" /></div>
+            </div>
         </div>
 
         <br>
-
-
-			<% bikes.forEach(function(row) { %>
-          <div class="row no-gutters" >
-        		<div class="col-6 col-md-6">
-             	   <div class="d-flex flex-row">
-             	   	  <% if(row.Bild != null){ %>
-                  	  	<img class="img-responsive bild margin" src="/uploads/<%= row.Bild.toString('utf8') %>" alt="">
-                  	  <% }else{ %>
-                  	  	<img class="img-responsive bild margin" src="" alt="">
-                  	  <% } %>
-              	      <div class="white margin padding">
-                      	  <h6><%= row.Name %></h6>
-                       	 <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+        
+        <% bikes.forEach(function(row) { %>
+            <div class="row no-gutters">
+                <div class="col-auto">
+                    <div class="margin">
+                        <% if(row.Bild != null){ %>
+                            <img class="img-responsive bild" src="/uploads/<%= row.Bild.toString('utf8') %>" alt="">
+                        <% }else{ %>
+                            <img class="img-responsive bild" src="" alt="">
+                        <% } %>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="margin height2">
+                        <div class="whitebox padding">
+                            <h6><%= row.Name %></h6>
+                       	    <div class="starRating" starMax="5" value="<%= row.Rating %>" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
                        	 	<span><%= row.Preis %>€&emsp;</span>
                      	   	<a href="bike/<%= row.totid %>">ansehen</a>
                     	</div>
-                	</div>
-           	 	</div>
-              <div class="col-6 col-md-6">
-                            <img height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
+                    </div>
+                </div>
+                <div class="col-12 col-md-6">
+                    <div class="margin">
+                        <img class="hundert" height="200px" class="img-responsive" src="https://maps.googleapis.com/maps/api/staticmap?key=<%= maps_key %>&center=<%= row.Lat %>+<%= row.Lon %>&zoom=17&scale=1&size=600x300&maptype=roadmap&format=png&visual_refresh=true&markers=size:mid%7Ccolor:0xff0000%7Clabel:1%7C<%= row.Lat %>+<%= row.Lon %>" alt="Your Bike">
+                    </div>
+                </div>
             </div>
+            <div class="margin">
+                <div class="row no-gutters">
+                     <div class="col-12"><hr style="color: grey; height: 1px; background-color:grey;" /></div>
+                </div>
             </div>
-            <div class="row no-gutters">
-                    <div class="col-2 col-md"></div>
-                    <div class="col-10 col-md"><hr style="color: black; height: 1px; background-color:black;" /></div>
-                    <div class="col-2 col-md"></div>
-            </div>
- 
-            <% }); %>
-
+        <% }); %>
+    
+        
 
 
 
