@@ -50,6 +50,9 @@ module.exports = function(app, passport, verificationMail) {
 
 						var ready = false;
 						var i = 0;
+						if(rows4.length === 0){
+							ready = true;
+						}
 						rows4.forEach(function(n){
 							var q = "SELECT CONCAT(Vorname, ' ', name) as Name from Privatbenutzer where pk_id = " + sanitizer.sanitize(n.Rater);
 							console.log(q);
@@ -82,7 +85,7 @@ module.exports = function(app, passport, verificationMail) {
 						console.log("hier");
 						waitUntil()
 					    .interval(500)
-					    .times(10)
+					    .times(100)
 					    .condition(function() {
 					        return ready;
 					    })
@@ -110,7 +113,7 @@ module.exports = function(app, passport, verificationMail) {
 	app.get('/profile', function(req, res) {
 		var id = req.session.passport.user;
 		//JOIN BewertungBenutzer  ON Benutzer.pk_id = BewertungBenutzer.pk_id
-		if(id == undefined){res.redirect('/');}
+		if(id == undefined){return res.redirect('/');}
 		models.findSpecialisation(
 			['Geschaeftsbenutzer', 'Privatbenutzer'], 
 			'Benutzer',

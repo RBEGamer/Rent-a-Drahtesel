@@ -82,35 +82,46 @@
         <div class="row no-gutters">
             <div class="col-12">
                     <div class="white margin padding middle">
-                            <% if(userdata.FacebookUrl != undefined || userdata.FacebookUrl == ""){ %>
+                            <% if(userdata.FacebookUrl != undefined && userdata.FacebookUrl != ""){ %>
                             <a href="<%= userdata.FacebookUrl %>"><img src="/images/facebook.svg" alt="" height="40" /></a>
                             <% } %>
                             &emsp;
-                            <% if(userdata.TwitterUrl != undefined|| userdata.TwitterUrl == ""){ %>
+                            <% if(userdata.TwitterUrl != undefined && userdata.TwitterUrl != ""){ %>
                             <a href="<%= userdata.TwitterUrl %>"><img src="/images/twitter.svg" alt="" height="40" /></a>
                             <% } %>
                             &emsp;
-                            <% if(userdata.InstagramUrl != undefined || userdata.InstagramUrl == ""){ %>
+                            <% if(userdata.InstagramUrl != undefined && userdata.InstagramUrl != ""){ %>
                             <a href="<%= userdata.InstagramUrl %>"><img src="/images/instagram.svg" alt="" height="40" /></a>
                             <% } %>
                             &emsp;
-                            <% if(userdata.WebUrl != undefined || userdata.WebUrl == ""){ %>
+                            <% if(userdata.WebUrl != undefined && userdata.WebUrl != ""){ %>
                             <a href="<%= userdata.WebUrl %>"><img src="/images/website.svg" alt="" height="40" /></a>
                             <% } %>
                         </div>
             </div>
         </div>
 
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                    <span>Bewertungen</span>
-                </div>
-            </div>
-        </div>
+<div class="row">
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+	<div class="col-2 col-md">
+		<p class="text-center">Bewertungen</p>
+	</div>
+	<div class="col-5 col-md">
+		<hr
+			style="width: 100%; color: black; height: 1px; background-color: black;" />
+	</div>
+</div>
 
         <div class="row no-gutters">
+        
         <% if(ratings!= undefined){ %>
+        
+     	<% if(ratings.length === 0){ %>
+     		<p>Es sind noch keine Bewertungen vorhanden.</p>
+     	<% } %>
         <% ratings.forEach(function(n) { %>
             <div class="col-12">
                 <div class="white margin">
@@ -157,10 +168,11 @@
         SchliessenBtn = document.getElementById('schliessen');
         var popup = document.getElementById('popup');
 
-        startBtn.addEventListener('click',zeigeFenster);
-        BewertungBtn.addEventListener('click',schliesseFenster);
-        SchliessenBtn.addEventListener('click',schliesseFenster);
-
+		if(popup != null){
+	        startBtn.addEventListener('click',zeigeFenster);
+	        BewertungBtn.addEventListener('click',schliesseFenster);
+	        SchliessenBtn.addEventListener('click',schliesseFenster);
+		}
         function zeigeFenster() { 
             popup.className = 'overlay';
         }

@@ -2,6 +2,26 @@
 
      <head>
             <link rel="stylesheet" type="text/css" href="/css/zabuto_calendar.min.css">
+
+
+            <style>
+            
+            
+            body {
+    margin: 0;
+    padding: 0;
+    text-align: center; /* !!! */
+}
+
+.centered {
+    margin: 0 auto;
+    text-align: left;
+    width: 800px;
+}
+
+.greenbox {background:green;}
+            
+            </style>
      </head>
 
 
@@ -48,18 +68,22 @@
                         <div class="carousel-inner">
                             <% console.log("aus der view: ", pictures); %>
                             <div class="carousel-item active">
-                                <img id="diashow_img" height="300px" width="100%" class="img-responsive" src="http://bilder.bild.de/fotos/bams-47445590/Bild/1.bild.svg" alt="Second slide">
+                                <img id="diashow_img" height="300px" width="100%" class="img-responsive" src="eVznzZrgRoo5JgqmILAQAIAADwVagBAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAIACYAgAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAACghqqqKrNu3TqTmZlpRo4caQYOHGh69" alt="Second slide">
                             </div>
            
                         </div>
+                        <div class="greenbox">
                         <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev" onclick="dia_prev();">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="sr-only">Previous</span>
                         </a>
+                        </div>
+                        <div class="greenbox">
                         <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next" onclick="dia_next();">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="sr-only">Next</span>
                         </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -121,7 +145,10 @@
                         <div id="calhold">
                         <div id="my-calendar"></div>
                         </div>
-                        <span>BUCHBARED DATUM: <%= bike.start_date %> bis <%= bike.end_date %></span>
+                        <div class="center"><span>Dieses Fahrrad ist buchbar vom:<br> <b><div id="date_start_t"></div></b> bis <b><div id="date_end_t"></div></b></span></div>
+
+
+
                 </div>
             </div>
         </div>
@@ -219,7 +246,6 @@
                                 <div class="col-12 col-md-12 middle " style="float:right;"> 
                                 <span><%= n.Description %></span>
                                 </div>
-
                         </div>
                     </div>
                 </div>
@@ -261,7 +287,6 @@
 
 
 
-
 <script type="application/javascript">
   var booked_days = 0;
   var eventData = [];
@@ -273,7 +298,7 @@
   
     var start_date = Date.parse("<%= bike.start_date %>");
     var end_date = Date.parse("<%= bike.end_date %>");
-
+  //  console.log(start_date.getMonth())
   function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
@@ -469,7 +494,7 @@ function dia_load_img(){
     if(dia_index < 0){
     document.getElementById('diashow_img')
     .setAttribute(
-        'src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg=='
+        'src', 'eVznzZrgRoo5JgqmILAQAIAADwVagBAAIAABAAAIAAAAAEAAAgAAAAAQAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAQAAAAAAAAgAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAIACYAgAAAAQAAAAAIAAAAAAAAQAAAAAIAAAAAEAAAAAAAAIAAAAAEAAAAACAAAAAAAAEAAAAACAAAAAAAAEAAAAACAAAAABAAAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAACAAAAABAAAAAAgAAAAAAABAAAAAAgAAAAAAABAACghqqqKrNu3TqTmZlpRo4caQYOHGh69'
     );
     console.log("load default")
     }else{
@@ -492,26 +517,36 @@ dia_load_img();
 
 
 $( document ).ready(function() {
+
+     if(document.getElementById("date_start_t") == null || document.getElementById("date_end_t") == null){
+        alert("Es ist ein Fehler auf der Seite aufgetreten. Bitte lade die Seite erneut.");
+    }
+                        document.getElementById("date_start_t").innerHTML = moment("<%= bike.start_date %>").format('DD.MM.YYYY');
+                        document.getElementById("date_end_t").innerHTML = moment("<%= bike.end_date %>").format('DD.MM.YYYY');
+
+
     dia_init();
     create_calendar();
 });
+	var startBtn = document.getElementById('start'),
+	BewertungBtn = document.getElementById('bewerten'),
+	SchliessenBtn = document.getElementById('schliessen');
+	var popup = document.getElementById('popup');
 
-var startBtn = document.getElementById('start'),
-BewertungBtn = document.getElementById('bewerten'),
-SchliessenBtn = document.getElementById('schliessen');
-var popup = document.getElementById('popup');
+	if(startBtn != null){
+	startBtn.addEventListener('click',zeigeFenster);
+	BewertungBtn.addEventListener('click',schliesseFenster);
+	SchliessenBtn.addEventListener('click',schliesseFenster);
+	}
+	function zeigeFenster() { 
+	    popup.className = 'overlay';
+	}
 
-startBtn.addEventListener('click',zeigeFenster);
-BewertungBtn.addEventListener('click',schliesseFenster);
-SchliessenBtn.addEventListener('click',schliesseFenster);
+	function schliesseFenster(){
+	    popup.className = 'overlayHidden';
+	}
 
-function zeigeFenster() { 
-    popup.className = 'overlay';
-}
 
-function schliesseFenster(){
-    popup.className = 'overlayHidden';
-}
     </script>
 
   

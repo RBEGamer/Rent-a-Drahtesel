@@ -85,7 +85,7 @@
 			style="width: 100%; color: black; height: 1px; background-color: black;" />
 	</div>
 	<div class="col-2 col-md">
-		<p class="text-center">ANGEBOTE</p>
+		<p class="text-center">Bewertungen</p>
 	</div>
 	<div class="col-5 col-md">
 		<hr
@@ -94,6 +94,10 @@
 </div>
 
 <div class="row no-gutters">
+
+     	<% if(ratings.length === 0){ %>
+     		<p>Es sind noch keine Bewertungen vorhanden.</p>
+     	<% } %>
 	<% if(ratings!= undefined){ %> <% ratings.forEach(function(n) { %>
 	<div class="col-12">
 		<div class="white margin">
@@ -138,10 +142,11 @@
         BewertungBtn = document.getElementById('bewerten'),
         SchliessenBtn = document.getElementById('schliessen');
         var popup = document.getElementById('popup');
-
-        startBtn.addEventListener('click',zeigeFenster);
-        BewertungBtn.addEventListener('click',schliesseFenster);
-        SchliessenBtn.addEventListener('click',schliesseFenster);
+		if(popup != null){
+	        startBtn.addEventListener('click',zeigeFenster);
+	        BewertungBtn.addEventListener('click',schliesseFenster);
+	        SchliessenBtn.addEventListener('click',schliesseFenster);
+		}
 
         function zeigeFenster() { 
             popup.className = 'overlay';

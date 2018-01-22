@@ -40,13 +40,13 @@
                         <div class="col-6">
                             <div class="margin height">
                                 <select name="Size" class="form-control height">
-                            		<option value="12">12</option>
-                            		<option value="14">14</option>
-                            		<option value="16">16</option>
-                            		<option value="18">18</option>
-                           		 	<option value="20">20</option>
-                            		<option value="24">24</option>
-                            		<option value="28">28</option>
+                            		<option value="12">12 Zoll</option>
+                            		<option value="14">14 Zoll</option>
+                            		<option value="16">16 Zoll</option>
+                            		<option value="18">18 Zoll</option>
+                           		 	<option value="20">20 Zoll</option>
+                            		<option value="24">24 Zoll</option>
+                            		<option value="28">28 Zoll</option>
                         		</select>
                             </div>
                         </div>
@@ -72,6 +72,7 @@
                 <div id="calhold">
                     <div id="my-calendar"></div>
                     </div>
+                    <div id="data_reset"><input type="button" onclick="reset_date()" value="RESET RANGE"/></div>
                     <div id="date_range"></div>
 
                             
@@ -119,7 +120,7 @@
                 </div>
                 <div class="col-6 col-md-3 col-lg-2">
                     <div class="margin height">
-                        <input name="Zip" type="text" class="form-control height">
+                        <input name="ZIP" type="text" class="form-control height">
                     </div>
                 </div>
                 <div class="col-12 col-md-12 col-lg-2"></div>
@@ -227,21 +228,50 @@
 <script src="/js/zabuto_calendar.min.js"></script>
 
         <script type="application/javascript">
+
+
+
+var calendar_date = 0;
+var start_date = null;
+var end_date = null;
 var eventData = [];
-//eventData.push({"date":"","badge":false,"title":"RESERVIERT", "fixed":true}) 
+
+
+
+
+function reset_date(){
+    calendar_date = 0;
+    start_date = null;
+    end_date = null;
+    eventData = [];
+
+    while(eventData.length > 0) {
+        eventData.pop();
+    }
+
+    document.getElementById('date_range').innerHTML = "<b>Bitte wähle das Startdatum aus.<b>";
+    document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+start_date+"'/><input type='hidden' name='end_date' value='"+end_date+"'/>";
+     $("#calhold").empty()
+    $("#calhold").append("<div id='my-calendar'></div>");
+    create_calendar();
+}
 
 
 function getFormattedDate(date) {
   var year = date.getFullYear();
-
   var month = (1 + date.getMonth()).toString();
   month = month.length > 1 ? month : '0' + month;
-
   var day = date.getDate().toString();
   day = day.length > 1 ? day : '0' + day;
-  
   return year + '-' + month + '-' + day;
 }
+
+function get_date_string(_date){
+
+
+}
+
+
 function myDateFunction(id) {
     console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
@@ -263,7 +293,7 @@ var eventData = [];
 function myDateFunction(id) {
   console.log(eventData);
 if(!id.includes("calendar")){alert("err");return;}
-console.log(id.split("_")[3]); //#3 is date
+
 var dtstring = id.split("_")[3];//extrect the datestring
 
 var is_fixed = false;
@@ -286,31 +316,14 @@ for(var i = 0; i < eventData.length; i++){
   }
   if(eventData[i].date == dtstring  && eventData[i].fixed == false){
       is_in = true;
-
       break;
   }
+
+
+  
 }
 
-if(is_fixed){alert("Dieses Datum wurde bereit von einem anderen Kunden reserviert.Bitte waehle ein anderes.");return;}
-//REMOVE ENTRY
-if(remove_id != -1){
-  console.log("REMOVE ENTRY");
-  var eventData_old = eventData;
-  eventData = [];
-  for(var j = 0; j < eventData_old.length; j++){
-      if(j != i){
-          eventData.push(eventData_old[j]);
-      }else{
-          console.log("SKIP:" + eventData_old[j]);
-      }
-  }
-  console.log(eventData);
-  //HACKY WORKAROUND
-  $("#calhold").empty()
-  $("#calhold").append("<div id='my-calendar'></div>");
-  create_calendar();
-   return;
-}
+
 //ADD NEW ENTRY
 if(!is_in){
 
@@ -321,8 +334,44 @@ if(!is_in){
       alert("Das gewählte Datum liegt in der Vergangenheit. Bitte waehle ein anderes.");return;
       return;
   }
-   console.log("ADD");
+
+
+
+
+
+
+
+if(calendar_date == 0){
+    console.log("ADD DATE TO START DATE");
+    start_date = seldate;
+    calendar_date++;
+     document.getElementById('date_range').innerHTML = "Bitte wähle das Enddatum aus.";
+}else if(calendar_date == 1){
+    console.log("ADD DATE TO END DATE");
+    end_date = seldate;
+    //TODO CHEKC IF AFTER
+    if(end_date <  start_date){
+        alert("<b>Bitte wähle das End-Datum nach deinem Startdatum</b>");
+        return;
+    }else{
+    end_date = seldate;
+    calendar_date++;
+
+    var formattedDate_start = moment(start_date).format('DD.MM.YYYY');
+    var formattedDate_end = moment(end_date).format('DD.MM.YYYY');
+
+    document.getElementById('date_range').innerHTML = "BUCHBARER DATUMSBEREICH :<br><b>" + formattedDate_start + "</b><br>bis zum <br>" + formattedDate_end + "";
+    document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+start_date+"'/><input type='hidden' name='end_date' value='"+end_date+"'/>";
+    }
+    
+}else{
+return;
+}
 eventData.push({"date":dtstring,"badge":true,"title":"GEBUCHT", "fixed":false})
+
+create_calendar();
+
+
 }
 //HACKY WORKAROUND
 $("#calhold").empty()
@@ -356,52 +405,12 @@ data: eventData
 });
 
 
-
-
-//CREATES A CUSTOM FORM INPUT WITH THE BOOKES DAYS
-//push only the not fixex data into the form = not fixed = user booked
-var ev_form = [];
-for(var i = 0; i < eventData.length; i++){
-  if(eventData[i].date != undefined && eventData[i].fixed != undefined && eventData[i].fixed == false){
-  ev_form.push(eventData[i]);
-  }
-}
-booked_days = ev_form.length;
-
-
-var std1 = new Date();
-var end = new Date();
-
-for (let index = 0; index < booked_days.length; index++) {
-    const element = booked_days[index];
-    
-    var d = new Date(element.date);
-    if(d <= std1){std1 = d;}
-    if(d >= end){end = d;}
-    
 }
 
-if(eventData.length >1){
-console.log("START: " + eventData[0].date + " END:" +eventData[1].date);
-
-
-var d1 = "2010-10-30T00:00:00+05:30".slice(0, 10).split('-');   
-var t1 = d1[0] +'-'+ d1[1] +'-'+ d1[2]; // 10/30/2010
-
-
-var d2 = "2010-10-30T00:00:00+05:30".slice(0, 10).split('-');   
-var t2 = d2[0] +'-'+ d2[1] +'-'+ d2[2]; // 10/30/2010
-
-document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+t1+"'/><input type='hidden' name='end_date' value='"+t2+"'/>";
-document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + t1 + " <br>bis zum <br>" + t2 + "";
-
-}
-//document.getElementById('form_date').innerHTML = "<input type='hidden' name='start_date' value='"+booked_days[0]+"'/><input type='hidden' name='end_date' value='"+ooked_days[1]+"'/>";
-//document.getElementById('date_range').innerHTML = "BUCHBARE DATUM VOM :<br>" + std1 + " <br>bis zum <br>" + end + "";
-}
 
         $( document ).ready(function() {
-            create_calendar();
+            reset_date();
+            
         });
         
             </script>
