@@ -125,7 +125,7 @@ module.exports = function(app, passport, verificationMail) {
 
 				var bewertungenbenutzer =  function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, [{model: 'Benutzer', target: 'Rater', destination: 'pk_ID'}],callback);};
 				var bikes  = function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [], callback);};
-				var bestellungen = function(callback) { models.findComplete('Bestellung', ["*"], {}, [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}], callback);};
+				var bestellungen = function(callback) { models.findComplete('Bestellung', ["*"], {}, {}, callback);};
 				//SELECT *, `Benutzer`.`pk_ID` AS `userid` FROM `Bestellung` JOIN `Fahrrad` ON `Fahrrad`.`pk_ID` = `Bestellung`.`pk_ID_Fahrrad` JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Fahrrad`.`pk_ID_Benutzer` WHERE `Bestellung`.`pk_ID_Benutzer`= 57
 				var own_bestellungen = function(callback) {models.findComplete('Bestellung', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [{model: 'Fahrrad', target: 'pk_ID_Fahrrad', destination: 'pk_ID'}, {targetmodel: 'Benutzer', target: 'pk_ID', destinationmodel: 'Fahrrad', destination: 'pk_ID_Benutzer' }], callback); };
 				var own_rating = function(callback) {models.findComplete('BewertungBenutzer', ["avg(rating) AS Rating"], {pk_ID: user.data.pk_ID}, [], callback);};
@@ -160,11 +160,45 @@ module.exports = function(app, passport, verificationMail) {
 				var route = "selfprivatkunde";
 				if(user.model === "Geschaeftsbenutzer") route = "selfgeschaeftskunde";
 				models.queryFunctions(querieObject, function(results) {
-					results.own_bestellungen.forEach(function(bestellung) {
+					var i = 0;
+					for(var j = 0; j < results.own_bestellungen.length; j++){
+						mysqlpool.getConnection(function(err, connection) {
+							console.log(results.own_bestellungen[j]);
+							var query = "Select pk_ID_Benutzer from Fahrrad where pk_ID = " + results.own_bestellungen[j].pk_ID_Fahrrad;
+							connection.query(query, function(err, userid) {
+								if(err){
+									console.log("query failed 1");
+								}
+								var query = "Select count(*) as anz from Privatbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
+								connection.query(query, function(err, anz) {
+									if(err){
+										console.log("query failed 2: " + query);
+									}
+									if(anz[0].anz == 0){
+										query = "Select Firmenname as name from Geschäftsbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
+									}else{
+										query = "Select CONCAT(Vorname, ' ', Name) as name from Privatbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
+									}
+									connection.query(query, function(err, name) {
+										if(err){
+											console.log("query failed 3: " + query)
+										}
+										results.own_bestellungen[0].besitzername = name[0].name;
+										results.own_bestellungen[0].besitzerid = userid[0].pk_ID_Benutzer;
+										i++;
+										console.log(results.own_bestellungen[0].besitzername);
+										console.log("i: " + i);
+									});
+								});
+							});
+						});
+						
+						
+						/*
 						models.findSpecialisation['Geschaeftsbenutzer', 'Privatbenutzer'], 
 						'Benutzer',
 						['*'],
-						{pk_ID: id},
+						{pk_ID: bestellung.pk_ID_Benutzer},
 						function(rater) {
 							console.log("Rater: " + rater);
 							if(rater.model === "Geschaeftsbenutzer"){
@@ -185,10 +219,19 @@ module.exports = function(app, passport, verificationMail) {
 								});
 							}
 						}
-					});
+						*/
+						
+					}
 					
-					
-					console.log("OOOOOOOOOOOOOOOOOOOOOO");
+					waitUntil()
+				    .interval(400)
+				    .times(10)
+				    .condition(function() {
+				        return i >= own_bestellungen.length;
+				    })
+				    .done(function(result) {
+				        
+				    	console.log("OOOOOOOOOOOOOOOOOOOOOO");
 					console.log(results.own_rating);
 					console.log("OOOOOOOOOOOOOOOOOOOOOO");
 					res.render(__dirname + '/' + route + '.ejs',
@@ -207,6 +250,10 @@ module.exports = function(app, passport, verificationMail) {
 							userid: sanitizer.sanitize(id),
 						}
 					);
+				    	
+				    });
+					
+					
 							
 				});
 
