@@ -64,7 +64,7 @@ module.exports = function(app, passport, verificationMail) {
 						queryObject[i] = queryFunctions[i];
 					}
 					models.queryFunctions(queryObject, function(results) {
-						res.json({redirect: '/profile'});
+						res.send({redirect: '/profile'});
 					});
 				});
 			});
