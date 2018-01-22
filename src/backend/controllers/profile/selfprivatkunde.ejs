@@ -152,15 +152,14 @@ to {
 							</span>
 						</div>
 						<div class="padding">
-							<% counter = 0; %> <% if(bookings != undefined){ %> <%
-							bookings.forEach(function(o) { %> <% if(o.pk_ID_Fahrrad ==
-							m.pk_ID) { %>
+							<% counter = 0; %> <% if(m.bestellungen != undefined){ %> <%
+							m.bestellungen.forEach(function(o) { %> 
 							<div class="row no-gutters">
 								<div class="col-2">
-									<span id="<%= o.Rentdate %><%= o.email %>date"></span> -> </span>
+									<span id="<%= o.Rentdate %><%= o.email %>date"><%= o.Rentdate %> </span> -> </span>
 								</div>
 								<div class="col-2">
-									<span id="<%= o.Rentdate %><%= o.email %>"></span>
+									<span id="<%= o.Rentdate %><%= o.email %>"><%= o.booked_days %></span>
 								</div>
 								<div class="col-8">
 									Gebucht von <a href="/profile/<%= o.userid %>"><%= o.email
@@ -172,7 +171,7 @@ to {
 										"<%= o.booked_days %>",
 										"<%= o.Rentdate %>");
 							</script>
-							<% } %> <% }); %> <% } %>
+							<% }); %> <% } %>
 						</div>
 						<div class="row no-gutters">
 							<div class="col-12 middle">
@@ -218,6 +217,42 @@ to {
 		</div>
 	</div>
 </div>
+
+
+        <div class="row no-gutters">
+            <div class="col-12">
+                <div class="überschrift margin p-1 middle">
+                    <span>Bewertungen</span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row no-gutters">
+                <% if(ratings!= undefined){ %>
+                <% ratings.forEach(function(n) { %>
+                    <div class="col-12">
+                        <div class="white margin">
+                            <div class="padding linie-unten">
+                                <span>
+                                        <% if(n.picture == undefined || n.picture == ""){ %>
+                                            <img src="/images/leer.png" alt="" height="25">
+                                            <% }else{ %>
+                                            <img src="<%= n.picture %>" alt="" height="25">
+                                            <% } %>
+                                            <strong>&nbsp;<a href="/profile/<%= n.pk_ID %>"><%= n.email %></a>&emsp;</strong>
+                                    <div class="starRating" size="20" starMax="5" value="<%= n.Rating %>" mode="show" fillColor="yellow" emptyColor="grey"></div>
+                                </span>
+                            </div>
+                            <div class="padding">
+                                <span><%= n.Description %></span>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <% } %>
+                </div>
+        </div>
 
 <div class="row no-gutters">
 	<div class="col-5"></div>

@@ -137,14 +137,12 @@ function gen_table(_divid, _data, _rentdate){
                     </div>
                     <div class="padding">
                             <% counter = 0; %>
-                    <% if(bookings != undefined){ %>     
-                    <% bookings.forEach(function(o) { %>   
-                        <% if(o.pk_ID_Fahrrad == m.pk_ID) { %>   
+                    <% if(m.bestellungen != undefined){ %>     
+                    <% m.bestellungen.forEach(function(o) { %>   
                             <div class="row no-gutters">
-                               <div class="col-2"> <span id="<%= o.Rentdate %><%= o.email %>date"></span> -> </span> </div><div class="col-2"><span id="<%= o.Rentdate %><%= o.email %>"></span></div><div class="col-8">Gebucht von <a href="/profile/<%= o.besitzerid %>"><%= o.besitzername %></a></span></div>
+                               <div class="col-2"> <span id="<%= o.Rentdate %><%= o.email %>date"></span> -> </span> </div><div class="col-2"><span id="<%= o.Rentdate %><%= o.email %>"></span></div><div class="col-8">Gebucht von <a href="/profile/<%= o.besitzerid %>"><%= o.email %></a></span></div>
                                </div>
                                <script>gen_table("<%= o.Rentdate %><%= o.email %>","<%= o.booked_days %>","<%= o.Rentdate %>");</script>      
-                               <% } %>
                     <% }); %>
                     <% } %>
                     </div>

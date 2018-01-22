@@ -130,7 +130,6 @@ module.exports = function(app, passport, verificationMail) {
 				var own_bestellungen = function(callback) {models.findComplete('Bestellung', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [{model: 'Fahrrad', target: 'pk_ID_Fahrrad', destination: 'pk_ID'}, {targetmodel: 'Benutzer', target: 'pk_ID', destinationmodel: 'Fahrrad', destination: 'pk_ID_Benutzer' }], callback); };
 				var own_rating = function(callback) {models.findComplete('BewertungBenutzer', ["avg(rating) AS Rating"], {pk_ID: user.data.pk_ID}, [], callback);};
 				
-				
 				//
 				/*var elements = [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}];
 				var elements1 = [{model: 'Fahrrad', target: 'pk_ID_Fahrrad', destination: 'pk_ID'}, {targetmodel: 'Benutzer', target: 'Benutzer.pk_ID', destination: 'Fahrrad.pk_ID_Benutzer' }];
@@ -149,6 +148,12 @@ module.exports = function(app, passport, verificationMail) {
 				}
 				
 
+				
+				
+				
+				
+				
+				
 				
 				
 				/*var queries = [
@@ -197,36 +202,23 @@ module.exports = function(app, passport, verificationMail) {
 							});
 						});
 					});
-
-						
-						
-						/*
-						models.findSpecialisation['Geschaeftsbenutzer', 'Privatbenutzer'], 
-						'Benutzer',
-						['*'],
-						{pk_ID: bestellung.pk_ID_Benutzer},
-						function(rater) {
-							console.log("Rater: " + rater);
-							if(rater.model === "Geschaeftsbenutzer"){
-								var raterdata = function(callback){ models.findComplete('Geschaeftsbenutzer', ["*"], {pk_ID: bestellung.rater}, [], callback);};
-								var quo = {
-										raterdata: raterdata
-									}
-								models.queryFunctions(quo, function(res) {
-									bestellung.ratername = res.raterdata.Firmenname;
-								});
-							}else{
-								var raterdata = function(callback){ models.findComplete('Privatbenutzer', ["*"], {pk_ID: bestellung.rater}, [], callback);};
-								var quo = {
-										raterdata: raterdata
-									}
-								models.queryFunctions(quo, function(res) {
-									bestellung.ratername = res.raterdata.Vorname + ' ' + res.raterdata.Name;
-								});
-							}
-						}
-						*/
-						
+					
+					var mybikes = [];
+					results.bikes.forEach(function(bike){
+						bike.bestellungen = [];
+						mysqlpool.getConnection(function(err, connection) {
+							var query = "SELECT Rentdate, booked_days, email FROM `Bestellung` LEFT JOIN `Benutzer` ON `Benutzer`.`pk_ID` = `Bestellung`.`pk_ID_Benutzer` WHERE `pk_ID_Fahrrad` = '100'";
+							connection.query(query, function(err, bestellungsrows) {
+								for(var k = 0; k < bestellungsrows.length; k++)
+								bike.bestellungen.push(bestellungsrows[k]);
+								mybikes.push(bike);
+							});
+						});
+					});
+					
+					
+					
+					
 					
 					waitUntil()
 				    .interval(400)
@@ -247,7 +239,7 @@ module.exports = function(app, passport, verificationMail) {
 							userdata: user.data,
 							maps_key: cred.credentials.google_map_api,
 							ratings: results.bewertungenbenutzer,
-							bikes: results.bikes,
+							bikes: mybikes,
 							userid: sanitizer.sanitize(user),
 							bookings: results.bestellungen,
 							own_bookings: bestellungen,
