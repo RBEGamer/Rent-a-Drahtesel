@@ -290,10 +290,29 @@
 <script type="application/javascript">
   var booked_days = 0;
   var eventData = [];
+  var gen_data = [];
     //CREAT A DATASET FROM WITH PUSH COMMANDS WITH THE FIXED DAYS
     <% booked_days.forEach(function(n) { %>
         eventData.push({"date":"<%= n %>","badge":false,"title":"RESERVIERT", "fixed":true}) 
     <% }); %>
+
+  
+    function getDaysInMonth(month, year) {
+         // Since no month has fewer than 28 days
+         var date = new Date(year, month, 1);
+         var days = [];
+      //   console.log('month', month, 'date.getMonth()', date.getMonth())
+         while (date.getMonth() === month) {
+            days.push(new Date(date));
+            date.setDate(date.getDate() + 1);
+         }
+         return days;
+    }
+    
+
+
+    
+
 
   
     var start_date = Date.parse("<%= bike.start_date %>");
@@ -376,11 +395,65 @@ var is_in  = false;
 
 
 function create_calendar(){
+   
     //GET CURRENT DATE
     var today = new Date();
     var dd = today.getDate();
     var mm = today.getMonth()+1; //January is 0!
     var yyyy = today.getFullYear();
+
+
+ 
+//formattedDate_end = moment(getDaysInMonth(mm,yyyy)).format('YYYY-MM-DD');
+gen_data.push({"year":yyyy,"month":mm});
+var ignore = false;
+var int_mon = [];
+var comp_mon = [];
+
+var daylist_start = [];
+var daylist_end = [];
+
+
+var st = true;
+var en = false;
+//TODO END
+for(var i = 0;i < getDaysInMonth(mm-1,yyyy).length; i++){
+    const element = moment(getDaysInMonth(mm-1,yyyy)[i]).format('YYYY-MM-DD');
+    const element_day = moment(getDaysInMonth(mm-1,yyyy)[i]).format('DD');
+
+    if(st && element_day != moment(start_date).format('DD')){
+        daylist_start.push(element);
+        //console.log("FALSE" + element)
+    }else  if(st && element_day == moment(start_date).format('DD')){
+       st = false;
+    }
+
+    if(en && element_day != moment(end_date).format('DD')){
+        daylist_end.push(element);
+        console.log("FALSE" + element)
+    }else  if(!en && element_day == moment(end_date).format('DD')){
+       en = true;
+    }
+    
+}
+
+
+
+
+
+
+for(var i = 0; i < daylist_start.length; i++){
+    const element = daylist_start[i];
+    eventData.push({"date":element,"badge":false,"title":"GEBLOCKT", "fixed":true})
+}
+for(var i = 0; i < daylist_end.length; i++){
+    const element = daylist_end[i];
+    eventData.push({"date":element,"badge":false,"title":"GEBLOCKT", "fixed":true})
+}
+
+
+
+
 
   $("#my-calendar").zabuto_calendar({
   year: yyyy,
@@ -399,7 +472,6 @@ function create_calendar(){
   action: function() { myDateFunction(this.id); },
 data: eventData
 });
-
 
 
 
