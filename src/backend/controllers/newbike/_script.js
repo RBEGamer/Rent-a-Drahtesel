@@ -95,6 +95,7 @@
             var prize = $('input[name="price"').val();
             var threeday = $('input[name="Threeday"').val();
             var sevenday = $('input[name="Sevenday"').val();
+            var zip = $('input[name="Zip"').val();
             console.log(name);
             console.log(description);
             console.log(start_date);
@@ -143,7 +144,14 @@
         }
 
         function showValidations(error) {
-            console.log(error);
+            console.log("SHOWVALIDATIONS: ", error);
+            $("#errors").append("<div class='column-md-6'></div>");
+            for(var key in error) {
+                console.log(key);
+                    $("errors").append("<div class='column-md-9 white margin padding'>");
+                    $("errors").append("<b>" + error[key].text + "</b>: " + error[key].error);
+                    $("errors").append("</div>");
+            }
         }
 
         function isNumeric(value) {
