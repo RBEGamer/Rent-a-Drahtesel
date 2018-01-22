@@ -12,7 +12,7 @@ module.exports = {
         'zip'   :	{text: 'PLZ*', input: {type: 'text'}, validation: [{name: 'isNumeric'} , {name: 'notOptional'}, {name: 'lengthInRange', data: {min: 4, max: 6}}]},
         'street':	{text: 'Straße*', input: {type: 'text'}, validation: [{name: 'suffix', data: {valid: ['straße', 'str', 'strasse']}}, {name: 'notOptional'}]},
         'housenumber':	{text: 'Hausnummer*', input: {type: 'text'}, validation: [{name: 'isNumeric'},{name: 'notOptional'}]},
-        'pw':	{text: 'Passwort*', input: {type: 'password'},validation: [{name: 'notOptional'}]},
+        'pw':	{text: 'Passwort*', input: {type: 'password'},validation: [{name: 'minlen'}]},
         'passwortwdh':	{text: 'Passwortwiederholung*', input: {type: 'password'}, validation: [{name: 'isSame', connected: 'pw'}, {name: 'notOptional'}]},
         'WebUrl': {text: 'Website*', input: {type: 'text'}, validation: [{name: 'isUrl'}]},
         'TwitterUrl':	{text: 'Twitter', input: {type: 'text'}}, 

@@ -54,6 +54,14 @@ var ValidationFunctions = function() {
 
 	}
 
+	this.minlen = function(data){
+		if(data.value.length >= 8){
+			return {value:true};
+		}
+		return {value: false, error: "Das Passwort muss mind 8 Zeichen lang sein."};
+	}
+
+
 	this.lengthInRange = function(data) {
 		if(data.value.length >= data.data.min && data.value.length <= data.data.max) 
 			return {value: true};
