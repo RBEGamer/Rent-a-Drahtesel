@@ -27,7 +27,7 @@ var formvalidator = function()  {
 						args.value = req.body[name];
 						args.text = elements[name].text;
 						var targets = null;
-						var inhibitorValue = false;
+						var inhibitorValue = true;
 						
 						Object.keys(validationObjects).forEach(function(key,index) {
 							if(key === 'name') {

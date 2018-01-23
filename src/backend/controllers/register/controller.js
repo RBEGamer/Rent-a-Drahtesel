@@ -88,7 +88,7 @@ module.exports = function(app, passport, verificationMail) {
 				if(!res.locals.error) {
 					res.locals.error = {};
 				}
-				res.locals.error.email = {text: 'Email*', error: "Hallo Rent-A-Bike Benutzer, <br> Du bist bereits registriert.  <a href='"+bsip+"reset/'>Hier</a> kannst du dein Passwort zurücksetzen."};
+				res.locals.error.email = {text: 'Email*', error: "Hallo Rent-A-Bike Benutzer,Du bist bereits registriert. Wir haben dir eine Email geschickt, in der dir erklärt wird, wie du dein Passwort zurücksetzen kannst."};
 				verificationMail.sendMailMSG(
 					"Hallo Rent-A-Bike Benutzer, <br> Du bist bereits registriert.  <a href='"+bsip+"reset/'>Hier</a> kannst du dein Passwort zurücksetzen.",
 					req.body['email']

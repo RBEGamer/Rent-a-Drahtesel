@@ -65,7 +65,7 @@
                     getLatLon(function(lat, lon) {
                         forms += "&Lat=" + lat + "&Lon=" + lon;
                         console.log(forms);
-                        alert(counter);
+                        
                         $.ajax({
                             type: "POST",
                             url: "/bike/new",
