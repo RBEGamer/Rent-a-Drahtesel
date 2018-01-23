@@ -78,7 +78,7 @@ const app_proxy = express();
 
 console.log(bsip);
 
-console.log("------------- VERSION 3 ---------------------");
+console.log("------------- VERSION 4 ---------------------");
 // connect to our database
 require('./config/passport')(passport, verificationMail); // pass passport for
 															// configuration
