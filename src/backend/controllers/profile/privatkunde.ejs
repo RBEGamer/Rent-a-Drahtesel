@@ -5,7 +5,7 @@
 		<div class="d-flex flex-column flex-md-row">
 			<% if(userdata.picture != undefined){ %> <img
 				class="img-responsive bild margin"
-				src="<%= userdata.picture.toString('utf8') %>" alt=""> <%
+				src="/uploads/<%= userdata.picture.toString('utf8') %>" alt=""> <%
 			}else{ %> <img class="img-responsive bild margin"
 				src="/images/leer.png" alt=""> <% } %>
 			<div class="white margin padding">

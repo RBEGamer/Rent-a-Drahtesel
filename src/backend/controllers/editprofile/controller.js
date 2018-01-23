@@ -73,6 +73,7 @@ module.exports = function(app, passport, verificationMail) {
 				req.body.formvalidatorschema = formdata.forms[req.body.kind].elements;
 				var tmpelements = formdata.formelements;
 				tmpelements = formhelper.addInhibitor(tmpelements, 'passwortwdh', 'isSame', ['notUndefined']);
+				tmpelements = formhelper.addInhibitor(tmpelements, 'pw', 'minlen', ['notUndefined']);
 				tmpelements = formhelper.deleteValidationFunction(tmpelements, 'passwortwdh', 'notOptional');
 				tmpelements = formhelper.deleteValidationFunction(tmpelements, 'pw', 'notOptional');
 				req.body.elements = tmpelements;

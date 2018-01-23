@@ -27,6 +27,7 @@ var formvalidator = function()  {
 						args.value = req.body[name];
 						args.text = elements[name].text;
 						var targets = null;
+						var inhibitorValue = false;
 						
 						Object.keys(validationObjects).forEach(function(key,index) {
 							if(key === 'name') {
@@ -37,9 +38,6 @@ var formvalidator = function()  {
 								args[key] = {};
 								args[key].value = req.body[field];
 								args[key].text = elements[field].text;
-							}
-							else if(key === 'inhibitor') {
-
 							}
 							else if(key === 'target') {
 								targets = [];
@@ -53,9 +51,16 @@ var formvalidator = function()  {
 							}
 						});
 						console.log(elements[name].text);
+
+						if(validationObjects['inhibitor']) {
+							var tmp = validationObjects['inhibitor'];
+							var result = functions[validationObjects.inhibitor[0]](args);
+							inhibitorValue = result.value;
+
+						}
 						if(s != "") {
 							 var result = functions[s](args);
-								if(!result.value) {
+								if(!result.value && inhibitorValue) {
 									valide = false;
 									if(targets != null) {
 										for(var k = 0; k < targets.length; k++) {
