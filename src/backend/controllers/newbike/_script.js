@@ -104,7 +104,7 @@
             console.log(threeday);
             console.log(sevenday);
             if(counter < 2) {
-                error.picture = {text: "Bilder: ", error: "Es muss mindestens ein Bild hochgeladen werden!"};
+                error.picture = {text: "Bilder: ", error: "Es müssen mindestens zwei Bilder hochgeladen werden!"};
             }
 
             if(start_date === "" || end_date === "") {

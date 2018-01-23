@@ -1,0 +1,7 @@
+---
+applications:
+- name: backend
+  memory: 512M
+  instances: 1
+  health-check-type: process
+  host: rent-a-drahtesel
