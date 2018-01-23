@@ -51,7 +51,7 @@ module.exports = {
         'editcommercial' : {
             'elements':
             [
-                 'street', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner', 'lat', 'lon'
+                 'street', 'housenumber', 'country', 'city', 'zip', 'pw', 'WebUrl', 'passwortwdh', 'FacebookUrl', 'phone', 'InstagramUrl', 'TwitterUrl', 'picture', 'Banner', 'lat', 'lon'
             ],
             'model': 'Geschaeftsbenutzer'
         },

@@ -29,7 +29,7 @@
         var parentFormID = $(this).attr('parentFormID');
         var target = $(this).attr('target');
         var targetform = $(this).attr('targetform');
-        alert(parentFormID);
+        var filename = this.files[0].name;
         $('#' +parentFormID).ajaxSubmit({
           error: function(xhr) {
             console.log('Error: ', xhr.statur);
@@ -38,6 +38,8 @@
             //var inputfield = '<input type="hidden" name="' + target + '" value="' + response.output[0] + '" />';
             //$("#" + targetform).append(inputfield);
             console.log(response);
+            console.log('#' + parentFormID + "_" + target);
+            $('#' + parentFormID+ "_" + target).val(filename);
             $('#'+ targetform + ' input[name="' + target + '"]').val(response.output[0]);
 
           }

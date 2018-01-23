@@ -13,7 +13,7 @@
 
 <% Object.keys(forms).forEach(function(key,index) { %>
 <div>
-    <form id="postform" method="post"  action="/<%=target %>" style="display: 
+    <form id="<%= key %>" method="post"  action="/<%=target %>" style="display: 
         <% if(key === start) { %>
             block;
         <% } else { %>
@@ -116,14 +116,39 @@
             <% } %>
         </form>
         
-     <% for(var i = 0; i < forms[key].files.length; i++) { %>
-            <form id="<%= key %>_uploadform_<%= i %>" enctype="multipart/form-data" action="/api/photo" method="post">
+  <% for(var i = 0; i < forms[key].files.length; i++) { %>
+            <!--<form id="<%= key %>_uploadform_<%= i %>" enctype="multipart/form-data" action="/api/photo" method="post">
                 <input type="hidden" name="imagecounter" value="1"/>
                 <label class="btn btn-secondary">
                     Browse <input type="file"  parentFormID="<%= key %>_uploadform_<%= i %>" target="<%= forms[key].files[i].name %>" targetform="<%= key %>" name="userPhoto" hidden>
                 </label>
-            </form>        
+            </form>     -->
+            <form id="<%= key %>_uploadform_<%= i %>" enctype="multipart/form-data" action="/api/photo" method="post">
+                             <input type="hidden" name="imagecounter" value="1"/>
+
+             <div class="row no-gutters">
+                <div class="col-12 col-md-12 col-lg-2"></div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height text">
+                        <span><%= forms[key].files[i].text %></span>
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                    <div class="margin height">
+                        <input type="text" id="<%= key %>_uploadform_<%= i %>_<%= forms[key].files[i].name %>" class="form-control height" readonly >
+                    </div>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2">
+                     <label class="btn btn-secondary">
+                         Browse <input type="file"  parentFormID="<%= key %>_uploadform_<%= i %>" target="<%= forms[key].files[i].name %>" targetform="<%= key %>" name="userPhoto" hidden>
+                    </label>
+                </div>
+                <div class="col-6 col-md-3 col-lg-2"></div>
+                <div class="col-12 col-md-12 col-lg-2"></div>
+            </div>   
+            </form>
     <% } %>
+       
        
    
        
@@ -139,7 +164,7 @@
             <div class="col-6 col-md-3 col-lg-2"></div>
             <div class="col-6 col-md-3 col-lg-2">
                 <div class="margin height">
-                    <button class="btn btn-secondary btn-block height" id="upload"><%= mode %></button>
+                    <button class="btn btn-secondary btn-block height" id="upload" target="<%= key %>"><%= mode %></button>
                 </div>
             </div>
             <div class="col-12 col-md-12 col-lg-2"></div>
