@@ -146,16 +146,7 @@ module.exports = function(app, passport, verificationMail) {
 					bewertungenbenutzer: bewertungenbenutzer,
 					own_rating: own_rating
 				}
-				
-
-				
-				
-				
-				
-				
-				
-				
-				
+			
 				/*var queries = [
 					function(callback) { models.findComplete('BewertungBenutzer', ["*"], {pk_ID: user.data.pk_ID}, [{model: 'Benutzer', target: 'pk_ID_Benutzer', destination: 'pk_ID'}],callback);},
 			 		function(callback) { models.findComplete('Fahrrad', ["*"], {pk_ID_Benutzer: user.data.pk_ID}, [], callback);},
@@ -170,25 +161,27 @@ module.exports = function(app, passport, verificationMail) {
 					results.own_bestellungen.forEach(function(bestellung){
 						mysqlpool.getConnection(function(err, connection) {
 							console.log(bestellung);
-							var query = "Select pk_ID_Benutzer from Fahrrad where pk_ID = " + bestellung.pk_ID_Fahrrad;
+							var query = "Select pk_ID_Benutzer from Fahrrad where pk_ID = " + bestellung.pk_ID_Fahrrad; //besitzer der fahrrads ermitteln
 							connection.query(query, function(err, userid) {
 								if(err){
 									console.log("query failed 1");
 								}
-								var query = "Select count(*) as anz from Privatbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
+								var query = "Select count(*) as anz from Privatbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer; //Rolle des Fahrrad besitzers ermitteln
 								connection.query(query, function(err, anz) {
 									if(err){
 										console.log("query failed 2: " + query);
 									}
 									if(anz[0].anz == 0){
-										query = "Select Firmenname as name from Geschäftsbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
+										query = "Select Firmenname as name from Geschaeftsbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
 									}else{
 										query = "Select CONCAT(Vorname, ' ', Name) as name from Privatbenutzer where pk_ID = " + userid[0].pk_ID_Benutzer;
 									}
-									connection.query(query, function(err, name) {
+									connection.query(query, function(err, name) { //namen ermitteln
 										if(err){
 											console.log("query failed 3: " + query)
 										}
+										console.log("b: " + bestellung);
+										console.log("länge:" + name.length);
 										bestellung.besitzername = name[0].name;
 										bestellung.besitzerid = userid[0].pk_ID_Benutzer;
 										i++;

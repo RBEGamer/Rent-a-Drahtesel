@@ -97,13 +97,92 @@
             </div>
         </div>
 
-        <div class="row no-gutters">
-            <div class="col-12">
-                <div class="überschrift margin p-1 middle">
-                    <span>Fahrräder</span>
-                </div>
-            </div>
-        </div>
+       <div class="container grey">
+	<ul class="nav nav-tabs">
+		<li class="nav-link active"><a id="def" data-toggle="tab" href="#fahrraeder">
+				Meine Fahrr&auml;der
+		</a></li>
+	</ul>
+
+	<div class="tab-content">
+		<div id="fahrraeder" class="tab-pane fade in active">
+			<div class="row no-gutters">
+				<% var counter = 0; %> <% if(bikes!= undefined){ %> <%
+				bikes.forEach(function(m) { %>
+				<div class="col-12">
+					<div class="white margin">
+						<div class="padding linie-unten">
+							<span> <strong><%= m.Name %>&emsp;</strong>
+								&emsp;
+							</span>
+						</div>
+						<div class="padding">
+							<% counter = 0; %> <% if(m.bestellungen != undefined){ %> <%
+							m.bestellungen.forEach(function(o) { %> 
+							<div class="row no-gutters">
+								<div class="col-2">
+									<span id="<%= o.Rentdate %><%= o.email %>date"><%= o.Rentdate %> </span> -> </span>
+								</div>
+								<div class="col-2">
+									<span id="<%= o.Rentdate %><%= o.email %>"><%= o.booked_days %></span>
+								</div>
+								<div class="col-8">
+									Gebucht von <a href="/profile/<%= o.userid %>"><%= o.email
+										%></a></span>
+								</div>
+							</div>
+							<script>
+								gen_table("<%= o.Rentdate %><%= o.email %>",
+										"<%= o.booked_days %>",
+										"<%= o.Rentdate %>");
+							</script>
+							<% }); %> <% } %>
+						</div>
+						<div class="row no-gutters">
+							<div class="col-12 middle">
+								<form method="post" action="/deleteBike">
+								 <input type="hidden" name="id" value="<%= m.pk_ID %>" />
+								 <input type="submit" value="L&ouml;schen" />
+							</div>
+							</form> 
+						</div>
+					</div>
+				</div>
+				<hr style="width: 100%; color: black; height: 1px; background-color: black;" />
+				<% }); %> <% } %>
+			</div>
+		</div>
+		<div id="bestellungen" class="tab-pane fade">
+			<div class="row no-gutters">
+
+				<% if(own_bookings!= undefined){ %> <%
+				own_bookings.forEach(function(p) { %>
+				<div class="col-12">
+					<div class="white margin">
+						<div class="padding">
+							<span> <span><%= p.Rentdate %> -> Sie haben ein
+									Fahrrad geliehen: <a href="/profile/<%= p.besitzerid %>"><%=
+										p.besitzername %></a>
+							</span> <span id="<%= p.booked_days %><%= p.email %><%= p.userid %>"><%=
+									p.booked_days %></span>
+								<div class="starRating" starMax="5" value="9"
+									fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
+								<script>
+									get_own_table(
+											"<%= p.booked_days %><%= p.email %><%= p.userid %>",
+											"<%= p.booked_days %>");
+								</script>
+							</span>
+						</div>
+					</div>
+				</div>
+				<hr style="width: 100%; color: black; height: 1px; background-color: black;" />
+				<% }); %> <% } %>
+			</div>
+		</div>
+	</div>
+</div>
+
 
 <script>
 
@@ -122,46 +201,7 @@ function gen_table(_divid, _data, _rentdate){
 }
 </script>
 
-        <div class="row no-gutters">
-                <% var counter = 0; %>
-                <% if(bikes!= undefined){ %>
-                    <% bikes.forEach(function(m) { %>
-            <div class="col-12">
-                <div class="white margin">
-                    <div class="padding linie-unten">
-                        <span>
-                            <strong><%= m.Name %>&emsp;</strong>
-                            <div class="starRating" starMax="5" value="6" fillColor="#ffef19" emptyColor="#e8e7e3" mode="show" size="20"></div>
-                            &emsp;
-                        </span>
-                    </div>
-                    <div class="padding">
-                            <% counter = 0; %>
-                    <% if(m.bestellungen != undefined){ %>     
-                    <% m.bestellungen.forEach(function(o) { %>   
-                            <div class="row no-gutters">
-                               <div class="col-2"> <span id="<%= o.Rentdate %><%= o.email %>date"></span> -> </span> </div><div class="col-2"><span id="<%= o.Rentdate %><%= o.email %>"></span></div><div class="col-8">Gebucht von <a href="/profile/<%= o.besitzerid %>"><%= o.email %></a></span></div>
-                               </div>
-                               <script>gen_table("<%= o.Rentdate %><%= o.email %>","<%= o.booked_days %>","<%= o.Rentdate %>");</script>      
-                    <% }); %>
-                    <% } %>
-                    </div>
-                    <div class="row no-gutters">
-                            <div class="col-12 middle">
-                    <form method="post" action="/deleteBike">
-                        <div class="col-12 middle">
-							<input type="hidden" name="id" value="<%= m.pk_ID %>" />
-							<input type="submit" value="Loeschen" />
-						</div>
-                    </form>
-                </div>
-                </div>
-            </div>
-            <% }); %>
-            <% } %>
-        </div>
-
-        
+             
         <div class="row no-gutters">
             <div class="col-12">
                 <div class="margin height">
