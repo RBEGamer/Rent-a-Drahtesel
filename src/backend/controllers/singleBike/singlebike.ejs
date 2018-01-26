@@ -332,9 +332,9 @@
     var end_date = Date.parse("<%= bike.end_date %>");
   //  console.log(start_date.getMonth())
   function myDateFunction(id) {
-    console.log(eventData);
+  //  console.log(eventData);
  if(!id.includes("calendar")){alert("err");return;}
- console.log(id.split("_")[3]); //#3 is date
+ //console.log(id.split("_")[3]); //#3 is date
 var dtstring = id.split("_")[3];//extrect the datestring
 
 var is_fixed = false;
@@ -372,7 +372,7 @@ var is_in  = false;
         if(j != i){
             eventData.push(eventData_old[j]);
         }else{
-            console.log("SKIP:" + eventData_old[j]);
+       //     console.log("SKIP:" + eventData_old[j]);
         }
     }
     console.log(eventData);
@@ -452,7 +452,7 @@ for(var i = 0;i < getDaysInMonth(month-1,year).length; i++){
 
     if(en && element != moment(end_date).format('YYYY-MM-DD')){
         daylist_end.push(element);
-        console.log("FALSE" + element)
+       // console.log("FALSE" + element)
     }else  if(!en && element == moment(end_date).format('YYYY-MM-DD')){
        en = true;
     }
